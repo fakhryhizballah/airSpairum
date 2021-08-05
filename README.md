@@ -172,3 +172,9 @@ v1.0.2 (fix Bug user)
 ### added
 
 - Hiden Password Login
+
+# [v2.1.0] 05-8-2021
+
+### New
+
+- versi reles versi beta no toch less
