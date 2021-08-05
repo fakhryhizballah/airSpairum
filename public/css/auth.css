@@ -1,0 +1,65 @@
+.logo {
+    width: 184px;
+    margin-top: 60px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.level {
+    font-size: .8rem;
+    border-radius: 10rem;
+    padding-left: 5px;
+}
+
+
+/* .user-form {
+    background: #FFFFFF;
+    opacity: 0.7;
+    border: 2px solid rgba(51, 51, 51, 0.33);
+    box-sizing: border-box;
+    border-radius: 30px;
+} */
+
+.icon {
+    width: 20px;
+    margin-bottom: -75px;
+    margin-left: 20px;
+}
+
+.p {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height */
+    text-align: right;
+    color: #B2B3B6;
+}
+
+.btn-user {
+    background: linear-gradient(90deg, #21B0FC 61.71%, #4FF8F5 87.42%);
+    border-radius: 30px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height */
+    color: #FFFFFF;
+}
+
+.from-auth {
+    margin: 25px;
+}
+
+.field-icon {
+    float: right;
+    margin-left: 0px;
+    margin-top: -30px;
+    margin-right: 25px;
+    position: relative;
+    z-index: 2;
+    color: rgb(34, 135, 230);
+}

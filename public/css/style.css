@@ -1,0 +1,209 @@
+    body {
+    background-color: #E5E5E5;
+}
+
+.buttonNav {
+    width: 18px;
+    margin-top: 22px;
+}
+
+.view-back {
+    margin-top: 60px;
+    margin-bottom: 65px;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.fontNav {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 15px;
+}
+
+.nav-margin {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.p {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 15px;
+    /* identical to box height */
+    color: #000000;
+}
+
+.name {
+    margin-top: 12px;
+    margin-bottom: 2px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    color: #000000;
+}
+
+.name-crop {
+    margin-bottom: 25px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 15px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.profil {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.jumbotron-fluid {
+    background: #21B0FC;
+}
+
+.counter {
+    position: absolute;
+    width: 305px;
+    height: 111px;
+    left: 29px;
+    top: 195px;
+    background: #FFFFFF;
+    border-radius: 20px;
+}
+
+.col-auto {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.nav-link {
+    color: #333333;
+}
+
+.card-dasbord {
+    margin-left: 26px;
+    margin-right: 26px;
+    margin-top: -75px;
+    background: #FFFFFF;
+    border-radius: 20px;
+}
+
+.card-item {
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(90deg, #11A4FD 0%, #84FAF8 92.73%);
+    border-radius: 12px;
+}
+
+.card-item-title {
+    margin: auto;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 33px;
+    /* identical to box height */
+    text-align: center;
+    padding-top: 20%;
+    color: #FFFFFF;
+    opacity: 0.8;
+}
+
+.card-block {
+    padding-left: 26px;
+    padding-right: 26px;
+    padding-top: 26px;
+    padding-bottom: 12px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-iden {
+    margin-left: 26px;
+    margin-right: 26px;
+    margin-top: 37px;
+    background: #FFFFFF;
+    border-radius: 20px;
+}
+
+.h5-navbar {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    padding-top: 14px;
+    padding-left: 20px;
+}
+
+.card-iden-h5 {
+    width: 109px;
+    height: 23px;
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height */
+    color: #000000;
+    opacity: 0.4;
+}
+
+.card-iden-p1 {
+    width: 86px;
+    height: 15px;
+    margin-left: 15px;
+    margin-bottom: 21px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 15px;
+}
+
+.card-iden-p2 {
+    width: 96px;
+    height: 15px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 15px;
+    /* identical to box height */
+    color: #21B0FC;
+    opacity: 0.8;
+}
+
+.status {
+    width: 32px;
+    margin-top: 20px;
+}
+
+.back {
+    width: 16px;
+    margin-left: 29px;
+    margin-top: 17px;
+    margin-bottom: 24px;
+}
+
+.img-thumbnail {
+    height: 100px;

@@ -1,0 +1,17 @@
+{
+    "name": "SPAIRUM",
+    "short_name": "Spairum",
+    "theme_color": "#2196f3",
+    "background_color": "#ffffff",
+    "description": "Stasiun Pengisian Air Minum",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [{
+        "src": "img/logo.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+    }]
+}
