@@ -6,6 +6,9 @@ use \Firebase\JWT\JWT;
 use App\Models\TokenModel;
 use App\Models\UserModel;
 use Exception;
+use CodeIgniter\I18n\Time;
+use App\Models\TransaksiModel;
+use App\Models\HistoryModel;
 
 use CodeIgniter\Controller;
 
@@ -15,6 +18,8 @@ class TransMqtt extends Controller
     {
         $this->UserModel = new UserModel();
         $this->TokenModel = new TokenModel();
+        $this->TransaksiModel = new TransaksiModel();
+        $this->HistoryModel = new HistoryModel();
         helper('cookie');
     }
     public function index()
@@ -54,13 +59,13 @@ class TransMqtt extends Controller
             $clientId =  $akun['id_user'];
             $idMesin =  session()->get('id_mesin');
             $vaule =   session()->get('vaule');
-            session_destroy();
+            $nilai = $vaule / 3.3;
 
             // $id = $this->request->getVar('id');
             $data = [
                 'id' => $idMesin,
                 'akun' => $akun['id_user'],
-                'vaule' => $vaule,
+                'vaule' =>   $nilai,
             ];
             $myJSON = json_encode($data);
             $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
@@ -71,39 +76,22 @@ class TransMqtt extends Controller
             $mqtt->connect($connectionSettings, true);
             $mqtt->publish("start/$idMesin",  $myJSON);
             $mqtt->disconnect();
-
-            // $Hambil = $ambil * '10';
-            // $sisa = $akun['debit'] - $Hambil;
-            // $kere = $akun['kredit'] + $Hambil;
-
-            // // dd($kere);
-
-            // $this->UserModel->save([
-            //     'id' => $akun['id'],
-            //     'debit' => $sisa,
-            //     'kredit' => $kere,
-            //     'updated_at' => Time::now('Asia/Jakarta')
-            // ]);
-
-            // $this->HistoryModel->save([
-            //     'id_master' => $akun['id_user'],
-            //     'Id_slave' => $id,
-            //     'Lokasi' => $mesin['lokasi'],
-            //     'status' => 'Pengambilan Air',
-            //     'isi' => $Hambil,
-            //     'updated_at' => Time::now('Asia/Jakarta')
-            // ]);
-
+            // session_destroy();
         } else {
             exit('404');
         }
     }
 
-    public function CallbackAir()
+    public function desstroy()
     {
         // if ($this->request->isAJAX()) {
+        $idMesin =  session()->get('id_mesin');
+        $vaule =   session()->get('vaule');
+        session_unset();
+        session_destroy();
+        echo $idMesin;
 
-        // // } else {
+        // } else {
         //     exit('404');
         // }
     }

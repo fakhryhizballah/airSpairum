@@ -170,17 +170,17 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col">
-                                        <p class="text-mute small text-secondary">Air Yang terisi</p>
+                                    <div class="col-12">
+                                        <!-- <p class="text-mute small text-secondary">Air Yang terisi</p> -->
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-4">
-                                        <button type="button" id="btn_isi" class="btn btn-user btn-circle btn-outline-primary bg-template" onclick="pos()"><i class="fa fa-play toggle-button"></i> Isi Air</button>
-                                        <!-- <button type="button" class="btn btn-user btn-circle btn-outline-primary" onclick="pause()"><i class="fa fa-pause toggle-button"></i> Berhenti</button> -->
-                                    </div>
-                                    <div class="col-8">
-                                        <h4 class="text-primary text-center" id="data">Tekan Isi Air jika botol anda telah siap</h4>
+                                    <!-- <div class="col-4"> -->
+                                    <!-- <button type="button" id="btn_isi" class="btn btn-user btn-circle btn-outline-primary bg-template" onclick="pos()"><i class="fa fa-play toggle-button"></i> Isi Air</button> -->
+                                    <!-- <button type="button" class="btn btn-user btn-circle btn-outline-primary" onclick="pause()"><i class="fa fa-pause toggle-button"></i> Berhenti</button> -->
+                                    <!-- </div> -->
+                                    <div class="col-12">
+                                        <h4 class="text-primary text-center" id="data">Menunggu...</h4>
                                     </div>
                                 </div>
                             </div>
@@ -249,54 +249,6 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         <!-- <script src="js/script.js"></script> -->
 
-        <script type="text/javascript">
-            function pos() {
-                $.ajax({
-                    type: "post",
-                    data: {
-                        id: '10SS'
-                    },
-                    dataType: "json",
-                    // url: "<?php echo site_url('/TransMqtt/PushAir'); ?>",
-                    url: "/TransMqtt/PushAir",
-                })
-
-                console.log('PuSH');
-
-                // alert(id);
-            }
-        </script>
-
-        <script type="text/javascript">
-            const ws = new WebSocket("wss://apptes.spairum.my.id:3000");
-            // const ws = new WebSocket("wss://47.254.251.29:3000");
-            ws.addEventListener("open", function open() {
-                console.log("Terhubung");
-                console.log("nama anda <?= $akun['nama']; ?>");
-            });
-            console.log("ready!");
-
-            ws.addEventListener('message', function incoming(data) {
-                console.log(data);
-                var vaule = data.data
-                var obj = JSON.parse(vaule)
-                // document.getElementById("data").innerText = vaule
-                if (obj.user == "<?= $akun['id_user']; ?>") {
-                    if (obj.Status == "Megisi") {
-                        document.getElementById("data").innerText = " Mulai megisi"
-                        document.getElementById("btn_isi").disabled = true;
-                    } else if (obj.Status == "Selesai") {
-                        document.getElementById("data").innerText = " Selesai"
-                        window.location.href = "https://app.spairum.my.id";
-                    } else {
-                        document.getElementById("data").innerText = obj.Status * 10 + "  mL"
-                    }
-                }
-
-            });
-        </script>
-
-
         <!-- <script>
             function previewImg() {
                 const profil = document.querySelector('#profil');
@@ -319,9 +271,61 @@
             $(window).on('load', function() {});
         </script> -->
 
-        <script>
+        <script type="text/javascript">
             $(document).ready(function() {
+                function pos() {
+                    $.ajax({
+                        type: "post",
+                        data: {
+                            id: '10SS'
+                        },
+                        dataType: "json",
+                        // url: "<?php echo site_url('/TransMqtt/PushAir'); ?>",
+                        url: "/TransMqtt/PushAir",
+                    })
+                    console.log('PuSH');
+                }
+
+                const ws = new WebSocket("wss://apptes.spairum.my.id:3000");
+                // const ws = new WebSocket("wss://47.254.251.29:3000");
+                ws.addEventListener("open", function open() {
+                    console.log("Terhubung");
+                    pos();
+                });
+                ws.addEventListener('message', function incoming(data) {
+                    console.log(data);
+                    var vaule = data.data
+                    var obj = JSON.parse(vaule)
+                    // document.getElementById("data").innerText = vaule
+                    if (obj.user == "<?= $akun['id_user']; ?>") {
+                        if (obj.Status == "Megisi") {
+                            document.getElementById("data").innerText = " Mulai megisi"
+                            document.getElementById("btn_isi").disabled = true;
+                        } else if (obj.Status == "Selesai") {
+                            destroy();
+                            window.location.href = "https://app.spairum.my.id";
+                            document.getElementById("data").innerText = " Selesai"
+
+                        } else {
+                            document.getElementById("data").innerText = obj.Status * 33 + "  mL"
+                        }
+                    }
+                });
                 $(".preloader").fadeOut();
+
+                function destroy() {
+                    $.ajax({
+                        type: "post",
+                        dataType: "json",
+                        // url: "<?php echo site_url('/TransMqtt/desstroy'); ?>",
+                        url: "/TransMqtt/desstroy",
+                        success: function(data) {
+                            window.location.href = "https://app.spairum.my.id";
+                            console.log(data);
+                        }
+                    })
+                    console.log('destroy');
+                }
             })
         </script>
     </div>

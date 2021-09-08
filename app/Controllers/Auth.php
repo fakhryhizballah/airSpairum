@@ -8,7 +8,8 @@ use App\Models\LoginModel;
 use App\Models\UserModel;
 use App\Models\OtpModel;
 use App\Models\TokenModel;
-// use CodeIgniter\I18n\Time;
+use App\Models\HistoryModel;
+use CodeIgniter\I18n\Time;
 use \Firebase\JWT\JWT;
 
 
@@ -22,7 +23,8 @@ class Auth extends BaseController
 		$this->UserModel = new UserModel();
 		$this->OtpModel = new OtpModel();
 		$this->TokenModel = new TokenModel();
-		// $this->Time = new Time('Asia/Jakarta');
+		$this->HistoryModel = new HistoryModel();
+		$this->Time = new Time('Asia/Jakarta');
 		$this->email = \Config\Services::email();
 		helper('text');
 		helper('cookie');
@@ -174,94 +176,6 @@ class Auth extends BaseController
 		}
 	}
 
-	//--------------------------------------------------------------------
-
-	public function save()
-	{
-		//validasi
-		if (!$this->validate([
-
-			'id_driver' => [
-				'rules'  => 'required|is_unique[driver.id_driver]|is_unique[user.id_user]',
-				'errors' => [
-					'required' => 'ID Account wajid di isi',
-					'is_unique' => 'Account sudah terdaftar'
-				]
-			],
-			'nama' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => '{field} wajid di isi'
-				]
-			],
-			'cv' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => '{field} wajid di isi'
-				]
-			],
-			'email' => [
-				'rules'  => 'required|valid_email|is_unique[driver.email]',
-				'errors' => [
-					'required' => '{field} wajid di isi',
-					'valid_email' => 'alamat email tidak benar',
-					'is_unique' => '{field} sudah terdaftar'
-				]
-			],
-			'telp' => [
-				'rules'  => 'required|is_natural|min_length[10]|is_unique[driver.telp]',
-				'errors' => [
-					'required' => 'nomor telpon wajid di isi',
-					'is_natural' => 'nomor telpon tidak benar',
-					'min_length' => 'nomor telpon tidak valid',
-					'is_unique' => 'nomor telp sudah terdaftar'
-				]
-			],
-			'password' => [
-				'rules'  => 'required|min_length[8]',
-				'errors' => [
-					'required' => '{field} wajid di isi',
-					'min_length[8]' => '{field} Minimal 8 karakter'
-				]
-			],
-			'password2' => [
-				'rules'  => 'required|matches[password]',
-				'errors' => [
-					'required' => 'password wajid di isi',
-					'matches' => 'password tidak sama'
-				]
-			]
-
-		])) {
-			$validation = \config\Services::validation();
-
-			return redirect()->to('/regis')->withInput()->with('validation', $validation);
-		}
-		$data = [
-			'title' => 'Registrasi',
-			'validation' => \Config\Services::validation()
-		];
-		//dd($this->request->getVar());
-		$this->DriverModel->save([
-			'id_driver' => $this->request->getVar('id_driver'),
-			'nama' => $this->request->getVar('nama'),
-			'cv' => $this->request->getVar('cv'),
-			'email' => $this->request->getVar('email'),
-			'telp' => $this->request->getVar('telp'),
-			'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
-			'profil' => 'user.png',
-			'Trip' => '0',
-			'liter' => '0',
-			'poin' => '0'
-
-
-		]);
-		session()->setFlashdata('flash', 'Registration success.');
-		return redirect()->to('/');
-	}
-
-	//--------------------------------------------------------------------
-
 	public function userSave()
 	{
 		//validasi
@@ -346,12 +260,24 @@ class Auth extends BaseController
 			'telp' => $this->request->getVar('telp'),
 			'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
 			'link' => $token,
-			'status' => 'belum verivikasi'
+			'status' => 'belum verifikasi'
+		]);
+		$this->UserModel->save([
+			'id_user' => "$id_usr$gen",
+			'nama' => $user,
+			'nama_depan' => $nama_depan,
+			'nama_belakang' => $nama_belakang,
+			'email' => $email,
+			'telp' => $this->request->getVar('telp'),
+			'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
+			'profil' => 'user.png',
+			'debit' => '0',
+			'kredit' => '0',
 		]);
 		$this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
 		$this->email->setTo($email);
 		// $this->email->setBCC('falehry88@gmail.com');
-		$this->email->setSubject('Verification Akun Anda');
+		$this->email->setSubject('Verification Email Spairum');
 		$this->email->setMessage("
 		<table align='center' cellpadding='0' cellspacing='0' border='0' width='100%' bgcolor='#f0f0f0'>
 		<tr>
@@ -364,10 +290,10 @@ class Auth extends BaseController
 					</tr>
 					<tr>
 						<td colspan='2' align='center' style='padding: 50px 50px 0px 50px;'>
-							<h1 style='padding-right: 0em; margin: 0; line-height: 40px; font-weight:300; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 1em;'>
-								Stasiun Pengisian Air Minum (SPAIRUM)
-								<Br>Verivikasi Email</Br>
-							</h1>
+							<h2 style='padding-right: 0em; margin: 0; line-height: 40px; font-weight:300; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 1em;'>
+							Mari kita gunakan Botol minum untuk mengurangi sampah plastik. 
+								<Br>Refill Your Tumbler</Br>
+							</h2>
 						</td>
 					</tr>
 					<tr>
@@ -376,11 +302,12 @@ class Auth extends BaseController
 								Hi $nama_depan $nama_belakang,
 							</p>
 							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 3%;'>
-								Terimakasih telah membuat akun spairum silahkan melakukan verifikasi akun dengan klik tombol dibawah ini:
+								Terimakasih telah membuat akun spairum silahkan melakukan untuk mendapatkan saldo air 1000 mL Gratis sillahkan klik tombol dibawah ini:
 							</p>
 							<br>
-							<a href='https://app.spairum.my.id/otp/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'>Verivikasi di sini</a>
-							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 3%;'><br/>Selanjutnya anda dapat melakukan login ke app.spairum.my.id sebagai user</p>
+							<a href='https://app.spairum.my.id/otp/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'>Mau dong</a>
+							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 3%;'><br/>Jika ada masukan atau petanyaan bisa langsung menghubungi :
+								<br/>Technical Support: +62895321701798</p>
 						</td>
 					</tr>
 					<tr>
@@ -405,7 +332,42 @@ class Auth extends BaseController
 			</td>
 		</tr>
 	</table>");
-		$this->email->send();
+		// $this->email->send();
+		if ($this->email->send()) {
+			$token = random_string('alnum', 28);
+			$key = $this->TokenModel->Key()['token'];
+			$payload = array(
+				'Key' => $token,
+				'id_user' => "$id_usr$gen",
+				'nama' =>  $user
+			);
+			$jwt = JWT::encode($payload, $key,);
+
+			$this->TokenModel->save([
+				'id_user' => "$id_usr$gen",
+				'token'    => $token,
+				'status' => 'Login'
+			]);
+			$arr_cookie_options = array(
+				'expires' => time() + 60 * 60 * 24 * 30,
+				'path' => '/',
+				'domain' => "", // leading dot for compatibility or use subdomain
+				'secure' => true,     // or false
+				'httponly' => false,    // or false
+				'samesite' => 'None' // None || Lax  || Strict
+			);
+			setCookie("X-Sparum-Token", $jwt, $arr_cookie_options);
+
+			if (empty($_COOKIE['theme-color'])) {
+				setCookie("theme-color", "lightblue-theme",  $arr_cookie_options);
+			}
+
+			return redirect()->to('/user');
+		} else {
+			$data = $email->printDebugger(['headers']);
+			print_r($data);
+		}
+
 		session()->setFlashdata('flash', 'Silakan cek kotak masuk email atau spam untuk verifikasi.');
 		return redirect()->to('/');
 	}
@@ -417,25 +379,29 @@ class Auth extends BaseController
 			session()->setFlashdata('gagal', 'Akun sudah di verifikasi');
 			return redirect()->to('/');
 		}
-		$this->UserModel->save([
-			'id_user' => $cek['id_user'],
-			'nama' => $cek['nama'],
-			'nama_depan' => $cek['nama_depan'],
-			'nama_belakang' => $cek['nama_belakang'],
-			'email' => $cek['email'],
-			'telp' => $cek['telp'],
-			'password' => $cek['password'],
-			'profil' => 'user.png',
-			'debit' => '0',
-			'kredit' => '0',
-		]);
+		$user = $this->UserModel->cek_id($cek['id_user']);
+		// dd($user);
+		$debit = $user['debit'] + 1000;
+		$data = [
+			'debit' => $debit,
+		];
+		$this->UserModel->updateprofile($data, $user['id']);
+		$datavocer = [
+			'id_master' => $cek['id_user'],
+			'Id_slave' => 'Admin',
+			'Lokasi' => 'Bonus',
+			'status' => 'Verifikasi Email',
+			'isi' => $debit,
+			'created_at' => $this->Time::now('Asia/Jakarta')
+		];
+		$this->HistoryModel->save($datavocer);
 		$this->OtpModel->save([
 			'id' => $cek['id'],
 			'link' => substr(sha1($cek['link']), 0, 10),
-			'status' => 'Tercerivikasi',
+			'status' => 'terverifikasi',
 		]);
-		session()->setFlashdata('flash', 'Registration success silahkan login.');
-		return redirect()->to('/');
+		session()->setFlashdata('flash', 'Selamat anda mendapatkan 1000 mL.');
+		return redirect()->to('/user');
 	}
 	public function lupa()
 	{
@@ -671,5 +637,9 @@ class Auth extends BaseController
 
 		print_r($decoded);
 		print_r($jwt);
+	}
+	public function reMaill()
+	{
+		dd($this->Time::now('Asia/Samarinda'));
 	}
 }

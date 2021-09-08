@@ -57,11 +57,17 @@ class User extends BaseController
             return redirect()->to('/');
         }
         $nama = $decoded->nama;
+        $id_user = $decoded->id_user;
         $akun = $this->UserModel->cek_login($nama);
+        $cek = $this->OtpModel->cekid($id_user);
 
         if ($akun['nama_depan'] == null) {
             session()->setFlashdata('salah', 'Silahkan lengkapi identitas anda');
             return redirect()->to('editprofile');
+        }
+        if ($cek['status'] == 'belum verifikasi') {
+            session()->setFlashdata('Pesan', 'Segera cek email anda untuk mendapatkan saldo Air 1000mL');
+            // dd($cek['status']);
         }
         $data = [
             'title' => 'Home | Spairum.com',
@@ -81,8 +87,6 @@ class User extends BaseController
         $hasil = $akun['debit'] - $take * 10;
         if ($hasil >= "0") {
             // session()->destroy();
-
-
             session()->set('vaule', $take);
             return redirect()->to('/connect');
         }
@@ -242,7 +246,6 @@ class User extends BaseController
             'title' => 'TopUp | Spairum.com',
             'page' => 'TopUp',
             'akun' => $akun
-
         ];
         return view('user/topup', $data);
     }
@@ -251,7 +254,7 @@ class User extends BaseController
         $jwt = $_COOKIE['X-Sparum-Token'];
         $key = $this->TokenModel->Key()['token'];
         $decoded = JWT::decode($jwt, $key, array('HS256'));
-        // $keyword = $decoded->id_user;
+        $keyword = $decoded->id_user;
         $nama = $decoded->nama;
 
         $akun = $this->UserModel->cek_login($nama);
@@ -260,6 +263,7 @@ class User extends BaseController
 
         // Uncomment for production environment
         \Midtrans\Config::$isProduction = true;
+        // \Midtrans\Config::$isProduction = false;
 
         // Enable sanitization
         \Midtrans\Config::$isSanitized = true;
@@ -269,9 +273,10 @@ class User extends BaseController
 
         $harga = (int)$this->request->getVar('harga');
         $paket = $this->request->getVar('paket');
+        $order_id = rand();
 
         $transaction_details = array(
-            'order_id' => rand(),
+            'order_id' => $order_id,
             'gross_amount' =>  $harga, // no decimal allowed for creditcard
         );
         // dd($transaction_details);
@@ -292,18 +297,18 @@ class User extends BaseController
                 'quantity' => 1,
                 'name'     => $paket
             ),
-            array(
-                'id'       => 'Admin',
-                'price'    => 1000,
-                'quantity' => 1,
-                'name'     => 'biaya admin'
-            ),
-            array(
-                'id'       => 'pajak',
-                'price'    => "$pajak",
-                'quantity' => 1,
-                'name'     => 'PPN 10%'
-            )
+            // array(
+            //     'id'       => 'Admin',
+            //     'price'    => 1000,
+            //     'quantity' => 1,
+            //     'name'     => 'biaya admin'
+            // ),
+            // array(
+            //     'id'       => 'pajak',
+            //     'price'    => "$pajak",
+            //     'quantity' => 1,
+            //     'name'     => 'PPN 10%'
+            // )
         );
 
         // Optional
@@ -347,9 +352,12 @@ class User extends BaseController
         //     "bca_va", "bni_va", "bri_va", "other_va", "gopay", "indomaret", "Alfamart",
 
         // );
+        // $enable_payments = array(
+        //     "bri_epay", "echannel", "permata_va",
+        //     "bca_va", "bni_va", "bri_va", "other_va", "gopay", "indomaret", "Alfamart",
+        // );
         $enable_payments = array(
-            "bri_epay", "echannel", "permata_va",
-            "bca_va", "bni_va", "bri_va", "other_va", "gopay", "indomaret", "Alfamart",
+            "gopay", "indomaret", "Alfamart", "qris"
         );
 
         // Fill transaction details
@@ -365,14 +373,21 @@ class User extends BaseController
         // dd($snapToken);
 
 
-        // $status = \Midtrans\Transaction::status('692549292');
+        // $status = \Midtrans\Transaction::status($order_id);
         // echo "status = ";
-        // dd($status->transaction_status);
+        $data = [
+            'order_id' => $order_id,
+            'user_id' => $keyword,
+            'status' => 'Token',
+            'created_at' => Time::now('Asia/Jakarta')
+        ];
+        // dd($status);
+        $this->TransaksiModel->addOrder($data);
 
 
         $data = [
-            'title' => 'Riwayat | Spairum.com',
-            'page' => 'Riwayat',
+            'title' => 'Pembayaran | Spairum.com',
+            'page' => 'Pembayaran',
             'akun' => $akun,
             'snapToken' => $snapToken,
             'paket' => $paket,
@@ -410,14 +425,17 @@ class User extends BaseController
             ];
             $this->VoucherModel->updatevoucher($data, $getV['id']);
 
-            $data = [
+            $datavocer = [
                 'id_master' => $akun['id_user'],
                 'Id_slave' => $getV['kvoucher'],
                 'Lokasi' => 'voucher',
                 'status' => 'Top Up',
-                'isi' => $getV['nominal']
+                'isi' => $getV['nominal'],
+                'created_at' => Time::now('Asia/Jakarta')
             ];
-            $this->HistoryModel->insert($data);
+
+            $this->HistoryModel->save($datavocer);
+            // dd($datavocer);
             // dd($saldo);
             session()->setFlashdata('Berhasil', 'Voucher berhasil digunakan');
             return redirect()->to('/user');
@@ -507,11 +525,11 @@ class User extends BaseController
             // $potoProfil = $fileProfil->getRandomName();
             // $fileProfil->move('img/user', $potoProfil);
             $potoProfil = $fileProfil->getName();
-            $fileProfil->move('img/user');
-            $image->withFile("img/user/$potoProfil")->resize(300, 300, false, 'auto')->save("img/user/$potoProfil");
+            $fileProfil->move('/img/user');
+            $image->withFile("/img/user/$potoProfil")->resize(300, 300, false, 'auto')->save("/img/user/$potoProfil");
             if ($fotolama != 'user.png') {
                 // dd($fotolama);
-                unlink('img/user/' . $akun['profil']);
+                unlink('/img/user/' . $akun['profil']);
             }
         }
 
