@@ -17,6 +17,9 @@ class HistoryModel extends Model
         'Lokasi',
         'status',
         'isi',
+        'updated_at',
+        'created_at'
+
     ];
 
     public function search($keyword)

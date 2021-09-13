@@ -31,7 +31,7 @@
 
 <!-- TODO: Remove ".sandbox" from script src URL for production environment. Also input your client key in "data-client-key" -->
 
-<!-- <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-OpIVj-JDdg9BEE2o"></script> -->
+<!-- <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-5eZNR9bAyPRmIeYf"></script> -->
 <script src="https://app.midtrans.com/snap/snap.js" data-client-key="Mid-client-OpIVj-JDdg9BEE2o"></script>
 <!-- <script src="https://app.midtrans.com/snap/snap.js" data-client-key="Mid-client-OpIVj-JDdg9BEE2o"></script> -->
 <script type="text/javascript">
@@ -45,17 +45,81 @@
             //     document.getElementById('result-json').innerHTML += JSON.stringify(result.order_id);
             // },
             // // Optional
-            onPending: function(result) {
-                /* You may add your own js here, this is just example */
-                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                console.log("Belum Bayar");
-            },
+            // onPending: function(result) {
+            //     /* You may add your own js here, this is just example */
+            //     document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            //     console.log("Belum Bayar");
+            // },
             // // Optional
             // onError: function(result) {
             //     /* You may add your own js here, this is just example */
             //     document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
             // }
+            onSuccess: function(result) {
+                console.log('success');
+                console.log(result);
+                // $.ajax({
+                //     type: "post",
+                //     data: {
+                //         result
+                //     },
+                //     dataType: "json",
+                //     url: "/TransMqtt/transaction",
+                // })
+            },
+            onPending: function(result) {
+                console.log('pending');
+                console.log(result);
+                // $.ajax({
+                //     type: "post",
+                //     data: {
+                //         result
+                //     },
+                //     dataType: "json",
+                //     success: function(data) {
+                //         console.log(data);
+                //     },
+                //     url: "/TransMqtt/transaction",
+                // })
+            },
+            onError: function(result) {
+                console.log('error');
+                console.log(result);
+                // $.ajax({
+                //     type: "post",
+                //     data: {
+                //         result
+                //     },
+                //     dataType: "json",
+                //     url: "/TransMqtt/transaction",
+                // })
+            },
+            onClose: function() {
+                console.log('customer closed the popup without finishing the payment');
+            }
 
+        });
+
+        function ajaxGetToken(transactionData, callback) {
+            var snapToken;
+            // Request get token to your server & save result to snapToken variable
+
+            if (snapToken) {
+                callback(null, snapToken);
+            } else {
+                callback(new Error('Failed to fetch snap token'), null);
+            }
+        }
+
+        payButton.onclick(function() {
+            snap.show();
+            ajaxGetToken(transactionData, function(error, snapToken) {
+                if (error) {
+                    snap.hide();
+                } else {
+                    snap.pay(snapToken);
+                }
+            });
         });
 
     };

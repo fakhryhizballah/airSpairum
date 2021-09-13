@@ -61,7 +61,8 @@ $routes->get('/verifikasi/(:any)', 'user::verifikasi/$1', ['filter' => 'AuthFilt
 
 $routes->get('/control', 'TransMqtt::index', ['filter' => 'AuthFilter']);
 
-// $routes->get('/user', 'User::index');
+// $routes->get('/Payapi/tes', 'Payapi::tes');
+$routes->get('/payapi/tes',             'Payapi::tes');
 // $routes->get('/stasiun', 'User::stasiun');
 // $routes->get('/riwayat', 'User::riwayat');
 // $routes->get('/payriwayat', 'User::payriwayat');
