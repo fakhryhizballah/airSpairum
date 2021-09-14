@@ -150,7 +150,7 @@ class Auth extends BaseController
 		);
 		session()->setFlashdata('flash', 'Berhasil Logout');
 		// setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
-		setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
+		setCookie("X-Sparum-Token", "Logout",  $arr_cookie_options);
 		return redirect()->to('/');
 	}
 
