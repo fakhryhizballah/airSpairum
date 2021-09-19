@@ -150,7 +150,7 @@ class Auth extends BaseController
 		);
 		session()->setFlashdata('flash', 'Berhasil Logout');
 		// setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
-		setCookie("X-Sparum-Token", "Logout",  $arr_cookie_options);
+		setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
 		return redirect()->to('/');
 	}
 
@@ -381,7 +381,7 @@ class Auth extends BaseController
 		}
 		$user = $this->UserModel->cek_id($cek['id_user']);
 		// dd($user);
-		$debit = $user['debit'] + 1000;
+		$debit = $user['debit'] + 2000;
 		$data = [
 			'debit' => $debit,
 		];
