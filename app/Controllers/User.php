@@ -16,6 +16,7 @@ use App\Models\VoucherModel;
 use App\Models\TokenModel;
 use Exception;
 use \Firebase\JWT\JWT;
+use App\Libraries\AuthLibaries;
 
 class User extends BaseController
 {
@@ -31,35 +32,14 @@ class User extends BaseController
         $this->OtpModel = new OtpModel();
         $this->VoucherModel = new VoucherModel();
         $this->TokenModel = new TokenModel();
+        $this->AuthLibaries = new AuthLibaries();
         helper('cookie');
     }
 
     public function index()
     {
-        if (empty($_COOKIE['X-Sparum-Token'])) {
-            session()->setFlashdata('gagal', 'Anda belum Login');
-            return redirect()->to('/');
-        }
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        try {
-            $key = $this->TokenModel->Key()['token'];
-            $decoded = JWT::decode($jwt, $key, array('HS256'));
-        } catch (Exception $exception) {
-            session()->setFlashdata('gagal', 'Login Dulu');
-            return redirect()->to('/');
-        }
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $token = $decoded->Key;
-        // dd($token);
-        if (empty($this->TokenModel->cek($token))) {
-            session()->setFlashdata('gagal', 'Anda sudah Logout, Silahkan Masuk lagi');
-            return redirect()->to('/');
-        }
-        $nama = $decoded->nama;
-        $id_user = $decoded->id_user;
-        $akun = $this->UserModel->cek_login($nama);
-        $cek = $this->OtpModel->cekid($id_user);
+        $akun = $this->AuthLibaries->authCek();
+        $cek = $this->OtpModel->cekid($akun['id_user']);
 
         if ($akun['nama_depan'] == null) {
             session()->setFlashdata('salah', 'Silahkan lengkapi identitas anda');
@@ -78,11 +58,7 @@ class User extends BaseController
 
     public function take()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
         $take = $this->request->getVar('take');
         $hasil = $akun['debit'] - $take * 10;
         if ($hasil >= "0") {
@@ -96,11 +72,7 @@ class User extends BaseController
 
     public function connect()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
         $data = [
             'title' => 'Pindai | Spairum.com',
             'akun' => $akun,
@@ -110,11 +82,7 @@ class User extends BaseController
     }
     public function binding()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
 
         $id = $this->request->getVar('qrcode');
         $id_encode = base64_decode($id);
@@ -171,11 +139,7 @@ class User extends BaseController
 
     public function stasiun()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
 
         $stasiun = $this->StasiunModel->findAll();
         $data = [
@@ -236,11 +200,7 @@ class User extends BaseController
 
     public function topup()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
 
         $data = [
             'title' => 'TopUp | Spairum.com',
@@ -400,11 +360,7 @@ class User extends BaseController
 
     public function voucher()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
 
         $kvoucher = $this->request->getVar('kvoucher');
         $getV = $this->VoucherModel->cari($kvoucher);
@@ -454,11 +410,7 @@ class User extends BaseController
 
     public function editprofile()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
 
         $data = [
             'title' => 'Edit Profile | Spairum.com',
@@ -471,11 +423,7 @@ class User extends BaseController
 
     public function profileupdate()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
         $id = $akun['id'];
         $telp = $this->request->getVar('telp');
         $image = \Config\Services::image();
@@ -559,11 +507,7 @@ class User extends BaseController
 
     public function emailupdate()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
         if (!$this->validate([
             'email' => [
                 'rules'  => 'required|valid_email|is_unique[user.email]',
@@ -581,10 +525,11 @@ class User extends BaseController
         $email = $this->request->getVar('email');
         helper('text');
         $token = random_string('alnum', 28);
+        $nama = $akun['nama'];
 
         $this->OtpModel->save([
             'id_user' => $akun['id'],
-            'nama' => $akun['nama'],
+            'nama' => $nama,
             'email' => $email,
             'link' => $token,
             'status' => 'Ganti Email',

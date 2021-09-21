@@ -178,3 +178,9 @@ v1.0.2 (fix Bug user)
 ### New
 
 - versi reles versi beta no toch less
+
+# [v2.1.1] 21-9-2021
+
+### added
+
+- library admin auth
