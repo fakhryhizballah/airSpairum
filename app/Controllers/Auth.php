@@ -33,22 +33,54 @@ class Auth extends BaseController
 	public static string $key = 'ss';
 	public function index()
 	{
+		$arr_cookie_options = array(
+			'expires' => time() + 60 * 60 * 24 * 30,
+			'path' => '/',
+			'domain' => "", // leading dot for compatibility or use subdomain
+			'secure' => true,     // or false
+			'httponly' => false,    // or false
+			'samesite' => 'None' // None || Lax  || Strict
+		);
+
+		setCookie("theme-color", "blue-theme",  $arr_cookie_options);
+
 		if (empty($_COOKIE['X-Sparum-Token'])) {
 			$data = [
 				'title' => 'Login - Spairum',
 				'validation' => \Config\Services::validation()
 			];
-			return view('auth/login', $data);
+			return view('auth/masuk', $data);
 		} else {
 			if ($_COOKIE['X-Sparum-Token'] == 'Logout') {
 				$data = [
 					'title' => 'Login - Spairum',
 					'validation' => \Config\Services::validation()
 				];
-				return view('auth/login', $data);
+				return view('auth/masuk', $data);
 			}
 			return redirect()->to('/user');
 		}
+	}
+	public function masuk()
+	{
+		$arr_cookie_options = array(
+			'expires' => time() + 60 * 60 * 24 * 30,
+			'path' => '/',
+			'domain' => "", // leading dot for compatibility or use subdomain
+			'secure' => true,     // or false
+			'httponly' => false,    // or false
+			'samesite' => 'None' // None || Lax  || Strict
+		);
+
+		if (empty($_COOKIE['theme-color'])) {
+			setCookie("theme-color", "blue-theme",  $arr_cookie_options);
+		}
+		$data = [
+			'title' => 'Login - Air Spairum',
+			'validation' => \Config\Services::validation()
+		];
+		// return view('layout/authLayout');
+		return view('auth/masuk', $data);
 	}
 
 	//--------------------------------------------------------------------
@@ -117,7 +149,7 @@ class Auth extends BaseController
 			setCookie("X-Sparum-Token", $jwt, $arr_cookie_options);
 
 			if (empty($_COOKIE['theme-color'])) {
-				setCookie("theme-color", "lightblue-theme",  $arr_cookie_options);
+				setCookie("theme-color", "teal-theme",  $arr_cookie_options);
 			}
 
 			return redirect()->to('/user');

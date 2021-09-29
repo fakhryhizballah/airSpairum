@@ -1,6 +1,5 @@
 const staticCacheName = 'site-static';
 const assets = [
-    '/user',
     '/js/script.js',
     '/js/main.js',
     '/js/statics.js',
@@ -11,15 +10,15 @@ const assets = [
     '/img/logo.png',
     'img/2.gif',
     'Manifes/img/logo.png',
-    'Manifes/manifes.json'   
+    'Manifes/manifes.json'
 ];
 
 // install service worker
-self.addEventListener('install', evt=> {
+self.addEventListener('install', evt => {
     console.log('service worker has been installed');
     evt.waitUntil(
-        caches.open(staticCacheName).then(function(cache){
-           cache.addAll(assets);
+        caches.open(staticCacheName).then(function(cache) {
+            cache.addAll(assets);
         })
     );
 });
@@ -33,4 +32,3 @@ self.addEventListener('activate', evt => {
 self.addEventListener('fetch', evt => {
     // console.log('fetch event', evt);
 });
-

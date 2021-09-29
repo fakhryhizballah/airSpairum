@@ -5,9 +5,9 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 
-class StasiunModel extends Model
+class StasiunNewModel extends Model
 {
-    // protected $table            = 'mesin';
+    protected $table            = 'new_mesin';
     protected $useTimestamps    = true;
 
     public function getStasiun($id = false)
@@ -15,7 +15,7 @@ class StasiunModel extends Model
         if ($id === false) {
             return $this->findAll();
         } else {
-            return $this->db->table('mesin')->getWhere(['id_mesin' => $id])->getRowArray();
+            return $this->getWhere(['id_mesin' => $id])->getRowArray();
         }
     }
 
@@ -28,12 +28,6 @@ class StasiunModel extends Model
     {
         return $this->db->table('mesin')
             ->where(array('id_mesin' => $id_mesin))
-            ->get()->getRowArray();
-    }
-    public function cek_newID($new_id)
-    {
-        return $this->db->table('new_mesin')
-            ->where(array('new_id' => $new_id))->select('nama, harga, faktor')
             ->get()->getRowArray();
     }
 }

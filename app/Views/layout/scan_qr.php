@@ -12,10 +12,11 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
 
     <!-- Bootstrap core CSS -->
-    <link href="/Mandor/bootstrap-4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="/Mandor/bootstrap-4.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Swiper CSS -->
-    <link href="Mandor/swiper/css/swiper.min.css" rel="stylesheet">
+    <<link rel="stylesheet" href="Mandor/swiper/css/swiper-bundle.css" />
 
     <!-- Custom styles for this template -->
     <link href="css/home_style.css" rel="stylesheet">
@@ -26,40 +27,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
     <!-- scanner -->
-    <script src="scanner/vendor/modernizr/modernizr.js"></script>
-    <script src="scanner/vendor/vue/vue.min.js"></script>
+    <!-- <script src="/scanner/vendor/modernizr/modernizr.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script src="/scanner/vendor/vue/vue.min.js"></script>
     <title><?= $title; ?></title>
 </head>
 
 <body>
-    <div class="sidebar">
-        <div class="mt-4 mb-3">
-            <div class="row">
-                <div class="col-auto">
-                    <figure class="avatar avatar-60 border-0"><img src="img/user1.png" alt=""></figure>
-                </div>
-                <div class="col pl-0 align-self-center">
-                    <h5 class="mb-1">Ammy Jahnson</h5>
-                    <p class="text-mute small">Work, London, UK</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="list-group main-menu">
-                    <a href="/home" class="list-group-item list-group-item-action active"><i class="material-icons icons-raised">home</i>Home</a>
 
-                    <!-- <a href="notification.html" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">notifications</i>Notification <span class="badge badge-dark text-white">2</span></a> -->
-                    <a href="/user/history" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">find_in_page</i>History</a>
-                    <!-- <a href="controls.html" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">view_quilt<span class="new-notification"></span></i>Pages Controls</a> -->
-                    <a href="#" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">important_devices</i>Settings</a>
-                    <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#colorscheme"><i class="material-icons icons-raised">color_lens</i>Color scheme</a> -->
-                    <a href="/auth/logout" class="list-group-item list-group-item-action"><i class="material-icons icons-raised bg-danger">power_settings_new</i>Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <a href="javascript:void(0)" class="closesidemenu"><i class="material-icons icons-raised bg-dark ">close</i></a>
     <div class="wrapper homepage">
 
         <!-- header -->
@@ -77,7 +52,8 @@
             </div>
         </div>
         <!-- header ends -->
-        <div class="swal" data-swal="<?= session()->getFlashdata('Pesan'); ?>"></div>
+        <div class="swal" data-swal="<?= session()->getFlashdata('gagal'); ?>"></div>
+        <div class="flash-Success" data-flashdata="<?= session()->getFlashdata('Berhasil'); ?>"></div>
 
         <div class="camera">
             <video id="preview" class="kamera"></video>
@@ -87,7 +63,7 @@
             <?= csrf_field(); ?>
             <div class="container">
                 <div class="form-group">
-                    <input type="hidden" class="form-control form-control-user" id="code" name="qrcode">
+                    <input type="text" class="form-control form-control-user" id="code" name="qrcode">
                 </div>
             </div>
             <!-- <fieldset class="scheduler-border">
@@ -137,12 +113,14 @@
 
 
         <!-- jquery, popper and bootstrap js -->
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="/Mandor/bootstrap-4.4.1/js/bootstrap.min.js"></script>
-
+        <!-- <script src="js/jquery-3.3.1.min.js"></script> -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <!-- <script src="js/popper.min.js"></script> -->
+        <!-- <script src="/Mandor/bootstrap-4.4.1/js/bootstrap.min.js"></script> -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <!-- swiper js -->
-        <script src="/Mandor/swiper/js/swiper.min.js"></script>
+        <!-- <script src="/Mandor/swiper/js/swiper.min.js"></script> -->
+        <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
 
         <!-- cookie js -->
         <script src="/Mandor/cookie/jquery.cookie.js"></script>
@@ -153,11 +131,11 @@
         <!-- page level script -->
         <script></script>
         <!-- scanner -->
-        <script src="scanner/js/app.js"></script>
-        <script src="scanner/vendor/instascan/instascan.min.js"></script>
-        <script src="scanner/js/scanner.js"></script>
+        <!-- <script src="/scanner/js/app.js"></script> -->
+        <script src="/scanner/vendor/instascan/instascan.min.js"></script>
+        <script src="/scanner/js/scanner.js"></script>
         <!-- sweet alernt -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.7/sweetalert2.js"></script>
         <script src="js/script.js"></script>
 </body>
 

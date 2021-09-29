@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Material design icons CSS -->
-    <link rel="stylesheet" href="Mandor/materializeicon/material-icons.css">
+    <!-- <link rel="stylesheet" href="vendor/materializeicon/material-icons.css"> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Roboto fonts CSS -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
@@ -20,7 +21,7 @@
     <!-- Swiper CSS -->
     <!-- <link href="Mandor/swiper/css/swiper.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="Mandor/swiper/css/swiper-bundle.css" />
-    <link rel="stylesheet" href="Mandor/swiper/css/swiper-bundle.min.css" />
+    <!-- <link rel="stylesheet" href="Mandor/swiper/css/swiper-bundle.min.css" /> -->
 
     <!-- my style.css -->
     <link rel="stylesheet" href="css/style.css">
@@ -158,41 +159,6 @@
 
         <?= $this->renderSection('content'); ?>
 
-
-        <!-- footer-->
-        <!-- <div class="foother">
-            <div class="no-gutters">
-                <div class="col-12 mx-auto">
-                    <div class="row no-gutters justify-content-center">
-                        <div class="nav-item col-3">
-                            <a href="/user" class="btn btn-link-default active">
-                                <img src="/img/ui.svg" alt="" class="buttonNav">
-                                <i class="nav-link fontNav" href="/user">Home</i>
-                            </a>
-                        </div>
-                        <div class="nav-item col-3">
-                            <a href="/stasiun" class="btn btn-link-default">
-                                <img src="/img/explore.svg" alt="" class="buttonNav">
-                                <i class="nav-link fontNav" href="/stasiun">Explore</i>
-                            </a>
-                        </div>
-                        <div class="nav-item col-3">
-                            <a href="/topup" class="btn btn-link-default">
-                                <img src="/img/wallet.svg" alt="" class="buttonNav">
-                                <i class="nav-link fontNav" href="/topup">Top Up</i>
-                            </a>
-                        </div>
-                        <div class="nav-item col-3">
-                            <a href="/riwayat" class="btn btn-link-default">
-                                <img src="/img/history.svg" alt="" class="buttonNav">
-                                <i class="nav-link fontNav">History</i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- footer ends-->
         <!-- footer-->
         <div class="footer">
             <div class="no-gutters">
@@ -229,62 +195,64 @@
             </div>
         </div>
         <!-- footer ends-->
-
-
-
-
-
-        <!-- jquery, popper and bootstrap js -->
-        <script src="/js/jquery-3.3.1.min.js"></script>
-        <!-- <script src="Mandor/bootstrap-4.4.1/js/bootstrap.min.js"></script> -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
-        <!-- <script src="js/popper.min.js"></script> -->
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-
-        <!-- swiper js -->
-        <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-        <!-- cookie js -->
-        <script src="Mandor/cookie/jquery.cookie.js"></script>
-
-        <!-- template custom js -->
-        <script src="js/main.js"></script>
-
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-        <script src="js/script.js"></script>
-
-
-        <script>
-            function previewImg() {
-                const profil = document.querySelector('#profil');
-                const profilLabel = document.querySelector('.custom-file-label');
-                const imgPreview = document.querySelector('.img-preview');
-
-                profilLabel.textContent = profil.files[0].name;
-                const fileProfil = new FileReader();
-
-                fileProfil.readAsDataURL(profil.files[0]);
-
-                fileProfil.onload = function(e) {
-                    imgPreview.src = e.target.result;
-                }
-            }
-        </script>
-
-        <!-- page level script -->
-        <script>
-            $(window).on('load', function() {});
-        </script>
-
-        <script>
-            $(document).ready(function() {
-                $(".preloader").fadeOut();
-            })
-        </script>
     </div>
+
+    <?= $this->renderSection('modal'); ?>
+
+
+
+    <!-- jquery, popper and bootstrap js -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <!-- <script src="Mandor/bootstrap-4.4.1/js/bootstrap.min.js"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+    <!-- <script src="js/popper.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+    <!-- swiper js -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+    <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
+
+    <!-- cookie js -->
+    <!-- <script src="Mandor/cookie/jquery.cookie.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!-- template custom js -->
+    <script src="/js/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="/js/script.js"></script>
+
+
+    <script>
+        function previewImg() {
+            const profil = document.querySelector('#profil');
+            const profilLabel = document.querySelector('.custom-file-label');
+            const imgPreview = document.querySelector('.img-preview');
+
+            profilLabel.textContent = profil.files[0].name;
+            const fileProfil = new FileReader();
+
+            fileProfil.readAsDataURL(profil.files[0]);
+
+            fileProfil.onload = function(e) {
+                imgPreview.src = e.target.result;
+            }
+        }
+    </script>
+
+    <!-- page level script -->
+    <!-- <script>
+        $(window).on('load', function() {});
+    </script> -->
+
+    <script>
+        $(document).ready(function() {
+            $(".preloader").fadeOut();
+        })
+    </script>
+    <?= $this->renderSection('script'); ?>
 
 </body>
 

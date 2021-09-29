@@ -19,24 +19,12 @@
                         <h1 class="h4 text-gray-900 mb-4">Login</h1>
                     </div>
 
-                    <?php if (session()->getFlashdata('flash')) : ?>
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <strong><?= session()->getFlashdata('flash');  ?></strong>
-                        </div>
 
-                        <script>
-                            $(".alert").alert();
-                        </script>
-                    <?php endif; ?>
                     <div class="swal" data-swal="<?= session()->getFlashdata('gagal'); ?>"></div>
                     <div class="flash-Success" data-flashdata="<?= session()->getFlashdata('Berhasil'); ?>"></div>
 
-
-
                     <form class="user" method="POST" action="Auth/login">
+                        <?= csrf_field(); ?>
                         <div class=" form-group user-form">
                             <img class="icon" src="/img/Vector.png" alt="">
                             <input type="text" class="form-control form-control-user <?= ($validation->hasError('nama')) ? 'is-invalid' : ''; ?>" style="padding-left: 50px;" id="username" name="nama" placeholder="Username atau Email atau Nomor Telepon" autofocus value="<?= old('nama'); ?>">
@@ -84,6 +72,7 @@
                                 <a class="small" href="/lupa">lupa<strong class="text-primary">Password<strong></a>
                             </div>
                         </div>
+                    </form>
                 </div>
             </div>
 

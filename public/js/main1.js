@@ -143,7 +143,6 @@ $(document).ready(function() {
 
     /* theme color cookie */
     if ($.type($.cookie("theme-color")) != 'undefined' && $.cookie("theme-color") != '') {
-        $('html').addClass($.cookie("orange-theme"));
         $('html').removeClass('blue-theme deeppurple-theme orange-theme pink-theme');
         $('html').addClass($.cookie("theme-color"));
     }
@@ -344,15 +343,3 @@ $(window).on('resize', function() {
     /* login row */
     $('.login-row').css('min-height', ($(window).height() - 80));
 });
-
-// PWA 
-
-// if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker.register('/sw.js')
-//         .then(function(registration) {
-//             console.log('Registration successful, scope is:', registration.scope);
-//         })
-//         .catch(function(error) {
-//             console.log('Service worker registration failed, error:', error);
-//         });
-// }

@@ -24,7 +24,7 @@
                                 <p class="text-mute small text-secondary"><?= $r['created_at']; ?></p>
                             </div>
                             <div class="col-auto">
-                                <h6 class="text-success"><strong><?= $r['isi']; ?> </strong> L</h6>
+                                <h6 class="text-success"><?= $r['isi']; ?> </h6>
                             </div>
                         </div>
                     </li>

@@ -1,5 +1,6 @@
 <?= $this->extend('layout/user_template'); ?>
 <?= $this->section('content'); ?>
+<!-- Modal -->
 
 <div class="container">
     <div class="flash-Success" data-flashdata="<?= session()->getFlashdata('Berhasil'); ?>"></div>
@@ -25,23 +26,28 @@
         <div class="card-body border-bottom">
             <div class="row">
                 <div class="col">
-                    <h3 class="mb-0 font-weight-normal"><?= $akun['debit']; ?> mL</h3>
+                    <h3 class="mb-0 font-weight-normal">
+                        <span class="material-icons">
+                            account_balance_wallet
+                        </span>
+                        <?= $saldo['saldo']; ?>
+                    </h3>
                     <p class="text-mute">Saldo Air</p>
                 </div>
                 <div class="col-auto">
-                    <!-- <button class="btn btn-default btn-rounded-54 shadow" data-toggle="modal" data-target="#addmoney"><i class="material-icons">add</i></button> -->
+                    <button class="btn btn-default btn-rounded-54 shadow" data-toggle="modal" data-target="#addmoney"><i class="material-icons">add</i></button>
                 </div>
             </div>
         </div>
         <div class="card-footer bg-none">
             <div class="row">
-                <div class="col">
+                <!-- <div class="col">
                     <p><?= $akun['kredit']; ?> mL<i class="material-icons text-danger vm small"></i><br><small class="text-mute">Telah di ambil</small></p>
-                </div>
+                </div> -->
                 <!-- <div class="col text-center">
                     <p>2.24 L<i class="material-icons text-success vm small">arrow_upward</i><br><small class="text-mute">today</small></p>
                 </div> -->
-                <div class="col text-right">
+                <div class="col text-center">
                     <p><span name="take" id="take"></span>0 mL<br><small class="text-mute">Jumlah Yang akan di ambil</small></p>
                 </div>
             </div>
@@ -53,13 +59,14 @@
             <h6 class="subtitle">Sesuaikan kebutuhan untuk pengambilan air</h6>
         </div>
         <div class="card shadow border-0 mb-2">
-            <form class="user" method="POST" action="/user/take">
+            <form action="/Ajax/index" class="user" method="POST" id="take">
+                <?= csrf_field(); ?>
                 <div class="card-body mb-2">
                     <div class="form-group user-form">
                         <div class="row">
                             <div class="col">
                                 <div class="slidecontainer">
-                                    <input type="range" min="10" max="120" value="22" class="slider" id="myRange" name="take">\
+                                    <input type="range" min="10" max="120" value="22" class="slider" id="myRange" name="take">
                                 </div>
                             </div>
                         </div>
@@ -69,9 +76,17 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-user btn-block btn-outline-primary btn-rounded bg-template">
+                    <div class="form-group mt-4">
+                        <input type="hidden" class="form-control form-control-lg text-center" id="code">
+                    </div>
+                    <!-- <button type="submit" class="btn btn-user btn-block btn-outline-template btn-rounded bg-template">
+                        SCAN QR CODE
+                    </button> -->
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-user btn-block btn-outline-template btn-rounded bg-template" onclick="scane()">
                         SCAN QR CODE
                     </button>
+
                 </div>
             </form>
         </div>
@@ -89,3 +104,56 @@
 </script>
 
 <?= $this->endSection('content'); ?>
+
+<?= $this->section('modal'); ?>
+<!-- Modal -->
+<div class="modal fade" id="addmoney" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <img src="img/infomarmation-graphics2.png" alt="logo" class="logo-small">
+                <div class="form-group mt-4">
+                    <input type="text" class="form-control form-control-lg text-center" placeholder="Enter amount" required="" autofocus="">
+                </div>
+                <p class="text-mute">You will be redirected to payment gatway to procceed further. Enter amount in USD.</p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-default btn-lg btn-rounded shadow btn-block" class="close" data-dismiss="modal">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-pindai" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <div class="camera">
+                    <video id="preview" class="kamera"></video>
+                </div>
+                <p class="text-mute">Arahkan kamera anda ke QR minuman yang anda pilih</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<?= $this->endSection('content'); ?>
+
+
+<?= $this->section('script'); ?>
+<script src="/scanner/vendor/instascan/instascan.min.js"></script>
+<script src="/js/scane.js"></script>
+
+<?= $this->endSection('script'); ?>

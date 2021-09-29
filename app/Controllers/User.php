@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 
-use CodeIgniter\Controller;
+
 use App\Models\ExploreModel;
 use App\Models\HistoryModel;
 use App\Models\UserModel;
@@ -14,7 +14,7 @@ use CodeIgniter\I18n\Time;
 use App\Models\OtpModel;
 use App\Models\VoucherModel;
 use App\Models\TokenModel;
-use Exception;
+use App\Models\SaldoModel;
 use \Firebase\JWT\JWT;
 use App\Libraries\AuthLibaries;
 
@@ -32,6 +32,7 @@ class User extends BaseController
         $this->OtpModel = new OtpModel();
         $this->VoucherModel = new VoucherModel();
         $this->TokenModel = new TokenModel();
+        $this->SaldoModel = new SaldoModel();
         $this->AuthLibaries = new AuthLibaries();
         helper('cookie');
     }
@@ -40,7 +41,8 @@ class User extends BaseController
     {
         $akun = $this->AuthLibaries->authCek();
         $cek = $this->OtpModel->cekid($akun['id_user']);
-
+        $saldo = $this->SaldoModel->cek_id($akun['id_user']);
+        // dd($saldo);
         if ($akun['nama_depan'] == null) {
             session()->setFlashdata('salah', 'Silahkan lengkapi identitas anda');
             return redirect()->to('editprofile');
@@ -51,8 +53,15 @@ class User extends BaseController
         }
         $data = [
             'title' => 'Home | Spairum.com',
-            'akun' => $akun
+            'akun' => $akun,
+            'saldo' => $saldo,
+            // 'nama_depan' => $akun['nama_depan'],
+            // 'nama_belakang' => $akun['nama_belakang'],
+            // 'nama' => $akun['nama'],
+            // 'id_user' => $akun['id_user'],
+            // 'profil' => $akun['profil'],
         ];
+        // dd($data);
         return view('user/home', $data);
     }
 

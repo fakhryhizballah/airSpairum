@@ -33,14 +33,14 @@ class Database extends \CodeIgniter\Database\Config
 	 */
 	public $default = [
 		'DSN'      => '',
-		// 'hostname' => 'localhost',
+		// 'hostname' => '10.8.0.7',
 		// 'username' => 'database',
 		// 'password' => 'Spairum1!',
 		// 'database' => 'Spairum',
-		'hostname' => '10.8.0.7',
+		'hostname' => '192.168.1.54',
 		'username' => 'spairumapp',
 		'password' => 'Spa^irum0',
-		'database' => 'SpairumTes',
+		'database' => 'AirSpairum',
 		'DBDriver' => 'MySQLi',
 		'DBPrefix' => '',
 		'pConnect' => false,

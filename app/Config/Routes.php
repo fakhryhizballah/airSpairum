@@ -46,6 +46,7 @@ $routes->get('/profil', 'Driver::index');
 $routes->get('/explore', 'Driver::explore');
 
 
+// $routes->get('/user', 'User::index');
 $routes->get('/user', 'User::index', ['filter' => 'AuthFilter']);
 $routes->get('/stasiun', 'User::stasiun', ['filter' => 'AuthFilter']);
 $routes->get('/riwayat', 'User::riwayat', ['filter' => 'AuthFilter']);

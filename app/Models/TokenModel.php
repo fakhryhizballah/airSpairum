@@ -15,7 +15,6 @@ class TokenModel extends Model
         'id_user',
         'token',
         'status'
-
     ];
 
     public function Key()
