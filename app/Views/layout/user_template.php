@@ -169,32 +169,26 @@
                                 <i class="material-icons">home</i>
                             </a>
                         </div>
-                        <!-- <div class="col-3-auto mx-auto">
-                            <a href="/stasiun" class="btn btn-link-default item">
-                                <!-- <img src="/img/explore.svg" alt="" class=""> -->
-                        <i class="material-icons">near_me</i>
-                        <!-- <i class="fontNav">Explore</i> -->
-                        </a>
-                    </div> -->
-                    <div class="col-3-auto mx-auto">
-                        <a href="/topup" class="btn btn-link-default item">
-                            <!-- <img src="/img/wallet.svg" alt="" class=""> -->
-                            <i class="material-icons">account_balance_wallet</i>
-                            <!-- <i class="fontNav">Top Up</i> -->
-                        </a>
-                    </div>
-                    <div class="col-3-auto mx-auto">
-                        <a href="/riwayat" class="btn btn-link-default item">
-                            <!-- <img src="/img/history.svg" alt="" class=""> -->
-                            <i class="material-icons">history</i>
-                            <!-- <i class="material-icons fontNav">History</i> -->
-                        </a>
+
+                        <div class="col-3-auto mx-auto">
+                            <a href="/topup" class="btn btn-link-default item">
+                                <!-- <img src="/img/wallet.svg" alt="" class=""> -->
+                                <i class="material-icons">account_balance_wallet</i>
+                                <!-- <i class="fontNav">Top Up</i> -->
+                            </a>
+                        </div>
+                        <div class="col-3-auto mx-auto">
+                            <a href="/riwayat" class="btn btn-link-default item">
+                                <!-- <img src="/img/history.svg" alt="" class=""> -->
+                                <i class="material-icons">history</i>
+                                <!-- <i class="material-icons fontNav">History</i> -->
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- footer ends-->
+        <!-- footer ends-->
     </div>
 
     <?= $this->renderSection('modal'); ?>
