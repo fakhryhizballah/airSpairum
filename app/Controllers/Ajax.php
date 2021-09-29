@@ -83,7 +83,8 @@ class Ajax extends BaseController
         $respoun = [
             'id' => $idMesin,
             'akun' => $akun['id_user'],
-            'vaule' =>   $nilai,
+            'vaule' =>   $vaule,
+            'faktor' =>    $data['index'],
             'HargaTotal' => $data['total']
         ];
         $myJSON = json_encode($respoun);
@@ -96,20 +97,19 @@ class Ajax extends BaseController
         $mqtt->publish("start/$idMesin",  $myJSON);
         $mqtt->disconnect();
     }
-    public function Generator()
-    {
-        $db      = \Config\Database::connect();
-        $builder = $db->table('user');
-        $builder->select('*');
-        $builder->join('otp', 'otp.id_user = user.id_user');
-        $arr = $builder->get()->getResultObject();
-        // dd($arr);
-        $saldo = $db->table('saldo');
-        $history = $db->table('history');
-       
-            echo "$value->nama <br>";
-            echo "$value->id_user<br>";
-        }
-        // dd($query[0]->nama);
-    }
+    // public function Generator()
+    // {
+    //     $db      = \Config\Database::connect();
+    //     $builder = $db->table('user');
+    //     $builder->select('*');
+    //     $builder->join('otp', 'otp.id_user = user.id_user');
+    //     $arr = $builder->get()->getResultObject();
+    //     // dd($arr);
+    //     $saldo = $db->table('saldo');
+    //     $history = $db->table('history');
+
+    //     echo "$value->nama <br>";
+    //     echo "$value->id_user<br>";
+    // }
+    // // dd($query[0]->nama);
 }
