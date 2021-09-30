@@ -41,7 +41,15 @@ function scane() {
 
     Instascan.Camera.getCameras().then(function(cameras) {
         if (cameras.length > 0) {
-            scanner.start(cameras[0]);
+            // scanner.start(cameras[0]);
+            $.each(cameras, (i, c) => {
+                if (c.name.indexOf('back') != -1) {
+                    selectedCam = c;
+                    return false;
+                }
+            });
+
+            scanner.start(selectedCam);
         } else {
             console.error('No cameras found.');
         }
