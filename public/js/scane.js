@@ -3,8 +3,8 @@ function scane() {
 
     let scanner = new Instascan.Scanner({
         video: document.getElementById('preview'),
-        scanPeriod: 3,
-        mirror: false
+        scanPeriod: 1,
+        // mirror: false
     });
 
     scanner.addListener('scan', function(content, image) {
@@ -43,21 +43,6 @@ function scane() {
         if (cameras.length > 0) {
             // activeCameraId = cameras[0];
             scanner.start(cameras[1]);
-            // $('[name="options"]').on('change', function() {
-            //     if ($(this).val() == 1) {
-            //         if (cameras[0] != "") {
-            //             scanner.start(cameras[0]);
-            //         } else {
-            //             alert('No Front camera found!');
-            //         }
-            //     } else if ($(this).val() == 2) {
-            //         if (cameras[1] != "") {
-            //             scanner.start(cameras[1]);
-            //         } else {
-            //             alert('No Back camera found!');
-            //         }
-            //     }
-            // });
         } else {
             console.error('No cameras found.');
         }
@@ -80,7 +65,7 @@ function take(data) {
             title: "Membeli " + data['nama'],
             text: "Harga " + data['harga'] +
                 "/100mL ",
-            footer: "total " + data['harga'] + "x" + data['diambil'] + "=" +
+            footer: "total " + "=" +
                 " Rp" + data['total'],
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
