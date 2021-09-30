@@ -39,18 +39,9 @@ function scane() {
 
     Instascan.Camera.getCameras().then(function(cameras) {
         if (cameras.length > 0) {
-            if (cameras[1]) {
-                self.activeCameraId = cameras[1].id;
-                console.log("cam1");
-                return self.scanner.start(cameras[1]);
-            } else {
-                self.activeCameraId = cameras[0].id;
-                console.log("cam2");
-                return self.scanner.start(cameras[0]);
-
-            }
+            scanner.start(cameras[1]);
         } else {
-            return console.error('No cameras found.');
+            console.error('No cameras found.');
         }
     }).catch(function(e) {
         console.error(e);
