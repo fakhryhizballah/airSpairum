@@ -129,32 +129,33 @@
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modal-pindai" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<!-- Modal -->
+<div class="modal fade" id="modal-pindai" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <div class="camera">
+                    <video id="preview" class="kamera"></video>
                 </div>
-                <div class="modal-body text-center pt-0">
-                    <div class="camera">
-                        <video id="preview" class="kamera"></video>
-                    </div>
-                    <p class="text-mute">Arahkan kamera anda ke QR minuman yang anda pilih</p>
-                </div>
+                <p class="text-mute">Arahkan kamera anda ke QR minuman yang anda pilih</p>
             </div>
         </div>
     </div>
+</div>
 
 
-    <?= $this->endSection('content'); ?>
+<?= $this->endSection('content'); ?>
 
 
-    <?= $this->section('script'); ?>
-    <script src="/scanner/vendor/instascan/instascan.min.js"></script>
-    <script src="/js/scane.js"></script>
+<?= $this->section('script'); ?>
+<script src="/scanner/vendor/instascan/instascan.min.js"></script>
+<script src="/js/scane.js"></script>
 
-    <?= $this->endSection('script'); ?>
+<?= $this->endSection('script'); ?>
