@@ -41,15 +41,23 @@ function scane() {
 
     Instascan.Camera.getCameras().then(function(cameras) {
         if (cameras.length > 0) {
+            d(cameras.length);
             // scanner.start(cameras[0]);
-            $.each(cameras, (i, c) => {
-                if (c.name.indexOf('back') != -1) {
-                    selectedCam = c;
-                    return false;
+            $('[name="options"]').on('change', function() {
+                if ($(this).val() == 1) {
+                    if (cameras[0] != "") {
+                        scanner.start(cameras[0]);
+                    } else {
+                        alert('No Front camera found!');
+                    }
+                } else if ($(this).val() == 2) {
+                    if (cameras[1] != "") {
+                        scanner.start(cameras[1]);
+                    } else {
+                        alert('No Back camera found!');
+                    }
                 }
             });
-
-            scanner.start(selectedCam);
         } else {
             console.error('No cameras found.');
         }
