@@ -51,6 +51,7 @@ class Ajax extends BaseController
                 // 'total' => $mesin['harga'] * ($take / 10),
                 'total' => (($take / 10) * $mesin['harga']),
                 'newID' => $id_mesin['new_id'],
+                'mesinID' => $id_mesin['id_mesin'],
                 'index' => $mesin['faktor'],
                 'sisaSaldo' => $sisaSaldo
             ];
@@ -82,6 +83,8 @@ class Ajax extends BaseController
         // $id = $this->request->getVar('id');
         $respoun = [
             'id' => $idMesin,
+            'mesinID' => $data['mesinID'],
+            'nama' => $data['nama'],
             'akun' => $akun['id_user'],
             'vaule' =>   $vaule,
             'faktor' =>    $data['index'],
