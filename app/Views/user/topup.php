@@ -12,15 +12,13 @@
     <div class="row">
         <form class="vocer" method="POST" action="user/voucher">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" id="kvoucher" name="kvoucher" placeholder="Masukan kode Voucher" aria-label="Masukan kode Voucher">
+                <input type="text" class="form-control" id="kvoucher" name="kvoucher" placeholder="Masukan kode Voucher" aria-label="Masukan kode Voucher" required>
                 <div class="input-group-append">
                     <button type="submit" class="btn bg-template" type="button">proses</button>
                 </div>
             </div>
         </form>
     </div>
-
-
 
     <div class="card shadow border-0 mb-3">
         <div class="card-body">
