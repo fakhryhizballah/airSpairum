@@ -38,7 +38,7 @@ class Ajax extends BaseController
             ];
             echo json_encode($data);
         }
-        $sisaSaldo = $akun['debit'] - (($take / 10) * $mesin['harga']);
+        $sisaSaldo = $akun['debit'] - ($take / 10 * $mesin['harga']);
         // echo json_encode($mesin);
         if ($sisaSaldo >= '0') {
             // dd($akun['debit']);
@@ -49,7 +49,7 @@ class Ajax extends BaseController
                 'harga' => $mesin['harga'],
                 'diambil' =>  $take * 10,
                 // 'total' => $mesin['harga'] * ($take / 10),
-                'total' => (($take) * $mesin['harga']),
+                'total' => (($take / 10) * $mesin['harga']),
                 'newID' => $id_mesin['new_id'],
                 'index' => $mesin['faktor'],
                 'sisaSaldo' => $sisaSaldo

@@ -1,4 +1,6 @@
-<?php namespace Config;
+<?php
+
+namespace Config;
 
 // Cannot extend BaseConfig or looping resources occurs.
 class Modules
@@ -55,8 +57,7 @@ class Modules
 	 */
 	public function shouldDiscover(string $alias)
 	{
-		if (! $this->enabled)
-		{
+		if (!$this->enabled) {
 			return false;
 		}
 
