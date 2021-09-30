@@ -2,7 +2,9 @@ function scane() {
     $('#modal-pindai').modal('show');
 
     let scanner = new Instascan.Scanner({
-        video: document.getElementById('preview')
+        video: document.getElementById('preview'),
+        scanPeriod: 3,
+        mirror: false
     });
 
     scanner.addListener('scan', function(content, image) {
@@ -39,7 +41,7 @@ function scane() {
 
     Instascan.Camera.getCameras().then(function(cameras) {
         if (cameras.length > 0) {
-            scanner.start(cameras[1]);
+            scanner.start(cameras[0]);
         } else {
             console.error('No cameras found.');
         }
