@@ -49,7 +49,7 @@ class Ajax extends BaseController
                 'harga' => $mesin['harga'],
                 'diambil' =>  $take * 10,
                 // 'total' => $mesin['harga'] * ($take / 10),
-                'total' => (($take / 10) * $mesin['harga']),
+                'total' => (int) (($take / 10) * $mesin['harga']),
                 'newID' => $id_mesin['new_id'],
                 'mesinID' => $id_mesin['id_mesin'],
                 'index' => $mesin['faktor'],
@@ -99,6 +99,7 @@ class Ajax extends BaseController
         $mqtt->connect($connectionSettings, true);
         $mqtt->publish("start/$idMesin",  $myJSON);
         $mqtt->disconnect();
+        echo json_encode($myJSON);
     }
     // public function Generator()
     // {

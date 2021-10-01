@@ -92,15 +92,15 @@ function take(data) {
                             var obj = JSON.parse(current.data);
                             console.log(obj.id_user);
                             console.log(response.id_user);
-                            if (obj.id_user == response.id_user) {
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'success',
-                                    title: 'Permintaan sedang di proses',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
-                            }
+                            // if (obj.id_user == response.id_user) {
+                            //     Swal.fire({
+                            //         position: 'top-end',
+                            //         icon: 'success',
+                            //         title: 'Permintaan sedang di proses',
+                            //         showConfirmButton: false,
+                            //         timer: 1500
+                            //     })
+                            // }
                         });
                         ws.addEventListener('close', (event) => {
                             console.log('The connection has been closed successfully.');
