@@ -48,7 +48,7 @@ class User extends BaseController
             return redirect()->to('editprofile');
         }
         if ($cek['status'] == 'belum verifikasi') {
-            session()->setFlashdata('Pesan', 'Segera cek email anda untuk mendapatkan saldo Air 1000mL');
+            session()->setFlashdata('Pesan', 'Segera cek email anda untuk mendapatkan saldo Air 2000 secara gratis');
             // dd($cek['status']);
         }
         $data = [
