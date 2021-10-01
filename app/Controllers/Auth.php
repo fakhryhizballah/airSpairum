@@ -736,12 +736,12 @@ class Auth extends BaseController
 		    </table>
 		    "
 		);
-		$this->email->send();
+
+		d($this->email->send());
 		if ($this->email->send()) {
 			echo "email_sent";
 		} else {
 			echo "email_not_sent";
 		}
-		d();
 	}
 }
