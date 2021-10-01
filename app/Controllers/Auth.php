@@ -670,12 +670,12 @@ class Auth extends BaseController
 		print_r($decoded);
 		print_r($jwt);
 	}
-	public function reMaill()
+	public function reMaill($email)
 	{
 		// dd($this->Time::now('Asia/Pontianak'));
-
+		// dd($email);
 		$this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
-		$this->email->setTo('oppofakhry@gmail.com');
+		$this->email->setTo($email);
 		$this->email->setSubject('OTP Verification Test');
 		$this->email->setMessage(
 			"
