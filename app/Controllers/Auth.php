@@ -676,7 +676,7 @@ class Auth extends BaseController
 
 		$this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
 		$this->email->setTo('oppofakhry@gmail.com');
-		$this->email->setSubject('OTP Verification Akun');
+		$this->email->setSubject('OTP Verification Test');
 		$this->email->setMessage(
 			"
 			<table align='center' cellpadding='0' cellspacing='0' border='0' width='100%' bgcolor='#f0f0f0'>
@@ -737,8 +737,9 @@ class Auth extends BaseController
 		    "
 		);
 
-		d($this->email->send());
-		if ($this->email->send()) {
+		// d($this->email->send());
+		d($this->email->printDebugger(['headers']));
+		if ($this->email->send(true)) {
 			echo "email_sent";
 		} else {
 			echo "email_not_sent";
