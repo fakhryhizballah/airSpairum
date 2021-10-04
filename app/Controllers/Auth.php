@@ -432,7 +432,7 @@ class Auth extends BaseController
 			'link' => substr(sha1($cek['link']), 0, 10),
 			'status' => 'terverifikasi',
 		]);
-		session()->setFlashdata('flash', 'Selamat anda mendapatkan 1000 mL.');
+		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 2000');
 		return redirect()->to('/user');
 	}
 	public function lupa()
