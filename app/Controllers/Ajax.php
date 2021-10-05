@@ -25,19 +25,26 @@ class Ajax extends BaseController
         $take = $this->request->getVar('myRange');
         // $take = ('22');
         $id = $this->request->getVar('code');
+        // $id = ('eyJpZCI6IjAwMDIiLCJzdGFzaXVuIjoiUktBTC1QT05USU5BS0EiLCJpZF9tZXNpbiI6IlByb3RvdGlwZTIifQ==');
         // $id = ('eyJpZCI6IjAwMSIsInN0YXNpdW4iOiJSRUJBTC1ERU5QQVNBUiIsImlkX21lc2luIjoiUHJvQmFsaSIsIm5ld19pZCI6IlByb0JhbGkzIn0=');
         $id_encode = base64_decode($id);
         $id_mesin = (json_decode($id_encode, true));
-        $mesin = $this->StasiunModel->cek_newID($id_mesin['new_id']);
+        if (empty($id_mesin['new_id'])) {
+            $mesin = $this->StasiunModel->cek_ID($id_mesin['id_mesin']);
+        } else {
+            $mesin = $this->StasiunModel->cek_newID($id_mesin['new_id']);
+        }
+        // dd($mesin);
         // $mesin = $this->StasiunModel->cek_newID('ProBali2');
         // echo json_encode($id_mesin);
-        if (empty($mesin)) {
-            $data = [
-                'status' => '204',
-                'total' => $mesin['harga'] * ($take / 10),
-            ];
-            echo json_encode($data);
-        }
+        // if (empty($mesin)) {
+
+        //     $data = [
+        //         'status' => '204',
+        //         'total' => $mesin,
+        //     ];
+        //     echo json_encode($data);
+        // }
         $sisaSaldo = $akun['debit'] - ($take / 10 * $mesin['harga']);
         // echo json_encode($mesin);
         if ($sisaSaldo >= '0') {
@@ -50,8 +57,8 @@ class Ajax extends BaseController
                 'diambil' =>  $take * 10,
                 // 'total' => $mesin['harga'] * ($take / 10),
                 'total' => (int) (($take / 10) * $mesin['harga']),
-                'newID' => $id_mesin['new_id'],
-                'mesinID' => $id_mesin['id_mesin'],
+                'newID' => $mesin['new_id'],
+                'mesinID' => $mesin['id_mesin'],
                 'index' => $mesin['faktor'],
                 'sisaSaldo' => $sisaSaldo
             ];

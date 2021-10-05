@@ -13,7 +13,8 @@ class StasiunModel extends Model
     public function getStasiun($id = false)
     {
         if ($id === false) {
-            return $this->findAll();
+            // return $this->findAll();
+            return $this->db->table('mesin')->get()->getResultArray();
         } else {
             return $this->db->table('mesin')->getWhere(['id_mesin' => $id])->getRowArray();
         }
@@ -33,7 +34,13 @@ class StasiunModel extends Model
     public function cek_newID($new_id)
     {
         return $this->db->table('new_mesin')
-            ->where(array('new_id' => $new_id))->select('nama, harga, faktor')
+            ->where(array('new_id' => $new_id))->select('nama, harga, faktor, id_mesin, new_id')
+            ->get()->getRowArray();
+    }
+    public function cek_ID($id)
+    {
+        return $this->db->table('new_mesin')
+            ->where(array('id_mesin' => $id))->select('nama, harga, faktor, id_mesin, new_id')
             ->get()->getRowArray();
     }
 }
