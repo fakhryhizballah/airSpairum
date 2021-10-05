@@ -334,7 +334,7 @@ class Auth extends BaseController
 								Hi $nama_depan $nama_belakang,
 							</p>
 							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 3%;'>
-								Terimakasih telah membuat akun spairum silahkan melakukan untuk mendapatkan saldo isi ulang air 2000 secara gratis sillahkan klik tombol dibawah ini:
+								Terimakasih telah membuat akun spairum silahkan melakukan untuk mendapatkan saldo isi ulang air 2000 secara gratis silahkan klik tombol dibawah ini:
 							</p>
 							<br>
 							<a href='https://air.spairum.my.id/otp/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'>Mau dong</a>
