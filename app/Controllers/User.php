@@ -264,7 +264,8 @@ class User extends BaseController
                 'id'       => $this->request->getVar('id'),
                 'price'    => $harga,
                 'quantity' => 1,
-                'name'     => $paket
+                // 'name'     => $paket
+                'name'     => "isi Saldo Air $harga"
             ),
             // array(
             //     'id'       => 'Admin',

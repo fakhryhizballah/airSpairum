@@ -44,11 +44,11 @@ class PayApi extends ResourceController
         \Midtrans\Config::$is3ds = true;
 
 
-        // $jwt = $_COOKIE['X-Sparum-Token'];
-        // $key = $this->TokenModel->Key()['token'];
-        // $decoded = JWT::decode($jwt, $key, array('HS256'));
-        // $keyword = $decoded->id_user;
-        // $nama = $decoded->nama;
+        $jwt = $_COOKIE['X-Sparum-Token'];
+        $key = $this->TokenModel->Key()['token'];
+        $decoded = JWT::decode($jwt, $key, array('HS256'));
+        $keyword = $decoded->id_user;
+        $nama = $decoded->nama;
 
         $notif = \Midtrans\Transaction::status($id);
         // dd($notif);
@@ -150,16 +150,16 @@ class PayApi extends ResourceController
         $status = $notif->transaction_status;
         $time = $notif->transaction_time;
         $edit = $this->TransaksiModel->statusOrder($order_id);
-
-        if ($harga == 2000) {
-            $debit = 1000;
-        }
-        if ($harga == 10000) {
-            $debit = 5000;
-        }
-        if ($harga == 25000) {
-            $debit = 12500;
-        }
+        $debit = $harga;
+        // if ($harga == 2000) {
+        //     $debit = 1000;
+        // }
+        // if ($harga == 10000) {
+        //     $debit = 5000;
+        // }
+        // if ($harga == 25000) {
+        //     $debit = 12500;
+        // }
 
         $db      = \Config\Database::connect();
         $builder = $db->table('transaction');

@@ -9,7 +9,7 @@
     </h3>
     <p class="text-secondary text-mute text-center mb-4">Isi ulang saldo air bisa dengan vocer isi ulang atau menggunakan Qris/Gopay</p>
 
-    <div class="row">
+    <!-- <div class="row">
         <form class="vocer" method="POST" action="user/voucher">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" id="kvoucher" name="kvoucher" placeholder="Masukan kode Voucher" aria-label="Masukan kode Voucher" required>
@@ -18,6 +18,54 @@
                 </div>
             </div>
         </form>
+    </div> -->
+    <div class="card shadow border-0 mb-3">
+        <div class="card-body">
+            <div class="row h-100">
+                <div class="col-auto pr-0">
+                    <div class="avatar avatar-60 no-shadow border-0">
+                        <div class="overlay gradient-primary"></div>
+                        <i class="material-icons text-primary md-36">request_quote</i>
+                    </div>
+                </div>
+                <div class="col">
+                    <h3><span class="text-mute text-secondary">Isi ulang saldo air </span><small class=" text-template ">Kode Voucher</small></h3>
+                    <form class="vocer" method="POST" action="user/voucher">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="kvoucher" name="kvoucher" placeholder="Masukan kode Voucher" aria-label="Masukan kode Voucher" required>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn bg-template" type="button">proses</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow border-0 mb-3">
+        <div class="card-body">
+            <div class="row h-100">
+                <div class="col-auto pr-0">
+                    <div class="avatar avatar-60 no-shadow border-0">
+                        <div class="overlay gradient-success"></div>
+                        <i class="material-icons text-success md-36">speaker_phone</i>
+                    </div>
+                </div>
+                <div class="col">
+                    <h3><span class="text-mute text-secondary">Isi ulang saldo air </span><small class=" text-template ">Go-pay</small></h3>
+                    <form class="vocer" method="POST" action="/snap">
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" id="harga" name="harga" value="10000">
+                            <div class="input-group-append">
+                                <button type="submit" class="mb-2 btn btn-rounded bg-template">Beli</button>
+                            </div>
+                        </div>
+                        <input type="hidden" class="form-control" id="id" name="id" value="5.000mL">
+                        <input type="hidden" class="form-control" id="paket" name="paket" value="Paket Hemat">
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 
