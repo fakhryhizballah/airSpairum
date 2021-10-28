@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="id, in">
 
 <head>
     <!-- Required meta tags -->
@@ -239,11 +239,22 @@
                 icon: ikon
             }).addTo(map).bindPopup("lokasi Saya sekarang " + "<br />" + "accuracy GPS = " + akurat + " Meter");
 
-            L.circle(e.latlng, radius).addTo(map);
-        }
+            L.circle(e.latlng, {
+                radius: akurat
+            }).addTo(map);
+        };
+
+        // L.circle([-0.0393, 109.335], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 500
+        // }).addTo(mymap);
+
 
         function onLocationError(e) {
             alert(e.message);
+            alert("Mohon izinkan akses lokasi");
         }
 
         map.on('locationfound', onLocationFound);
