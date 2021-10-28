@@ -150,7 +150,8 @@ class User extends BaseController
     {
         $akun = $this->AuthLibaries->authCek();
 
-        $stasiun = $this->StasiunModel->findAll();
+        $stasiun = $this->StasiunModel->getStasiun();
+        // dd($stasiun);
         $data = [
             'title' => 'Home | Spairum.com',
             'stasiun' => $stasiun,

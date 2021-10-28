@@ -1,4 +1,4 @@
-<html lang="id">
+<html lang="en">
 
 <head>
     <!-- Required meta tags -->
@@ -44,9 +44,9 @@
         /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
         #map {
-            height: 100%;
+            height: 150%;
             width: 100%;
-            margin-top: 53px;
+            /* margin-top: 45px; */
             /* margin-bottom: 54px; */
             position: fixed;
 
@@ -137,60 +137,77 @@
 <title><?= $title; ?></title>
 
 <body>
-    <!-- header -->
-    <div class="header">
-        <div class="card fixed-top">
-            <div class="row no-gutters">
-                <div class="col text-center"><img src="img/spairum logo.png" alt="" class="header-logo"></div>
+    <div class="wrapper homepage">
+        <!-- header -->
+        <!-- <div class="header">
+            <div class="card fixed-top">
+                <div class="row no-gutters">
+                    <div class="col text-center"><img src="img/spairum logo.png" alt="" class="header-logo"></div>
+                </div>
+            </div>
+        </div> -->
+        <!-- header ends -->
+
+        <!-- header -->
+        <div class="header">
+            <div class="card fixed-top">
+                <div class="row no-gutters">
+                    <div class="col-1">
+                        <button class="btn  btn-link text-dark menu-btn"><i class="material-icons">more_horiz</i></button>
+                    </div>
+                    <div class="col text-center"><img src="img/spairum logo.png" alt="" class="header-logo"></div>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- header ends -->
-    <div class="footer">
-        <div class="no-gutters">
-            <div class="col-auto mx-auto">
-                <div class="row no-gutters justify-content-center">
-                    <div class=" col-3-auto mx-auto">
-                        <a href="/user" class="btn btn-link-default item">
-                            <i class="material-icons">home</i>
-                        </a>
-                    </div>
-                    <div class="col-3-auto mx-auto">
-                        <a href="/stasiun" class="btn btn-link-default item">
-                            <!-- <img src="/img/explore.svg" alt="" class=""> -->
-                            <i class="material-icons">near_me</i>
-                            <!-- <i class="fontNav">Explore</i> -->
-                        </a>
-                    </div>
-                    <div class="col-3-auto mx-auto">
-                        <a href="/topup" class="btn btn-link-default item">
-                            <!-- <img src="/img/wallet.svg" alt="" class=""> -->
-                            <i class="material-icons">account_balance_wallet</i>
-                            <!-- <i class="fontNav">Top Up</i> -->
-                        </a>
-                    </div>
-                    <div class="col-3-auto mx-auto">
-                        <a href="/riwayat" class="btn btn-link-default item">
-                            <!-- <img src="/img/history.svg" alt="" class=""> -->
-                            <i class="material-icons">history</i>
-                            <!-- <i class="material-icons fontNav">History</i> -->
-                        </a>
+        <!-- header ends -->
+        <div class="map">
+        </div>
+        <div id="map"></div>
+        <!-- footer-->
+        <div class="footer">
+            <div class="no-gutters">
+                <div class="col-auto mx-auto">
+                    <div class="row no-gutters justify-content-center">
+                        <div class=" col-3-auto mx-auto">
+                            <a href="/user" class="btn btn-link-default item">
+                                <i class="material-icons">home</i>
+                            </a>
+                        </div>
+                        <div class="col-3-auto mx-auto">
+                            <a href="/stasiun" class="btn btn-link-default item">
+                                <!-- <img src="/img/explore.svg" alt="" class=""> -->
+                                <i class="material-icons">near_me</i>
+                                <!-- <i class="fontNav">Explore</i> -->
+                            </a>
+                        </div>
+                        <div class="col-3-auto mx-auto">
+                            <a href="/topup" class="btn btn-link-default item">
+                                <!-- <img src="/img/wallet.svg" alt="" class=""> -->
+                                <i class="material-icons">account_balance_wallet</i>
+                                <!-- <i class="fontNav">Top Up</i> -->
+                            </a>
+                        </div>
+                        <div class="col-3-auto mx-auto">
+                            <a href="/riwayat" class="btn btn-link-default item">
+                                <!-- <img src="/img/history.svg" alt="" class=""> -->
+                                <i class="material-icons">history</i>
+                                <!-- <i class="material-icons fontNav">History</i> -->
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- footer ends-->
-    <div class="map"></div>
-    <div id="map"></div>
+        <!-- footer ends-->
 
+        <!-- <div id="mapid" style="width: 600px; height: 400px;"></div> -->
+    </div>
     <script>
         // Note: This example requires that you consent to location sharing when
         // prompted by your browser. If you see the error "The Geolocation service
         // failed.", it means you probably did not give permission for the browser to
         // locate you.
         var infoWindow;
-        // <div id="mapid" style="width: 600px; height: 400px;"></div>
         var map = L.map('map').fitWorld();
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 
@@ -201,6 +218,8 @@
             tileSize: 512,
             zoomOffset: -1
         }).addTo(map);
+
+
         var ikon = L.divIcon({
             className: 'custom-div-icon',
             html: "<div style='background-color:blue;' class='marker-pin'></div><img src='/img/user/<?= $akun["profil"]; ?>' alt='' class='marker-user' style='border-radius: 50px;'>",
@@ -210,15 +229,15 @@
         });
 
         <?php foreach ($stasiun as $key => $value) { ?>
-            L.marker([<?= $value['lat']; ?>, <?= $value['lng']; ?>]).addTo(map).bindPopup("<b><?= $value['lokasi']; ?></b><br /><?= $value['ket']; ?>. <br><a href='<?= $value['link']; ?> '>Buka Maps</a>");
+            L.marker([<?= $value['lat']; ?>, <?= $value['lng']; ?>]).addTo(map).bindPopup("<b><?= $value['lokasi']; ?></b><br /><?= $value['ket']; ?></br><?= $value['status']; ?>. <br><a href='<?= $value['link']; ?> '>Buka Maps</a>");
         <?php } ?>
 
         function onLocationFound(e) {
-
-
+            var akurat = parseInt(e.accuracy);
+            console.log(akurat);
             L.marker(e.latlng, {
                 icon: ikon
-            }).addTo(map);
+            }).addTo(map).bindPopup("lokasi Saya sekarang " + "<br />" + "accuracy GPS = " + akurat + " Meter");
 
             L.circle(e.latlng, radius).addTo(map);
         }
@@ -232,11 +251,12 @@
 
         map.locate({
             setView: true,
-            maxZoom: 16
+            // watch: true,
+            maxZoom: 0,
+            enableHighAccuracy: true
         });
     </script>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjKeVFWsG5gTOd4UegCxqJgKoRam9yJX0&callback=initMap">
-    </script>
+    <!-- <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjKeVFWsG5gTOd4UegCxqJgKoRam9yJX0&callback=initMap"> </script> -->
 
 
 

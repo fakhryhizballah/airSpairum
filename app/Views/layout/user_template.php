@@ -169,7 +169,13 @@
                                 <i class="material-icons">home</i>
                             </a>
                         </div>
-
+                        <div class="col-3-auto mx-auto">
+                            <a href="/stasiun" class="btn btn-link-default item">
+                                <!-- <img src="/img/explore.svg" alt="" class=""> -->
+                                <i class="material-icons">near_me</i>
+                                <!-- <i class="fontNav">Explore</i> -->
+                            </a>
+                        </div>
                         <div class="col-3-auto mx-auto">
                             <a href="/topup" class="btn btn-link-default item">
                                 <!-- <img src="/img/wallet.svg" alt="" class=""> -->
