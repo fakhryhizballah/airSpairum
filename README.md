@@ -184,3 +184,9 @@ v1.0.2 (fix Bug user)
 ### added
 
 - library admin auth
+
+# [v2.1.2] 03-11-2021
+
+### added
+
+- SET PWA
