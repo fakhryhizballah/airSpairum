@@ -485,7 +485,7 @@ class Auth extends BaseController
 
 		$this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
 		$this->email->setTo($email);
-		$this->email->setSubject('OTP Verification Akun');
+		$this->email->setSubject('Lupa Password Akun Spairum');
 		$this->email->setMessage(
 			"
 			<table align='center' cellpadding='0' cellspacing='0' border='0' width='100%' bgcolor='#f0f0f0'>
@@ -591,6 +591,7 @@ class Auth extends BaseController
 			// return view('user/change_password', $data);
 			return redirect()->to('/auth/change_password');
 		}
+		return redirect()->to('/');
 	}
 
 	public function change_password()
