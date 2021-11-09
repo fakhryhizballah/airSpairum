@@ -551,7 +551,7 @@ class User extends BaseController
         ]);
         $this->HistoryModel->save([
             'id_master' => $akun['id_user'],
-            'Id_slave' => "Admin",
+            'Id_slave' => "User",
             'Lokasi' => "Cek email anda -> $email ",
             'status' => 'Anda menganti rmail',
         ]);
@@ -592,7 +592,7 @@ class User extends BaseController
         ]);
         $this->HistoryModel->save([
             'id_master' => $cek['id_user'],
-            'Id_slave' => "Admin",
+            'Id_slave' => "User",
             'Lokasi' => $cek['email'],
             'status' => 'Email telah di perbahrui',
         ]);
@@ -602,13 +602,6 @@ class User extends BaseController
 
     public function changepassword()
     {
-        // $jwt = $_COOKIE['X-Sparum-Token'];
-        // $key = $this->TokenModel->Key()['token'];
-        // $decoded = JWT::decode($jwt, $key, array('HS256'));
-        // $nama = $decoded->nama;
-        // $akun = $this->AuthLibaries->authCek();
-
-        // $akun = $this->UserModel->cek_login($nama);
         $akun = $this->AuthLibaries->authCek();
 
         $data = [
@@ -622,12 +615,7 @@ class User extends BaseController
 
     public function passwordupdate()
     {
-        // $jwt = $_COOKIE['X-Sparum-Token'];
-        // $key = $this->TokenModel->Key()['token'];
-        // $decoded = JWT::decode($jwt, $key, array('HS256'));
-        // $nama = $decoded->nama;
 
-        // $akun = $this->UserModel->cek_login($nama);
         $akun = $this->AuthLibaries->authCek();
         $id = $akun['id'];
         $password_old = $this->request->getVar('password_lama');
@@ -668,6 +656,11 @@ class User extends BaseController
         $this->UserModel->save([
             'id' => $id,
             'password' => password_hash($this->request->getVar('password_baru'), PASSWORD_BCRYPT),
+        ]);
+        $this->HistoryModel->save([
+            'id_master' => $akun['id_user'],
+            'Id_slave' => "User",
+            'status' => 'Ganti Password',
         ]);
         session()->setFlashdata('Berhasil', 'Password anda telah di ubah');
         return redirect()->to('/user');
