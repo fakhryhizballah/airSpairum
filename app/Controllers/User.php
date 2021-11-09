@@ -538,6 +538,8 @@ class User extends BaseController
         $token = random_string('alnum', 28);
         $cekOtp =  $this->OtpModel->cekid($akun['id_user']);
         $nama = $akun['nama'];
+        $nama_depan = $akun['nama_depan'];
+        $nama_belakang = $akun['nama_belakang'];
 
         $this->OtpModel->save([
             'id' => $cekOtp['id'],
@@ -557,8 +559,8 @@ class User extends BaseController
         $this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
         $this->email->setTo($email);
         $this->email->setSubject('Ganti Email Akun Anda');
-        $this->email->setMessage("<h1>Hallo $akun['nama_depan'] $akun['nama_belakang'] </h1><p>Anda baru saja menganti Email
-        <br>Email anda akan terganti setelah klik verifikasi pada tautan dibawah :</p>
+        $this->email->setMessage(" <h1>Hallo $nama_depan $nama_belakang </h1>
+        <p>Anda baru saja menganti Email <br>Email anda akan terganti setelah klik verifikasi pada tautan dibawah : </p>
 		<a href='https://air.spairum.my.id/verifikasi/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'> verifikasi</a>
         <br>
 		<p>Salam Hormat Kami Tim Support Spairum</p>
