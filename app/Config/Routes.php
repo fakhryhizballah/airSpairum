@@ -57,7 +57,7 @@ $routes->post('/snap', 'User::snap', ['filter' => 'AuthFilter']);
 $routes->add('/notification', 'User::notification', ['filter' => 'AuthFilter']);
 $routes->get('/editprofile', 'User::editprofile', ['filter' => 'AuthFilter']);
 $routes->get('/changepassword', 'User::changepassword', ['filter' => 'AuthFilter']);
-$routes->get('/verifikasi/(:any)', 'user::verifikasi/$1', ['filter' => 'AuthFilter']);
+$routes->get('/verifikasi/(:any)', 'User::verifikasi/$1');
 
 
 $routes->get('/control', 'TransMqtt::index', ['filter' => 'AuthFilter']);

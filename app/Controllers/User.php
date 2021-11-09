@@ -557,11 +557,12 @@ class User extends BaseController
         $this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
         $this->email->setTo($email);
         $this->email->setSubject('Ganti Email Akun Anda');
-        $this->email->setMessage("<h1>Hallo $nama </h1><p>Ada baru saja menganti Email melakukan verifikasi pada tautan dibawah :</p>
+        $this->email->setMessage("<h1>Hallo $akun['nama_depan'] $akun['nama_belakang'] </h1><p>Anda baru saja menganti Email
+        <br>Email anda akan terganti setelah klik verifikasi pada tautan dibawah :</p>
 		<a href='https://air.spairum.my.id/verifikasi/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'> verifikasi</a>
-		<p>Untuk menganti alamat email baru anda</p>);
+        <br>
 		<p>Salam Hormat Kami Tim Support Spairum</p>
-        <a href='https://wa.me/+6285159174224'>+6285159174224 Spairum</a>
+        <a href='https://wa.me/+6285159174224'>Spairum: 085159174224 </a>
         ");
         $this->email->send();
 
