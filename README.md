@@ -190,3 +190,9 @@ v1.0.2 (fix Bug user)
 ### added
 
 - SET PWA
+
+# [v2.1.3] 10-11-2021
+
+### fix
+
+- User ganti Email
