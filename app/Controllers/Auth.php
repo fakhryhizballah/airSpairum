@@ -11,6 +11,7 @@ use App\Models\TokenModel;
 use App\Models\HistoryModel;
 use CodeIgniter\I18n\Time;
 use \Firebase\JWT\JWT;
+use App\Libraries\AuthLibaries;
 
 
 class Auth extends BaseController
@@ -26,6 +27,7 @@ class Auth extends BaseController
 		$this->HistoryModel = new HistoryModel();
 		$this->Time = new Time('Asia/Jakarta');
 		$this->email = \Config\Services::email();
+		$this->AuthLibaries = new AuthLibaries();
 		helper('text');
 		helper('cookie');
 	}
