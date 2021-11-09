@@ -550,7 +550,7 @@ class User extends BaseController
         $this->HistoryModel->save([
             'id_master' => $akun['id_user'],
             'Id_slave' => "Admin",
-            'Lokasi' => "email anda menjadi " + $email,
+            'Lokasi' => "email anda menjadi $email ",
             'status' => 'Anda Menganti Email',
         ]);
 
@@ -590,7 +590,7 @@ class User extends BaseController
         $this->HistoryModel->save([
             'id_master' => $cek['id_user'],
             'Id_slave' => "Admin",
-            'Lokasi' => "email anda menjadi " + $cek['email'],
+            'Lokasi' => $cek['email'],
             'status' => 'email telah di perbahrui',
         ]);
         session()->setFlashdata('flash', "Email anda telah di perbarui, silahkan login.");
