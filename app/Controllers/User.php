@@ -552,8 +552,8 @@ class User extends BaseController
         $this->HistoryModel->save([
             'id_master' => $akun['id_user'],
             'Id_slave' => "Admin",
-            'Lokasi' => "email anda menjadi $email ",
-            'status' => 'Anda Menganti Email',
+            'Lokasi' => "Cek email anda -> $email ",
+            'status' => 'Anda menganti rmail',
         ]);
 
         $this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
@@ -594,7 +594,7 @@ class User extends BaseController
             'id_master' => $cek['id_user'],
             'Id_slave' => "Admin",
             'Lokasi' => $cek['email'],
-            'status' => 'email telah di perbahrui',
+            'status' => 'Email telah di perbahrui',
         ]);
         session()->setFlashdata('flash', "Email anda telah di perbarui, silahkan login.");
         return redirect()->to('/');
