@@ -437,15 +437,12 @@ class Auth extends BaseController
 	}
 	public function lupa()
 	{
-		if (session()->get('id_user') == '') {
-			$data = [
-				'title' => 'Lupa Password',
-				'validation' => \Config\Services::validation()
-			];
-			return view('auth/lupa', $data);
-		} else {
-			return redirect()->to('/user');
-		}
+		$akun = $this->AuthLibaries->authCek();
+		$data = [
+			'title' => 'Lupa Password',
+			'validation' => \Config\Services::validation()
+		];
+		return view('auth/lupa', $data);
 	}
 	public function sendemail()
 	{
