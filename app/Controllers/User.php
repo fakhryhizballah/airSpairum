@@ -536,24 +536,33 @@ class User extends BaseController
         $email = $this->request->getVar('email');
         helper('text');
         $token = random_string('alnum', 28);
+        $cekOtp =  $this->OtpModel->cekid($akun['id_user']);
         $nama = $akun['nama'];
 
         $this->OtpModel->save([
-            'id_user' => $akun['id'],
+            'id' => $cekOtp['id'],
+            'id_user' => $cekOtp['id_user'],
             'nama' => $nama,
             'email' => $email,
             'link' => $token,
             'status' => 'Ganti Email',
-
+        ]);
+        $this->HistoryModel->save([
+            'id_master' => $akun['id_user'],
+            'Id_slave' => "Admin",
+            'Lokasi' => "email anda menjadi " + $email,
+            'status' => 'Anda Menganti Email',
         ]);
 
-        $this->email->setFrom('support@apps.spairum.com', 'noreply-spairum');
+        $this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
         $this->email->setTo($email);
-        $this->email->setSubject('OTP Verification Akun');
+        $this->email->setSubject('Ganti Email Akun Anda');
         $this->email->setMessage("<h1>Hallo $nama </h1><p>Ada baru saja menganti Email melakukan verifikasi pada tautan dibawah :</p>
-		<a href='https://apps.spairum.com/verifikasi/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'> verifikasi</a>
+		<a href='https://air.spairum.my.id/verifikasi/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'> verifikasi</a>
 		<p>Untuk menganti alamat email baru anda</p>);
-		<p>Salam Hormat Kami Tim Support Spairum</p>");
+		<p>Salam Hormat Kami Tim Support Spairum</p>
+        <a href='https://wa.me/+6285159174224'>+6285159174224 Spairum</a>
+        ");
         $this->email->send();
 
         session()->setFlashdata('Berhasil', "Email anda akan diganti setelah anda memverifikasi email anda. cek di kotak masuk atau di spam");
@@ -567,14 +576,21 @@ class User extends BaseController
             session()->setFlashdata('gagal', 'Akun sudah di verifikasi');
             return redirect()->to('/');
         }
+        $userCek =  $this->UserModel->cek_id($cek['id_user']);
         $this->UserModel->save([
-            'id' => $cek['id_user'],
+            'id' => $userCek['id'],
             'email' => $cek['email'],
 
         ]);
         $this->OtpModel->save([
             'id' => $cek['id'],
             'link' => substr(sha1($cek['link']), 0, 10),
+            'status' => 'email telah di perbahrui',
+        ]);
+        $this->HistoryModel->save([
+            'id_master' => $cek['id_user'],
+            'Id_slave' => "Admin",
+            'Lokasi' => "email anda menjadi " + $cek['email'],
             'status' => 'email telah di perbahrui',
         ]);
         session()->setFlashdata('flash', "Email anda telah di perbarui, silahkan login.");
@@ -587,6 +603,7 @@ class User extends BaseController
         $key = $this->TokenModel->Key()['token'];
         $decoded = JWT::decode($jwt, $key, array('HS256'));
         $nama = $decoded->nama;
+        $akun = $this->AuthLibaries->authCek();
 
         $akun = $this->UserModel->cek_login($nama);
 
