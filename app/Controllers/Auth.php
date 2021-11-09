@@ -467,12 +467,12 @@ class Auth extends BaseController
 		$kode = substr(random_string('numerik', 4), 0, 4);
 		$email = $this->request->getVar('email');
 		$cek = $this->UserModel->cek_login($email);
-		$id_user = $cek['id_user'];
-		$cekid = $this->OtpModel->cekid($id_user);
 		if (empty($cek)) {
 			session()->setFlashdata('Pesan', 'Akun tidak terdaftar');
 			return redirect()->to('/daftar');
 		}
+		$id_user = $cek['id_user'];
+		$cekid = $this->OtpModel->cekid($id_user);
 		$this->OtpModel->save([
 			'id' => $cekid['id'],
 			'link' =>  $token,
