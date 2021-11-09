@@ -602,13 +602,14 @@ class User extends BaseController
 
     public function changepassword()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
-        $akun = $this->AuthLibaries->authCek();
+        // $jwt = $_COOKIE['X-Sparum-Token'];
+        // $key = $this->TokenModel->Key()['token'];
+        // $decoded = JWT::decode($jwt, $key, array('HS256'));
+        // $nama = $decoded->nama;
+        // $akun = $this->AuthLibaries->authCek();
 
-        $akun = $this->UserModel->cek_login($nama);
+        // $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
 
         $data = [
             'title' => 'Change Password | Spairum.com',
@@ -621,12 +622,13 @@ class User extends BaseController
 
     public function passwordupdate()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $nama = $decoded->nama;
+        // $jwt = $_COOKIE['X-Sparum-Token'];
+        // $key = $this->TokenModel->Key()['token'];
+        // $decoded = JWT::decode($jwt, $key, array('HS256'));
+        // $nama = $decoded->nama;
 
-        $akun = $this->UserModel->cek_login($nama);
+        // $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
         $id = $akun['id'];
         $password_old = $this->request->getVar('password_lama');
         $cek = password_verify($password_old, ($akun['password']));
