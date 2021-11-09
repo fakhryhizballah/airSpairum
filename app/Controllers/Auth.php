@@ -437,7 +437,7 @@ class Auth extends BaseController
 	}
 	public function lupa()
 	{
-		$akun = $this->AuthLibaries->authCek();
+		$this->AuthLibaries->authCek();
 		$data = [
 			'title' => 'Lupa Password',
 			'validation' => \Config\Services::validation()
