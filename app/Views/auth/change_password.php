@@ -9,12 +9,12 @@
                 <form action="../auth/passwordupdate" method="post">
                     <?= csrf_field(); ?>
                     <div class="form-group">
-                        <input type="password" class="form-control form-control-user <?= ($validation->hasError('password_baru')) ? 'is-invalid' : ''; ?>" id="password_baru" name="password_baru" placeholder="Password Baru">
-                        <div class="invalid-feedback"><?= $validation->getError('password_baru'); ?></div>
+                        <input type="password" class="form-control form-control-user <?= ($validation->hasError('password')) ? 'is-invalid' : ''; ?>" id="password" name="password" placeholder="Password Baru">
+                        <div class="invalid-feedback"><?= $validation->getError('password'); ?></div>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control form-control-user <?= ($validation->hasError('password_baru')) ? 'is-invalid' : ''; ?>" id="password_ualangi" name="password_ualangi" placeholder="Ulangi Password Baru">
-                        <div class="invalid-feedback"><?= $validation->getError('password_ualangi'); ?></div>
+                        <input type="password" class="form-control form-control-user <?= ($validation->hasError('password2')) ? 'is-invalid' : ''; ?>" id="password2" name="password2" placeholder="Ulangi Password Baru">
+                        <div class="invalid-feedback"><?= $validation->getError('password2'); ?></div>
                     </div>
                     <div class="form-group">
                         <input type="hidden" class="form-control form-control-user" id="id_user" name="id_user" value="<?= $akun['id_user']; ?>">

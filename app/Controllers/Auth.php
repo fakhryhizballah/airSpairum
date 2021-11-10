@@ -439,9 +439,10 @@ class Auth extends BaseController
 	}
 	public function lupa()
 	{
-		if (!$this->AuthLibaries->authCek()) {
-			return redirect()->to('/user');
-		}
+		// if (!$this->AuthLibaries->authCek()) {
+
+		// 	return redirect()->to('/user');
+		// }
 		$data = [
 			'title' => 'Lupa Password',
 			'validation' => \Config\Services::validation()
@@ -561,25 +562,26 @@ class Auth extends BaseController
 
 	public function changepassword($link = NULL)
 	{
-		if (session()->get('token') == '') {
-			session()->setFlashdata('gagal', 'Mau Kemana');
-			return redirect()->to('/');
-		}
+
 		$cek = $this->OtpModel->cek($link);
 		if (!empty($cek)) {
 			$id_user = $cek['id_user'];
+			session()->set('id', $id_user);
 
 			$this->OtpModel->save([
 				'id' => $cek['id'],
 				'link' => substr(sha1($cek['link']), 0, 10),
 				'status' => 'Password di ganti (Link)',
 			]);
-			// return view('/auth/change_password', $data);
 			return redirect()->to('/auth/change_password');
 		}
 
 		$token = $this->request->getVar('otp');
 		if (session()->get('token') == $token) {
+			if (session()->get('token') == '') {
+				session()->setFlashdata('gagal', 'Mau Kemana');
+				return redirect()->to('/');
+			}
 			$id_user = session()->get('id');
 
 			$cek = $this->OtpModel->cekid($id_user);
@@ -592,7 +594,8 @@ class Auth extends BaseController
 			// return view('user/change_password', $data);
 			return redirect()->to('/auth/change_password');
 		}
-		return redirect()->to('/');
+		session()->setFlashdata('gagal', 'Kode OTP Salah');
+		return redirect()->to('/auth/otplupa');
 	}
 
 	public function change_password()
@@ -620,15 +623,17 @@ class Auth extends BaseController
 			return redirect()->to('/');
 		}
 
+		$id_user = session()->get('id');
+		$password = $this->request->getVar('password2');
 		if (!$this->validate([
-			'password_baru' => [
+			'password' => [
 				'rules'  => 'required|min_length[8]',
 				'errors' => [
 					'required' => '{field} wajid di isi',
 					'min_length[8]' => '{field} Minimal 8 karakter'
 				]
 			],
-			'password_ualangi' => [
+			'password2' => [
 				'rules'  => 'required|matches[password]',
 				'errors' => [
 					'required' => 'password wajid di isi',
@@ -637,22 +642,22 @@ class Auth extends BaseController
 			]
 		])) {
 			$validation = \config\Services::validation();
+			// dd($this->request->getVar());
 			return redirect()->to('/auth/change_password')->withInput()->with('validation', $validation);
 		}
 
-		$id_user = session()->get('id');
-		$password = $this->request->getVar('password_ualangi');
 		$user = $this->UserModel->cek_id($id_user);
 		$cek = $this->OtpModel->cekid($id_user);
+		$newPassword = password_hash($password, PASSWORD_BCRYPT);
 		$this->OtpModel->save([
 			'id' => $cek['id'],
 			'link' => substr(sha1($cek['link']), 0, 20),
-			'password' => password_hash($password, PASSWORD_BCRYPT),
+			'password' => $newPassword,
 			'status' => 'Tercerivikasi Password Baru',
 		]);
 		$this->UserModel->save([
 			'id' => $user['id'],
-			'password' => password_hash($password, PASSWORD_BCRYPT),
+			'password' => $newPassword,
 		]);
 		$this->HistoryModel->save([
 			'id_master' => $user['id_user'],
