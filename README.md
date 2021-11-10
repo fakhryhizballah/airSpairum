@@ -196,3 +196,5 @@ v1.0.2 (fix Bug user)
 ### fix
 
 - User ganti Email
+- Log History
+- Fix lupa Password
