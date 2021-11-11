@@ -2,9 +2,6 @@
 
 namespace App\Controllers;
 
-
-use App\Models\DriverModel;
-use App\Models\LoginModel;
 use App\Models\UserModel;
 use App\Models\OtpModel;
 use App\Models\TokenModel;
@@ -19,8 +16,6 @@ class Auth extends BaseController
 	protected $authModel;
 	public function __construct()
 	{
-		$this->DriverModel = new DriverModel();
-		$this->LoginModel = new LoginModel();
 		$this->UserModel = new UserModel();
 		$this->OtpModel = new OtpModel();
 		$this->TokenModel = new TokenModel();
@@ -680,6 +675,19 @@ class Auth extends BaseController
 
 		print_r($decoded);
 		print_r($jwt);
+	}
+	public function waOTP()
+	{
+		$client = \Config\Services::curlrequest();
+
+		$client->request('POST', 'http://10.8.0.3:8000/send-message', [
+			'body' => [
+				'message' => 'test API',
+				'number' => "0895321701798"
+			]
+		]);
+		// echo $response->getBody();
+		// echo $response->getStatusCode();
 	}
 	public function reMaill($email)
 	{

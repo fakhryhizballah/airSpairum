@@ -198,3 +198,9 @@ v1.0.2 (fix Bug user)
 - User ganti Email
 - Log History
 - Fix lupa Password
+
+# [v2.1.4] 11-11-2021
+
+### Remove
+
+- Remove driver

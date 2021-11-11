@@ -41,12 +41,6 @@ $routes->get('/lupa', 'Auth::lupa');
 $routes->post('/sendemail', 'Auth::sendemail');
 
 
-$routes->get('/history', 'Driver::history');
-$routes->get('/profil', 'Driver::index');
-$routes->get('/explore', 'Driver::explore');
-
-
-// $routes->get('/user', 'User::index');
 $routes->get('/user', 'User::index', ['filter' => 'AuthFilter']);
 $routes->get('/stasiun', 'User::stasiun', ['filter' => 'AuthFilter']);
 $routes->get('/riwayat', 'User::riwayat', ['filter' => 'AuthFilter']);
@@ -62,6 +56,7 @@ $routes->get('/verifikasi/(:any)', 'User::verifikasi/$1');
 
 $routes->get('/control', 'TransMqtt::index', ['filter' => 'AuthFilter']);
 
+// $routes->get('/user', 'User::index');
 // $routes->get('/Payapi/tes', 'Payapi::tes');
 $routes->get('/payapi/tes',             'Payapi::tes');
 // $routes->get('/stasiun', 'User::stasiun');
@@ -74,20 +69,6 @@ $routes->get('/payapi/tes',             'Payapi::tes');
 // $routes->get('/editprofile', 'User::editprofile');
 // $routes->get('/changepassword', 'User::changepassword');
 // $routes->get('/verifikasi/(:any)', 'user::verifikasi/$1');
-
-
-
-
-
-
-
-// $routes->addRedirect('home/history', 'history');
-
-
-// $routes->addRedirect('driver/index', 'profil');
-//  $routes->group('', ['filter' => 'user'], function ($routes) {
-//  	$routes->get('stasiun', 'user::stasiun');
-// });
 
 
 /**
