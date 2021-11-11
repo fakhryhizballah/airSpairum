@@ -62,6 +62,7 @@ class User extends BaseController
             // 'profil' => $akun['profil'],
         ];
         // dd($data);
+        $this->AuthLibaries->notif($akun, "Berada di Home");
         return view('user/home', $data);
     }
 
@@ -119,30 +120,6 @@ class User extends BaseController
         // // dd($kere);
 
 
-        // $this->TransferModel->save([
-        //     'id' => $cek['id'],
-        //     'vaule' => $ambil,
-        //     'updated_at' => Time::now('Asia/Jakarta')
-        // ]);
-
-        // $this->UserModel->save([
-        //     'id' => $akun['id'],
-        //     'debit' => $sisa,
-        //     'kredit' => $kere,
-        //     'updated_at' => Time::now('Asia/Jakarta')
-        // ]);
-
-        // $this->HistoryModel->save([
-        //     'id_master' => $akun['id_user'],
-        //     'Id_slave' => $id,
-        //     'Lokasi' => $mesin['lokasi'],
-        //     'status' => 'Pengambilan Air',
-        //     'isi' => $Hambil,
-        //     'updated_at' => Time::now('Asia/Jakarta')
-        // ]);
-
-        // session()->setFlashdata('flash', 'silahkan ambil air');
-        // return redirect()->to('/user');
     }
 
 
@@ -157,6 +134,7 @@ class User extends BaseController
             'stasiun' => $stasiun,
             'akun' => $akun
         ];
+        $this->AuthLibaries->notif($akun, "Berada di Maps");
         return view('user/stasiun', $data);
     }
     public function riwayat()
@@ -183,6 +161,7 @@ class User extends BaseController
             'akun' => $akun
 
         ];
+        $this->AuthLibaries->notif($akun, "Berada di Cek Riwayat");
         return view('user/riwayat', $data);
     }
     public function payriwayat()
@@ -217,6 +196,7 @@ class User extends BaseController
             'page' => 'TopUp',
             'akun' => $akun
         ];
+        $this->AuthLibaries->notif($akun, "Berada di TopUp");
         return view('user/topup', $data);
     }
     public function snap()
@@ -365,7 +345,7 @@ class User extends BaseController
             'harga' => $harga,
 
         ];
-
+        $this->AuthLibaries->notif($akun, "Berada di Membeli");
         return view('user/snap', $data);
     }
 

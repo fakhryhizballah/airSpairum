@@ -133,10 +133,10 @@ class Auth extends BaseController
 				'token'    => $token,
 				'status' => 'Login'
 			]);
-			// setcookie("X-Sparum-Token", $jwt);
-			// setCookie("X-Sparum-Token", $jwt, time() + (86400 * 30), "/", "", "true");
+
+
 			$arr_cookie_options = array(
-				'expires' => time() + 60 * 60 * 24 * 30,
+				'expires' => time() + 60 * 60 * 24 * 60,
 				'path' => '/',
 				'domain' => "", // leading dot for compatibility or use subdomain
 				'secure' => true,     // or false
@@ -664,6 +664,36 @@ class Auth extends BaseController
 		session()->setFlashdata('Berhasil', 'Password anda telah diperbaharui.');
 		return redirect()->to('/');
 	}
+	public function waOTP()
+	{
+		$curl = curl_init();
+		$nama = ("nama");
+		$data_pesan = array(
+			'number' => '0895321701798',
+			'message' => $nama
+		);
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => 'http://10.8.0.3:8000/send-message',
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'POST',
+			CURLOPT_POSTFIELDS => $data_pesan,
+			// CURLOPT_POSTFIELDS => $masage['nama_depan'],
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+		// dd($response);
+		echo $response;
+		return;
+	}
+
 	public function tes()
 	{
 		$payload = array(
@@ -675,19 +705,6 @@ class Auth extends BaseController
 
 		print_r($decoded);
 		print_r($jwt);
-	}
-	public function waOTP()
-	{
-		$client = \Config\Services::curlrequest();
-
-		$client->request('POST', 'http://10.8.0.3:8000/send-message', [
-			'body' => [
-				'message' => 'test API',
-				'number' => "0895321701798"
-			]
-		]);
-		// echo $response->getBody();
-		// echo $response->getStatusCode();
 	}
 	public function reMaill($email)
 	{

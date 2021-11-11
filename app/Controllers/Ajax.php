@@ -107,6 +107,7 @@ class Ajax extends BaseController
         $mqtt->publish("start/$idMesin",  $myJSON);
         $mqtt->disconnect();
         echo json_encode($myJSON);
+        $this->AuthLibaries->notif($akun, "Berada di Mengambil Air $idMesin");
     }
     // public function Generator()
     // {

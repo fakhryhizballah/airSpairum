@@ -6,6 +6,7 @@ use \Firebase\JWT\JWT;
 use App\Models\TokenModel;
 use App\Models\UserModel;
 use Exception;
+use Kint\Parser\ToStringPlugin;
 
 class AuthLibaries
 {
@@ -40,5 +41,36 @@ class AuthLibaries
         $nama = $decoded->nama;
         $akun = $this->UserModel->cek_login($nama);
         return $akun;
+    }
+
+    public function notif($masage, $pesan)
+    {
+        $curl = curl_init();
+        $namaD = ($masage['nama_depan']);
+        $namaB = ($masage['nama_belakang']);
+        $data_pesan = array(
+            'number' => '0895321701798',
+            'message' => "$namaD $namaB  $pesan"
+        );
+        // dd($data_pesan);
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://10.8.0.3:8000/send-message',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 5,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $data_pesan,
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        // dd($response);
+        // echo $response;
+        return;
     }
 }
