@@ -52,6 +52,10 @@ class AuthLibaries
             'number' => '0895321701798',
             'message' => "$namaD $namaB  $pesan"
         );
+        $data_pesan1 = array(
+            'number' => '089661370197',
+            'message' => "$namaD $namaB  $pesan"
+        );
         // dd($data_pesan);
 
         curl_setopt_array($curl, array(
@@ -64,6 +68,19 @@ class AuthLibaries
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $data_pesan,
+        ));
+
+        $response = curl_exec($curl);
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://10.8.0.3:8000/send-message',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 5,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $data_pesan1,
         ));
 
         $response = curl_exec($curl);
