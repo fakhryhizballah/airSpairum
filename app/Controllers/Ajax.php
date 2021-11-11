@@ -79,6 +79,10 @@ class Ajax extends BaseController
         $data = $this->request->getVar();
         $vaule = $data['diambil'];
         $idMesin =  $data['newID'];
+        $mesinNew = $this->StasiunModel->cek_newID($idMesin);
+        $mesin = $this->StasiunModel->cek_ID($idMesin);
+        $minum = $mesinNew['nama'];
+        $lokasi = $mesin['lokasi'];
 
         $server   = 'ws.spairum.my.id';
         $port     = 1883;
@@ -107,7 +111,7 @@ class Ajax extends BaseController
         $mqtt->publish("start/$idMesin",  $myJSON);
         $mqtt->disconnect();
         echo json_encode($myJSON);
-        $this->AuthLibaries->notif($akun, "Berada di Mengambil Air $idMesin");
+        $this->AuthLibaries->notif($akun, "Mengambil Air $minum di $lokasi sebanayk $vaule mL");
     }
     // public function Generator()
     // {

@@ -62,7 +62,7 @@ class User extends BaseController
             // 'profil' => $akun['profil'],
         ];
         // dd($data);
-        $this->AuthLibaries->notif($akun, "Berada di Home");
+        $this->AuthLibaries->notif($akun, "Membuka halaman Home");
         return view('user/home', $data);
     }
 
@@ -134,7 +134,7 @@ class User extends BaseController
             'stasiun' => $stasiun,
             'akun' => $akun
         ];
-        $this->AuthLibaries->notif($akun, "Berada di Maps");
+        $this->AuthLibaries->notif($akun, "Membuka halaman Maps");
         return view('user/stasiun', $data);
     }
     public function riwayat()
@@ -161,7 +161,7 @@ class User extends BaseController
             'akun' => $akun
 
         ];
-        $this->AuthLibaries->notif($akun, "Berada di Cek Riwayat");
+        $this->AuthLibaries->notif($akun, "Membuka halaman Cek Riwayat");
         return view('user/riwayat', $data);
     }
     public function payriwayat()
@@ -196,7 +196,7 @@ class User extends BaseController
             'page' => 'TopUp',
             'akun' => $akun
         ];
-        $this->AuthLibaries->notif($akun, "Berada di TopUp");
+        $this->AuthLibaries->notif($akun, "Membuka halaman TopUp");
         return view('user/topup', $data);
     }
     public function snap()
@@ -345,7 +345,7 @@ class User extends BaseController
             'harga' => $harga,
 
         ];
-        $this->AuthLibaries->notif($akun, "Berada di Membeli");
+        $this->AuthLibaries->notif($akun, "Membuka halaman Membeli");
         return view('user/snap', $data);
     }
 
