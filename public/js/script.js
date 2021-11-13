@@ -2,8 +2,8 @@
 const swal = $(".swal").data("swal");
 if (swal) {
     Swal.fire({
-        icon: 'error',
-        title: 'Oops..',
+        icon: 'warning',
+        title: 'Oops...',
         text: swal,
         confirmButtonText: 'Oke'
     })
