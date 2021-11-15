@@ -40,15 +40,39 @@ function scane() {
     // return window.location = route;
 
     Instascan.Camera.getCameras().then(function(cameras) {
+        alert(cameras[1].name);
+        // console.log(cameras);
+        // console.log(cameras[0].name);
+        // console.log(cameras[1]);
+        // if (cameras.length > 0) {
+        //     // activeCameraId = cameras[0];
+        //     scanner.start(cameras[1]);
+        // } else {
+        //     console.error('No cameras found.');
+        // }
         if (cameras.length > 0) {
-            // activeCameraId = cameras[0];
             scanner.start(cameras[1]);
+            alert(cameras[1].name);
+            if (cameras[0].name.match(/back/) || cameras[0].name.match(/Back/)) {
+                activeCameraId = cameras[0].id;
+                scanner.start(cameras[0]);
+            } else if (cameras[1].name.match(/back/) || cameras[1].name.match(/Back/)) {
+                activeCameraId = cameras[1].id;
+                scanner.start(cameras[1]);
+            }
+            isQRScannerInitialised = true;
+
         } else {
+
+            alert('No cameras found.');
             console.error('No cameras found.');
+            isQRScannerInitialised = false;
+            return;
         }
     }).catch(function(e) {
         console.error(e);
     });
+    isQRScannerInitialised = false;
 
     console.log('Show Modal');
 
