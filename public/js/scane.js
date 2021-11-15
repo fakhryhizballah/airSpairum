@@ -38,7 +38,7 @@ function scane() {
     });
 
     // return window.location = route;
-
+    alert("open Cam");
     Instascan.Camera.getCameras().then(function(cameras) {
         alert(cameras[0].name);
         alert(cameras[1].name);
