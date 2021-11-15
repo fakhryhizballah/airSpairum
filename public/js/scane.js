@@ -52,7 +52,7 @@ function scane() {
         //     console.error('No cameras found.');
         // }
         if (cameras.length > 0) {
-            scanner.start(cameras[0]);
+            // scanner.start(cameras[0]);
             if (cameras[0].name.match(/back/) || cameras[0].name.match(/Back/)) {
                 activeCameraId = cameras[0].id;
                 scanner.start(cameras[0]);
