@@ -40,6 +40,7 @@ function scane() {
     // return window.location = route;
 
     Instascan.Camera.getCameras().then(function(cameras) {
+        alert(cameras[0].name);
         alert(cameras[1].name);
         // console.log(cameras);
         // console.log(cameras[0].name);
@@ -51,8 +52,7 @@ function scane() {
         //     console.error('No cameras found.');
         // }
         if (cameras.length > 0) {
-            scanner.start(cameras[1]);
-            alert(cameras[1].name);
+            scanner.start(cameras[0]);
             if (cameras[0].name.match(/back/) || cameras[0].name.match(/Back/)) {
                 activeCameraId = cameras[0].id;
                 scanner.start(cameras[0]);
