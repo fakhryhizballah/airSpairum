@@ -59,10 +59,10 @@ function scane() {
             } else if (cameras[1].name.match(/back/) || cameras[1].name.match(/Back/)) {
                 activeCameraId = cameras[1].id;
                 scanner.start(cameras[1]);
-            } else if (cameras[1].name.match(/belakang/) || cameras[1].name.match(/belakang/)) {
+            } else if (cameras[1].name.match(/Belakang/) || cameras[1].name.match(/Belakang/)) {
                 activeCameraId = cameras[1].id;
                 scanner.start(cameras[1]);
-            } else if (cameras[0].name.match(/belakang/) || cameras[0].name.match(/belakang/)) {
+            } else if (cameras[0].name.match(/Belakang/) || cameras[0].name.match(/Belakang/)) {
                 activeCameraId = cameras[0].id;
                 scanner.start(cameras[0]);
             }
