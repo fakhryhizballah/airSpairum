@@ -142,7 +142,7 @@
             </div>
             <div class="modal-body text-center pt-0">
                 <div class="camera">
-                    <video id="preview" class="kamera"></video>
+                    <video id="preview" class="kamera" playsinline></video>
                 </div>
                 <p class="text-mute">Arahkan kamera anda ke QR minuman yang anda pilih</p>
             </div>
@@ -165,6 +165,7 @@
 
 
 <?= $this->section('script'); ?>
+<script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="/scanner/vendor/instascan/instascan.min.js"></script>
 <script src="/js/scane.js"></script>
 

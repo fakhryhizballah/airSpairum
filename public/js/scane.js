@@ -38,10 +38,7 @@ function scane() {
     });
 
     // return window.location = route;
-    alert("open Cam");
     Instascan.Camera.getCameras().then(function(cameras) {
-        alert(cameras[0].name);
-        alert(cameras[1].name);
         // console.log(cameras);
         // console.log(cameras[0].name);
         // console.log(cameras[1]);
@@ -59,13 +56,15 @@ function scane() {
             } else if (cameras[1].name.match(/back/) || cameras[1].name.match(/Back/)) {
                 activeCameraId = cameras[1].id;
                 scanner.start(cameras[1]);
-            } else if (cameras[0].name.match(/Belakang/) || cameras[0].name.match(/Belakang/)) {
+            } else if (cameras[0].name.match(/belakang/) || cameras[0].name.match(/Belakang/)) {
                 activeCameraId = cameras[0].id;
                 scanner.start(cameras[0]);
-            } else if (cameras[1].name.match(/Belakang/) || cameras[1].name.match(/Belakang/)) {
+            } else if (cameras[1].name.match(/belakang/) || cameras[1].name.match(/Belakang/)) {
                 activeCameraId = cameras[1].id;
                 scanner.start(cameras[1]);
             }
+            alert(cameras[1].name);
+            scanner.start(cameras[1]);
 
 
             isQRScannerInitialised = true;
