@@ -6,9 +6,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="keywords" content="Login,Apps,spairum,spairum,masuk,apps,spairum,stasiun pengisian air minum untuk tumbler">
+    <meta name="keywords" content="Login,Air,spairum,Air spairum,masuk,Air,spairum,stasiun pengisian air minum untuk tumbler">
     <meta name="description" content="stasiun pengisian air minum untuk tumbler ,Ini merupakan aplikasi spairum untuk menghubungkan anda ke stasiun air minum,
     .silah kan masuk Masuk ke Aplikasi Spairum">
+    <meta name="google" content="notranslate" />
     <meta name="author" content="Spairum">
     <link rel="apple-touch-icon" href="/img/logo.png">
     <link rel="icon" href="favicon.ico">
