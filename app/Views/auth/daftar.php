@@ -25,7 +25,7 @@
                             <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                         </div>
 
-                        <form class="user" method="POST" action="auth/userSave">
+                        <form class="user" method="POST" action="auth/userSave" autocomplete="on">
                             <?= csrf_field(); ?>
                             <!-- <div class="form-group">
                                 <input type="text" class="form-control form-control-user <?= ($validation->hasError('id_user')) ? 'is-invalid' : ''; ?> " id="id_user" name="id_user" placeholder="ID account" autofocus value="<?= old('id_user'); ?>" />

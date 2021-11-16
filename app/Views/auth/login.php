@@ -23,7 +23,7 @@
                     <div class="swal" data-swal="<?= session()->getFlashdata('gagal'); ?>"></div>
                     <div class="flash-Success" data-flashdata="<?= session()->getFlashdata('Berhasil'); ?>"></div>
 
-                    <form class="user" method="POST" action="Auth/login">
+                    <form class="user" method="POST" action="Auth/login" autocomplete="on">
                         <?= csrf_field(); ?>
                         <div class=" form-group user-form">
                             <img class="icon" src="/img/Vector.png" alt="">
