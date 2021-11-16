@@ -165,8 +165,8 @@
 
 
 <?= $this->section('script'); ?>
-<script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-<script src="/scanner/vendor/instascan/instascan.min.js"></script>
-<script src="/js/scane.js"></script>
+<script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js" async></script>
+<script src="/scanner/vendor/instascan/instascan.min.js" async></script>
+<script src="/js/scane.js" async></script>
 
 <?= $this->endSection('script'); ?>
