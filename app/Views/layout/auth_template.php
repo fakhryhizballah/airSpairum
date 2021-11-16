@@ -13,6 +13,8 @@
     <meta name="author" content="Spairum">
     <link rel="apple-touch-icon" href="/img/logo.png">
     <link rel="icon" href="favicon.ico">
+    <!-- Google Tag Manager -->
+    <!-- End Google Tag Manager -->
 
     <title><?= $title; ?></title>
 
@@ -40,6 +42,7 @@
 
     <?= $this->renderSection('auth'); ?>
 
+
     <!-- Bootstrap core JavaScript-->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
@@ -50,7 +53,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/js/sb-admin-2.min.js"></script>
-
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-30Q4MD7E15'"></script>
     <!-- sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="/js/script.js"></script>

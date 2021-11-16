@@ -13,6 +13,7 @@
     <!-- <link rel="stylesheet" href="vendor/materializeicon/material-icons.css"> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+
     <!-- Roboto fonts CSS -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
 
@@ -222,6 +223,7 @@
 
     <!-- template custom js -->
     <script src="/js/main.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-30Q4MD7E15'"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="/js/script.js"></script>
