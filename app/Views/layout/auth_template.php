@@ -35,6 +35,17 @@
 
     <link rel="manifest" href="/Manifes/manifes.json">
     <meta name="theme-color" content="#2196f3">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-30Q4MD7E15"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-30Q4MD7E15');
+    </script>
 
 </head>
 
@@ -44,20 +55,19 @@
 
 
     <!-- Bootstrap core JavaScript-->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script defer src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
     <!-- Custom scripts for all pages-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/js/sb-admin-2.min.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id='G-30Q4MD7E15'"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/js/sb-admin-2.min.js"></script>
     <!-- sweet alert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="/js/script.js"></script>
-    <script>
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script async src="/js/script.js"></script>
+    <script defer>
         $(".password").click(function() {
 
             $(this).toggleClass("fa-eye fa-eye-slash");

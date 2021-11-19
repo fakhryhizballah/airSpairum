@@ -37,6 +37,18 @@
 
     <!-- Custom styles for this template -->
     <link href="css/home_style.css" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-30Q4MD7E15"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-30Q4MD7E15');
+    </script>
 
 </head>
 <title><?= $title; ?></title>
