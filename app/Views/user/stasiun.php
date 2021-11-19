@@ -133,6 +133,18 @@
             color: white;
         }
     </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-30Q4MD7E15"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-30Q4MD7E15');
+    </script>
+
 </head>
 <title><?= $title; ?></title>
 
