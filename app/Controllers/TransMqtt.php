@@ -54,7 +54,8 @@ class TransMqtt extends Controller
             $nama = $decoded->nama;
 
             $akun = $this->UserModel->cek_login($nama);
-            $server   = 'ws.spairum.my.id';
+            // $server   = 'ws.spairum.my.id';
+            $server   = 'spairum.my.id';
             $port     = 1883;
             $clientId =  $akun['id_user'];
             $idMesin =  session()->get('id_mesin');
@@ -69,8 +70,8 @@ class TransMqtt extends Controller
             ];
             $myJSON = json_encode($data);
             $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
-                ->setUsername('spairum')
-                ->setPassword('broker');
+                ->setUsername('mqttuntan')
+                ->setPassword('mqttuntan');
 
             $mqtt = new \PhpMqtt\Client\MqttClient($server, $port, $clientId);
             $mqtt->connect($connectionSettings, true);

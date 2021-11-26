@@ -84,7 +84,8 @@ class Ajax extends BaseController
         $minum = $mesinNew['nama'];
         $lokasi = $mesin['lokasi'];
 
-        $server   = 'ws.spairum.my.id';
+        // $server   = 'ws.spairum.my.id';
+        $server   = 'spairum.my.id';
         $port     = 1883;
         $clientId =  $akun['id_user'];
         $idMesin =  $idMesin;
@@ -103,8 +104,8 @@ class Ajax extends BaseController
         ];
         $myJSON = json_encode($respoun);
         $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
-            ->setUsername('spairum')
-            ->setPassword('broker');
+            ->setUsername('mqttuntan')
+            ->setPassword('mqttuntan');
 
         $mqtt = new \PhpMqtt\Client\MqttClient($server, $port, $clientId);
         $mqtt->connect($connectionSettings, true);
