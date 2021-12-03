@@ -2,106 +2,99 @@
 <?= $this->section('content'); ?>
 <!-- Modal -->
 
-<div class="container">
-    <div class="flash-Success" data-flashdata="<?= session()->getFlashdata('Berhasil'); ?>"></div>
-    <div class="card bg-template shadow mt-4 h-190">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-auto">
-                    <figure class="avatar avatar-60"><img src="/img/user/<?= $akun['profil']; ?>" alt=""></figure>
-                </div>
-                <div class="col pl-0 align-self-center">
-                    <h5 class="mb-1"><?= $akun['nama_depan']; ?>&nbsp;<?= $akun['nama_belakang']; ?></h5>
-                    <p class="text-mute small">Username : <?= $akun['nama']; ?>
-                        <!-- <br> ID : <?= $akun['id_user']; ?></p> -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="swal" data-swal="<?= session()->getFlashdata('Pesan'); ?>"></div>
 <div class="flash-data" data-flashdata="<?= session()->getFlashdata('flash'); ?>"></div>
-<div class="container top-100">
-    <div class="card mb-4 shadow">
-        <div class="card-body border-bottom">
-            <div class="row">
-                <div class="col">
-                    <h3 class="mb-0 font-weight-normal">
-                        <span class="material-icons">
-                            account_balance_wallet
-                        </span>
-                        <?= $akun['debit']; ?>
-                    </h3>
-                    <p class="text-mute">Saldo Air</p>
-                </div>
-                <div class="col-auto">
-                    <button class="btn btn-default btn-rounded-54 shadow" data-toggle="modal" data-target="#addmoney"><i class="material-icons">add</i></button>
-                </div>
-            </div>
-        </div>
-        <div class="card-footer bg-none">
-            <div class="row">
-                <!-- <div class="col">
-                    <p><?= $akun['kredit']; ?> mL<i class="material-icons text-danger vm small"></i><br><small class="text-mute">Telah di ambil</small></p>
-                </div> -->
-                <!-- <div class="col text-center">
-                    <p>2.24 L<i class="material-icons text-success vm small">arrow_upward</i><br><small class="text-mute">today</small></p>
-                </div> -->
-                <div class="col text-center">
-                    <p><span name="take" id="take"></span>0 mL<br><small class="text-mute">Jumlah Yang akan di ambil</small></p>
+<section>
+    <div class="container">
+        <div class="flash-Success" data-flashdata="<?= session()->getFlashdata('Berhasil'); ?>"></div>
+        <div class="card bg-template shadow mt-4 h-190">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-auto">
+                        <figure class="avatar avatar-60"><img src="/img/user/<?= $akun['profil']; ?>" alt=""></figure>
+                    </div>
+                    <div class="col pl-0 align-self-center">
+                        <h5 class="mb-1"><?= $akun['nama_depan']; ?>&nbsp;<?= $akun['nama_belakang']; ?></h5>
+                        <p class="text-mute small">Username : <?= $akun['nama']; ?>
+                            <!-- <br> ID : <?= $akun['id_user']; ?></p> -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="card bg-template shadow mt-4 h-190">
-        <div class="col">
-            <h6 class="subtitle">Sesuaikan kebutuhan untuk pengambilan air</h6>
+    <div class="container top-100">
+        <div class="card mb-4 shadow">
+            <div class="card-body border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3 class="mb-0 font-weight-normal">
+                            <span class="material-icons">
+                                account_balance_wallet
+                            </span>
+                            <?= $akun['debit']; ?>
+                        </h3>
+                        <p class="text-mute">Saldo Air</p>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-default btn-rounded-54 shadow" data-toggle="modal" data-target="#addmoney"><i class="material-icons">add</i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-none">
+                <div class="row">
+                    <!-- <div class="col">
+                    <p><?= $akun['kredit']; ?> mL<i class="material-icons text-danger vm small"></i><br><small class="text-mute">Telah di ambil</small></p>
+                </div> -->
+                    <!-- <div class="col text-center">
+                    <p>2.24 L<i class="material-icons text-success vm small">arrow_upward</i><br><small class="text-mute">today</small></p>
+                </div> -->
+                    <div class="col text-center">
+                        <p><span name="take" id="take"></span>0 mL<br><small class="text-mute">Jumlah Yang akan di ambil</small></p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card shadow border-0 mb-2">
-            <form action="/Ajax/index" class="user" method="POST" id="take">
-                <?= csrf_field(); ?>
-                <div class="card-body mb-2">
-                    <div class="form-group user-form">
-                        <div class="row">
-                            <div class="col">
-                                <div class="slidecontainer">
-                                    <input type="range" min="10" max="120" value="22" class="slider" id="myRange" name="take">
+
+        <div class="card bg-template shadow mt-4 h-190">
+            <div class="col">
+                <h6 class="subtitle">Sesuaikan kebutuhan untuk pengambilan air</h6>
+            </div>
+            <div class="card shadow border-0 mb-2">
+                <form action="/Ajax/index" class="user" method="POST" id="take">
+                    <?= csrf_field(); ?>
+                    <div class="card-body mb-2">
+                        <div class="form-group user-form">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="slidecontainer">
+                                        <input type="range" min="10" max="120" value="22" class="slider" id="myRange" name="take">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="text-mute small text-secondary">Jumlah minimum yang dapat di ambil 100 mL</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <p class="text-mute small text-secondary">Jumlah minimum yang dapat di ambil 100 mL</p>
-                            </div>
+                        <div class="form-group mt-4">
+                            <input type="hidden" class="form-control form-control-lg text-center" id="code">
                         </div>
-                    </div>
-                    <div class="form-group mt-4">
-                        <input type="hidden" class="form-control form-control-lg text-center" id="code">
-                    </div>
-                    <!-- <button type="submit" class="btn btn-user btn-block btn-outline-template btn-rounded bg-template">
+                        <!-- <button type="submit" class="btn btn-user btn-block btn-outline-template btn-rounded bg-template">
                         SCAN QR CODE
                     </button> -->
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-user btn-block btn-outline-template btn-rounded bg-template" onclick="scane()">
-                        SCAN QR CODE
-                    </button>
-
-                </div>
-            </form>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-user btn-block btn-outline-template btn-rounded bg-template" onclick="scane()">
+                            SCAN QR CODE
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<script>
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("take");
-    output.innerHTML = slider.value;
 
-    slider.oninput = function() {
-        output.innerHTML = this.value;
-    }
-</script>
 
 <?= $this->endSection('content'); ?>
 
@@ -142,7 +135,7 @@
             </div>
             <div class="modal-body text-center pt-0">
                 <div class="camera">
-                    <video id="preview" class="kamera" playsinline></video>
+                    <video id="preview" class="kamera"></video>
                 </div>
                 <p class="text-mute">Arahkan kamera anda ke QR minuman yang anda pilih</p>
             </div>
@@ -159,12 +152,23 @@
         </div>
     </div>
 </div>
+<?= $this->endSection('modal'); ?>
 
 
-<?= $this->endSection('content'); ?>
 
 
 <?= $this->section('script'); ?>
+
+<script>
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("take");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+        output.innerHTML = this.value;
+    }
+</script>
+
 <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js" async></script>
 <script src="/scanner/vendor/instascan/instascan.min.js" async></script>
 <script src="/js/scane.js" async></script>
