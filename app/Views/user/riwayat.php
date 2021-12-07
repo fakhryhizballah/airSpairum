@@ -4,7 +4,7 @@
 <!-- page content here -->
 
 <div class="container">
-    <div class="row shadow p-3 rounded" style="background-color:red;">
+    <div class="row shadow p-3 rounded bg-template" >
         <div class="col-12 px-0" style="margin: 7px auto 7px; width:100%">
             <span class="material-icons" style="margin: 20px auto; display:inline;">
                 history
