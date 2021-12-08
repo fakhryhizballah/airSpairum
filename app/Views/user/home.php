@@ -94,6 +94,74 @@
     </div>
 </section>
 
+<<<<<<< Updated upstream
+=======
+<!-- <div class="wrapper"> -->
+<div class="container botol">
+<!-- page content here -->
+    <!-- <div data-pagination='{"el": ".swiper-pagination"}'  data-space-between="50" data-loop="true" class="swiper-container swiper-init demo-swiper"> -->
+    <div data-pagination='{"el": ".swiper-pagination"}' " class="swiper-container ">
+    <!-- <div class="swiper-pagination"></div> -->
+        <div class="swiper-wrapper">
+            <div class="swiper-slide swiper-slide card shadow  text-white"> 
+            <!-- <div class="card shadow-sm border-0 mb-3 bg-warning text-white"> -->
+                <div class="card-header bg-template">
+                    <div class="row">
+                        <div class="col">
+                            <center> <h5 class="card-title text-white">Botol Saya</h5></center>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="card shadow border-0 mb-2"> -->
+                <div class="card  shadow">    
+                    <div class="card-body border-bottom mb-2 text-secondary">
+                        <img src="img/botol.jpg" alt="">
+                    </div>
+                    <div class="card-footer bg-none">
+                        <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template"> Tambah Botol</button>
+                    </div>
+                    <!-- </div> -->
+                    <!-- </div> -->
+                </div>
+            </div>
+            <div class="swiper-slide swiper-slide card shadow text-white"> 
+            <!-- <div class="card shadow-sm border-0 mb-3 bg-warning text-white"> -->
+                <div class="card-header bg-template">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-white">Botol Saya</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow border-0 mb-2">
+                    <div class="card-body mb-2 text-secondary">
+                        <img src="img/botol.jpg" alt="">
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template"> Tambah Botol</button>
+                    </div>
+                </div>
+                    <!-- </div> -->
+            </div>
+                <!-- <div class="swiper-slide">Slide 3</div>
+                <div class="swiper-slide">Slide 4</div>
+                <div class="swiper-slide">Slide 5</div>
+                <div class="swiper-slide">Slide 6</div>
+                <div class="swiper-slide">Slide 7</div>
+                <div class="swiper-slide">Slide 8</div>
+                <div class="swiper-slide">Slide 9</div>
+                <div class="swiper-slide">Slide 10</div> -->
+        </div>
+    </div>
+<!-- page content ends -->
+</div>
+<!-- </div> -->
+
+<script>
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("take");
+    output.innerHTML = slider.value;
+>>>>>>> Stashed changes
 
 
 <?= $this->endSection('content'); ?>
@@ -172,5 +240,24 @@
 <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js" async></script>
 <script src="/scanner/vendor/instascan/instascan.min.js" async></script>
 <script src="/js/scane.js" async></script>
+<script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            keyboard: {
+                enabled: true,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+    </script>
 
 <?= $this->endSection('script'); ?>
