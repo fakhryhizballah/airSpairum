@@ -94,8 +94,6 @@
     </div>
 </section>
 
-<<<<<<< Updated upstream
-=======
 <!-- <div class="wrapper"> -->
 <div class="container botol">
 <!-- page content here -->
@@ -161,7 +159,6 @@
     var slider = document.getElementById("myRange");
     var output = document.getElementById("take");
     output.innerHTML = slider.value;
->>>>>>> Stashed changes
 
 
 <?= $this->endSection('content'); ?>
