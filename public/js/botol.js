@@ -6,7 +6,7 @@ function addBotol() {
         el: '#app',
         data() {
             return {
-                camera: 'auto',
+                camera: 'rear',
                 result: null,
             }
         },
