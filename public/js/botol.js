@@ -6,8 +6,8 @@ function addBotol() {
         el: '#app',
         data() {
             return {
-                camera: 'rear',
-                result: null,
+                camera: 'Back',
+
                 noRearCamera: false,
                 noFrontCamera: false
             }
@@ -69,6 +69,9 @@ function addBotol() {
             async onInit(promise) {
                 try {
                     await promise
+                    console.log(capabilities)
+                    alert(capabilities)
+                    // this.error = promise
                 } catch (error) {
                     if (error.name === 'NotAllowedError') {
                         this.error = "ERROR: you need to grant camera access permission"
@@ -87,6 +90,20 @@ function addBotol() {
                     } else {
                         this.error = `ERROR: Camera error (${error.name})`;
                     }
+                    const triedFrontCamera = this.camera === 'front'
+                    const triedRearCamera = this.camera === 'rear'
+
+                    const cameraMissingError = error.name === 'OverconstrainedError'
+
+                    if (triedRearCamera && cameraMissingError) {
+                        this.noRearCamera = true
+                    }
+
+                    if (triedFrontCamera && cameraMissingError) {
+                        this.noFrontCamera = true
+                    }
+
+                    console.error(error)
                 }
                 $('#modal-addBotol').on('hidden.bs.modal', function () {
                     console.log("ssaas")
