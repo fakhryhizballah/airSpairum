@@ -253,7 +253,14 @@
                     <div id="app">
                         <p class="error">{{ error }}</p>
                         <!-- <qrcode-stream @decode="onDecode" @init="onInit"></qrcode-stream> -->
-                        <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit"></qrcode-stream>
+                        <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit">
+
+                        </qrcode-stream>
+                        <button class="btn btn-rounded bg-template" @click="switchCamera">
+                            <span class="material-icons">
+                                flip_camera_ios
+                            </span>
+                        </button>
                     </div>
                 </div>
                 <p class="text-mute">Arahkan kamera anda ke QR Botol</p>

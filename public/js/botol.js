@@ -6,11 +6,23 @@ function addBotol() {
         el: '#app',
         data() {
             return {
-                camera: 'rear',
+                camera: 'auto',
                 result: null,
+                noRearCamera: false,
+                noFrontCamera: false
             }
         },
         methods: {
+            switchCamera() {
+                switch (this.camera) {
+                    case 'front':
+                        this.camera = 'rear'
+                        break
+                    case 'rear':
+                        this.camera = 'front'
+                        break
+                }
+            },
             onDecode(url) {
                 // window.location.href = url
                 console.log(url)
