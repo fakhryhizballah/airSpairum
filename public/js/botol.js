@@ -6,8 +6,7 @@ function addBotol() {
         el: '#app',
         data() {
             return {
-                camera: 'Back',
-
+                camera: 'front',
                 noRearCamera: false,
                 noFrontCamera: false
             }
@@ -16,7 +15,7 @@ function addBotol() {
             switchCamera() {
                 switch (this.camera) {
                     case 'front':
-                        this.camera = 'rear'
+                        this.camera = '/Back/'
                         break
                     case 'rear':
                         this.camera = 'front'
@@ -67,10 +66,11 @@ function addBotol() {
             },
 
             async onInit(promise) {
+                promise
+                    .then(console.log)
+                    .catch(console.error)
                 try {
                     await promise
-                    console.log(capabilities)
-                    alert(capabilities)
                     // this.error = promise
                 } catch (error) {
                     if (error.name === 'NotAllowedError') {
