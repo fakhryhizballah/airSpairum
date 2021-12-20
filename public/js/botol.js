@@ -6,7 +6,7 @@ function addBotol() {
         el: '#app',
         data() {
             return {
-                camera: 'auto',
+                camera: 'rear',
                 result: null,
                 noRearCamera: false,
                 noFrontCamera: false
@@ -20,9 +20,6 @@ function addBotol() {
                         break
                     case 'rear':
                         this.camera = 'front'
-                        break
-                    case 'auto':
-                        this.camera = 'auto'
                         break
                 }
             },
