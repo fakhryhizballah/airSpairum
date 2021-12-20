@@ -39,7 +39,7 @@ function scane() {
 
     // return window.location = route;
     Instascan.Camera.getCameras().then(function(cameras) {
-        // console.log(cameras);
+        console.log(cameras);
         // console.log(cameras[0].name);
         // console.log(cameras[1]);
         // if (cameras.length > 0) {
