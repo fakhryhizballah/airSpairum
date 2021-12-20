@@ -11,14 +11,17 @@
     <meta name="author" content="Maxartkiller">
 
     <title><?= $title; ?></title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-30Q4MD7E15"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    <!-- Material design icons CSS -->
-    <!-- <link rel="stylesheet" href="vendor/materializeicon/material-icons.css"> -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
 
-    <!-- Roboto fonts CSS -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
+        gtag('config', 'G-30Q4MD7E15');
+    </script>
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="vendor/bootstrap-4.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -31,6 +34,15 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/style1.css" rel="stylesheet">
+
+    <!-- Material design icons CSS -->
+    <!-- <link rel="stylesheet" href="vendor/materializeicon/material-icons.css"> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <!-- Roboto fonts CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -137,17 +149,17 @@
     <!-- <script src="vendor/bootstrap-4.4.1/js/bootstrap.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <!-- swiper js -->
-    <!-- <script src="vendor/swiper/js/swiper.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.0.6/swiper-bundle.min.js"></script>
-
     <!-- cookie js -->
     <!-- <script src="vendor/cookie/jquery.cookie.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
+    <!-- swiper js -->
+    <!-- <script src="vendor/swiper/js/swiper.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.0.6/swiper-bundle.min.js"></script>
+
     <!-- template custom js -->
-    <script src="/js/main1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script async src="/js/main1.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="/js/script.js"></script>
     <script>
         $(".password").click(function() {
