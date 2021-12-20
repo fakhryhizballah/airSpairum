@@ -12,6 +12,7 @@
         <br>
         <p class="text-mute text-uppercase ">Login Spairum</p>
         <form class="form-signin mt-3" method="POST" action="Auth/login">
+            <?= csrf_field(); ?>
             <div class="form-group">
                 <input type="text" class="form-control form-control-lg text-center<?= ($validation->hasError('nama')) ? 'is-invalid' : ''; ?>" id="username" name="nama" required placeholder="Username/Email/Nomor Telepon" autofocus value="<?= old('nama'); ?>">
                 <div class="invalid-feedback"><?= $validation->getError('nama'); ?></div>
