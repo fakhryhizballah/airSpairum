@@ -263,14 +263,14 @@
                         <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit">
 
                         </qrcode-stream>
-                        <!-- <button class="btn btn-rounded bg-template" @click="switchCamera">
+                        <button class="btn btn-rounded bg-template" @click="switchCamera">
                             <span class="material-icons">
                                 flip_camera_ios
                             </span>
-                        </button> -->
-                        <button @click="switchCamera">
-                            <img alt="switch camera">
                         </button>
+                        <!-- <button @click="switchCamera">
+                            <img alt="switch camera">
+                        </button> -->
                     </div>
                 </div>
                 <p class="text-mute">Arahkan kamera anda ke QR Botol</p>
