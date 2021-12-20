@@ -40,6 +40,7 @@ function scane() {
     // return window.location = route;
     Instascan.Camera.getCameras().then(function(cameras) {
         console.log(cameras);
+        // cameras = cameras;
         // console.log(cameras[0].name);
         // console.log(cameras[1]);
         // if (cameras.length > 0) {
@@ -50,21 +51,44 @@ function scane() {
         // }
         if (cameras.length > 0) {
             // scanner.start(cameras[0]);
-            if (cameras[0].name.match(/back/) || cameras[0].name.match(/Back/)) {
-                activeCameraId = cameras[0].id;
-                scanner.start(cameras[0]);
-            } else if (cameras[1].name.match(/back/) || cameras[1].name.match(/Back/)) {
-                activeCameraId = cameras[1].id;
-                scanner.start(cameras[1]);
-            } else if (cameras[0].name.match(/belakang/) || cameras[0].name.match(/Belakang/)) {
-                activeCameraId = cameras[0].id;
-                scanner.start(cameras[0]);
-            } else if (cameras[1].name.match(/belakang/) || cameras[1].name.match(/Belakang/)) {
-                activeCameraId = cameras[1].id;
-                scanner.start(cameras[1]);
-            }
-            alert(cameras[1].name);
-            scanner.start(cameras[1]);
+            // if (cameras[0].name.match(/back/) || cameras[0].name.match(/Back/)) {
+            //     activeCameraId = cameras[0].id;
+            //     scanner.start(cameras[0]);
+            // } else if (cameras[1].name.match(/back/) || cameras[1].name.match(/Back/)) {
+            //     activeCameraId = cameras[1].id;
+            //     scanner.start(cameras[1]);
+            // } else if (cameras[0].name.match(/belakang/) || cameras[0].name.match(/Belakang/)) {
+            //     activeCameraId = cameras[0].id;
+            //     scanner.start(cameras[0]);
+            // } else if (cameras[1].name.match(/belakang/) || cameras[1].name.match(/Belakang/)) {
+            //     activeCameraId = cameras[1].id;
+            //     scanner.start(cameras[1]);
+            // }
+            // alert(cameras[1].name);
+            // scanner.start(cameras[0]);
+            // if (cameras.length > 0) {
+            //     activeCameraId = cameras[0].id;
+            //     scanner.start(cameras[0]);
+            // } else {
+            //     console.error('No cameras found.');
+            // }
+            scanner.start(cameras[0]);
+            $('[name="options"]').on('change', function () {
+                if ($(this).val() == 1) {
+                    if (cameras[0] != "") {
+                        scanner.start(cameras[0]);
+                    } else {
+                        alert('No Front camera found!');
+                    }
+                } else if ($(this).val() == 2) {
+                    if (cameras[1] != "") {
+                        scanner.start(cameras[1]);
+                    } else {
+                        alert('No Back camera found!');
+                    }
+                }
+            });
+            console.log(activeCameraId.name);
 
 
             isQRScannerInitialised = true;
