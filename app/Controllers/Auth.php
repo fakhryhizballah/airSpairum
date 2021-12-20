@@ -183,15 +183,15 @@ class Auth extends BaseController
 		return redirect()->to('/');
 	}
 
-	public function regis()
-	{
+	// public function regis()
+	// {
 
-		$data = [
-			'title' => 'Registrasi',
-			'validation' => \Config\Services::validation()
-		];
-		return view('auth/regis', $data);
-	}
+	// 	$data = [
+	// 		'title' => 'Registrasi',
+	// 		'validation' => \Config\Services::validation()
+	// 	];
+	// 	return view('auth/regis', $data);
+	// }
 	public function daftar()
 	{
 		if (session()->get('id_user') == '') {

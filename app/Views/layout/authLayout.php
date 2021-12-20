@@ -5,8 +5,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover, user-scalable=no">
-    <meta name="description" content="Aplikasi air spairum, yang dapat menghubungkan anda dengan stasiun pengisian air minum">
-    <meta name="author" content="fakhry Spairum">
+    <meta name="description" content="stasiun pengisian air minum untuk tumbler ,Ini merupakan aplikasi spairum untuk menghubungkan anda ke stasiun air minum,
+    .silah kan masuk Masuk ke Aplikasi Spairum">
+    <meta name="google" content="notranslate" />
+    <meta name="author" content="Spairum">
+    <link rel="apple-touch-icon" href="/img/logo.png">
+    <link rel="icon" href="favicon.ico">
 
     <title><?= $title; ?></title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-30Q4MD7E15"></script>
@@ -24,7 +28,7 @@
     <!-- Bootstrap core CSS -->
     <!-- <link href="vendor/bootstrap-4.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link async rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
     <!-- Swiper CSS -->
     <!-- <link href="vendor/swiper/css/swiper.min.css" rel="stylesheet"> -->
