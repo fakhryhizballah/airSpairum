@@ -28,7 +28,12 @@ class addBotol extends BaseController
         $id_botol = $this->request->getVar('id_botol');
         $cek_botol = $this->BotolModel->cek_botol($id_botol);
         if (empty($cek_botol)) {
-            echo json_encode("QR Salah");
+            echo json_encode(array(
+                'status' => 'error',
+                'icon' => 'error',
+                'message' => 'QR Salah'
+            ));
+            // echo json_encode("QR Salah");
             return;
         }
         if ($cek_botol['id_user'] == null) {
@@ -36,10 +41,20 @@ class addBotol extends BaseController
                 'id' => $cek_botol['id'],
                 'id_user' => $akun['id_user']
             ]);
-            echo json_encode("Botol berhasil terdafar");
+            // echo json_encode("Botol berhasil terdafar");
+            echo json_encode(array(
+                'status' => 'success',
+                'icon' => 'success',
+                'message' => 'Botol berhasil terdafar'
+            ));
             return;
         }
-        echo json_encode("Botol telah terdafar");
+        echo json_encode(array(
+            'status' => 'warning',
+            'icon' => 'warning',
+            'message' => 'Botol telah terdafar'
+        ));
+        // echo json_encode("Botol telah terdafar");
         return;
     }
     public function getbotol()
@@ -56,8 +71,8 @@ class addBotol extends BaseController
     }
     public function delBotol()
     {
-        $id_botol = 'XA1234';
-        // $id_botol = $this->request->getVar('id_botol');
+        // $id_botol = 'XA1234';
+        $id_botol = $this->request->getVar('id_botol');
         $akun = $this->AuthLibaries->authCek();
         $cek_botol = $this->BotolModel->cek_botol($id_botol);
         if ($cek_botol['id_user'] ==  $akun['id_user']) {
@@ -65,7 +80,11 @@ class addBotol extends BaseController
                 'id' => $cek_botol['id'],
                 'id_user' => null
             ]);
-            echo json_encode('Berhasil');
+            echo json_encode(array(
+                'status' => 'Berhasil',
+                'icon' => 'success',
+                'message' => 'Botol berhasil di hapus'
+            ));
             return;
         }
         echo json_encode("salah ID");

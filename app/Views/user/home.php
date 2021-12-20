@@ -1,6 +1,5 @@
 <?= $this->extend('layout/user_template'); ?>
 <?= $this->section('content'); ?>
-<!-- Modal -->
 
 <div class="swal" data-swal="<?= session()->getFlashdata('Pesan'); ?>"></div>
 <div class="flash-data" data-flashdata="<?= session()->getFlashdata('flash'); ?>"></div>
@@ -49,7 +48,8 @@
                     <p>2.24 L<i class="material-icons text-success vm small">arrow_upward</i><br><small class="text-mute">today</small></p>
                 </div> -->
                     <div class="col text-center">
-                        <p><span name="take" id="take"></span>0 mL<br><small class="text-mute">Jumlah Yang akan di ambil</small></p>
+                        <p><span name="take" id="take"></span>0 mL<br><small class="text-mute">Jumlah Yang akan di
+                                ambil</small></p>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,8 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <p class="text-mute small text-secondary">Jumlah minimum yang dapat di ambil 100 mL</p>
+                                    <p class="text-mute small text-secondary">Jumlah minimum yang dapat di ambil 100 mL
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -96,52 +97,78 @@
 
 <!-- <div class="wrapper"> -->
 <div class="container botol">
-<!-- page content here -->
+    <!-- page content here -->
     <!-- <div data-pagination='{"el": ".swiper-pagination"}'  data-space-between="50" data-loop="true" class="swiper-container swiper-init demo-swiper"> -->
-    <div data-pagination='{"el": ".swiper-pagination"}' " class="swiper-container ">
-    <!-- <div class="swiper-pagination"></div> -->
-        <div class="swiper-wrapper">
-            <div class="swiper-slide swiper-slide card shadow  text-white"> 
-            <!-- <div class="card shadow-sm border-0 mb-3 bg-warning text-white"> -->
+    <div data-pagination='{"el": ".swiper-pagination"}' " class=" swiper-container ">
+    <!-- <div class=" swiper-pagination"></div> -->
+    <div class="swiper-wrapper">
+        <?php foreach ($botol as $r) : ?>
+            <div class="swiper-slide swiper-slide card shadow  text-white" id="mybotol">
                 <div class="card-header bg-template">
                     <div class="row">
-                        <div class="col">
-                            <center> <h5 class="card-title text-white">Botol Saya</h5></center>
+                        <div class="col-10">
+                            <h5 class="card-title text-center text-white">Botol Saya</h5>
+                        </div>
+                        <div class="col-2">
+                            <div onclick="hapusbtol('<?= $r['id_botol']; ?>')">
+                                <span class="material-icons">
+                                    delete
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- <div class="card shadow border-0 mb-2"> -->
-                <div class="card  shadow">    
+                <div class="card shadow">
                     <div class="card-body border-bottom mb-2 text-secondary">
-                        <img src="img/botol.jpg" alt="">
+                        <div class="row">
+                            <div class="col-4">
+                                <img src="/img/botol/botol.jpg" alt="">
+                            </div>
+                            <div class="col-8">
+                                <div class="row">
+                                    <h5 class="f-light text-left text-template"><?= $r['nama_botol']; ?></h5>
+                                </div>
+                                <div class="row">
+                                    <p class="mb-0 text-secondary f-sm text-black">
+                                        jenis Botol : <?= $r['jenis_botol']; ?>
+                                        <br>Ukuran Botol : <?= $r['ukuran_botol']; ?> mL
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer bg-none">
-                        <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template"> Tambah Botol</button>
+                        <!-- <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template"></button> -->
                     </div>
-                    <!-- </div> -->
-                    <!-- </div> -->
                 </div>
             </div>
-            <div class="swiper-slide swiper-slide card shadow text-white"> 
+        <?php endforeach; ?>
+        <div class="swiper-slide swiper-slide card shadow text-white">
             <!-- <div class="card shadow-sm border-0 mb-3 bg-warning text-white"> -->
-                <div class="card-header bg-template">
+            <div class="card-header bg-template">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-white text-center">Tambahkan Botol</h5>
+                        <div id="qr-reader-results"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow border-0 mb-2">
+                <div class="card-body mb-2 text-secondary">
                     <div class="row">
-                        <div class="col">
-                            <h5 class="card-title text-white">Botol Saya</h5>
+                        <div class="col-12 text-center">
+                            <img class="text-center" src="/img/botol/botol.jpg" alt="Botol Spairum">
                         </div>
                     </div>
                 </div>
-                <div class="card shadow border-0 mb-2">
-                    <div class="card-body mb-2 text-secondary">
-                        <img src="img/botol.jpg" alt="">
-                    </div>
-                    <div class="card-body">
-                        <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template"> Tambah Botol</button>
-                    </div>
+                <div class="card-footer bg-none">
+                    <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template" onclick="addBotol()">Tambah Botol</button>
                 </div>
-                    <!-- </div> -->
             </div>
-                <!-- <div class="swiper-slide">Slide 3</div>
+            <!-- </div> -->
+        </div>
+        <!-- <div class="swiper-slide">Slide 3</div>
                 <div class="swiper-slide">Slide 4</div>
                 <div class="swiper-slide">Slide 5</div>
                 <div class="swiper-slide">Slide 6</div>
@@ -149,16 +176,12 @@
                 <div class="swiper-slide">Slide 8</div>
                 <div class="swiper-slide">Slide 9</div>
                 <div class="swiper-slide">Slide 10</div> -->
-        </div>
     </div>
+</div>
 <!-- page content ends -->
 </div>
 <!-- </div> -->
 
-<script>
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("take");
-    output.innerHTML = slider.value;
 
 
 <?= $this->endSection('content'); ?>
@@ -217,6 +240,30 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modal-addBotol" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <div class="camera">
+                    <div id="app">
+                        <p class="error">{{ error }}</p>
+                        <!-- <qrcode-stream @decode="onDecode" @init="onInit"></qrcode-stream> -->
+                        <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit"></qrcode-stream>
+                    </div>
+                </div>
+                <p class="text-mute">Arahkan kamera anda ke QR Botol</p>
+            </div>
+            <div class="modal-body text-center pt-0">
+            </div>
+        </div>
+    </div>
+</div>
+
 <?= $this->endSection('modal'); ?>
 
 
@@ -236,25 +283,28 @@
 
 <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js" async></script>
 <script src="/scanner/vendor/instascan/instascan.min.js" async></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-qrcode-reader/dist/VueQrcodeReader.umd.min.js"></script>
 <script src="/js/scane.js" async></script>
+<script src="/js/botol.js" async></script>
 <script>
-        var swiper = new Swiper('.swiper-container', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            keyboard: {
-                enabled: true,
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-        });
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        // keyboard: {
+        //     enabled: true,
+        // },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
 
-    </script>
 
 <?= $this->endSection('script'); ?>

@@ -22,21 +22,22 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Swiper CSS -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" /> -->
     <!-- <link href="Mandor/swiper/css/swiper.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="Mandor/swiper/css/swiper-bundle.css" />
+    <link rel="stylesheet" href="/Mandor/swiper/css/swiper-bundle.css" />
     <!-- <link rel="stylesheet" href="Mandor/swiper/css/swiper-bundle.min.css" /> -->
 
     <!-- my style.css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <!-- My font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <!-- Manifes -->
-    <link rel="manifest" href="Manifes/manifes.json">
+    <link rel="manifest" href="/Manifes/manifes.json">
     <meta name="theme-color" content="#2196f3">
 
 
     <!-- Custom styles for this template -->
-    <link href="css/home_style.css" rel="stylesheet">
+    <link href="/css/home_style.css" rel="stylesheet">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-30Q4MD7E15"></script>
     <script>
@@ -58,7 +59,7 @@
 
     <div class="preloader">
         <div class="loading">
-            <img src="img/2.gif" width="100%">
+            <img src="/img/2.gif" width="100%">
         </div>
     </div>
     <div class="sidebar">
@@ -162,7 +163,7 @@
                     <div class="col-1">
                         <button class="btn  btn-link text-dark menu-btn"><i class="material-icons">more_horiz</i></button>
                     </div>
-                    <div class="col text-center"><img src="img/spairum logo.png" alt="" class="header-logo"></div>
+                    <div class="col text-center"><img src="/img/spairum logo.png" alt="" class="header-logo"></div>
                     <div class="col-11">
                         <!-- <a href="notification.html" class="btn  btn-link text-dark position-relative"><i class="material-icons">notifications_none</i><span class="counts">9+</span></a> -->
                     </div>
@@ -220,6 +221,9 @@
     <script src="/js/jquery-3.3.1.min.js"></script>
     <!-- <script src="Mandor/bootstrap-4.4.1/js/bootstrap.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- cookie js -->
+    <!-- <script src="Mandor/cookie/jquery.cookie.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
     <!-- <script src="js/popper.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
@@ -229,9 +233,6 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
     <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
 
-    <!-- cookie js -->
-    <!-- <script src="Mandor/cookie/jquery.cookie.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <!-- template custom js -->
     <script src="/js/main.js"></script>

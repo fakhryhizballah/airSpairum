@@ -17,6 +17,7 @@ use App\Models\TokenModel;
 use App\Models\SaldoModel;
 use \Firebase\JWT\JWT;
 use App\Libraries\AuthLibaries;
+use App\Models\BotolModel;
 
 class User extends BaseController
 {
@@ -34,10 +35,37 @@ class User extends BaseController
         $this->TokenModel = new TokenModel();
         $this->SaldoModel = new SaldoModel();
         $this->AuthLibaries = new AuthLibaries();
+        $this->BotolModel = new BotolModel();
         helper('cookie');
     }
 
     public function index()
+    {
+        $akun = $this->AuthLibaries->authCek();
+        $cek = $this->OtpModel->cekid($akun['id_user']);
+        $saldo = $this->SaldoModel->cek_id($akun['id_user']);
+        $botol = $this->BotolModel->botol($akun['id_user']);
+        // dd($saldo);
+        if ($akun['nama_depan'] == null) {
+            session()->setFlashdata('salah', 'Silahkan lengkapi identitas anda');
+            return redirect()->to('editprofile');
+        }
+        if ($cek['status'] == 'belum verifikasi') {
+            session()->setFlashdata('Pesan', 'Terimakasih Telah mendaftar, Segera cek email anda untuk mendapatkan saldo Air 2000 secara gratis');
+            // dd($cek['status']);
+        }
+        $data = [
+            'title' => 'Home | Spairum.com',
+            'akun' => $akun,
+            'saldo' => $saldo,
+            'botol' => $botol
+
+        ];
+        // dd($data);
+        $this->AuthLibaries->notif($akun, "Membuka halaman Home");
+        return view('user/home', $data);
+    }
+    public function camera()
     {
         $akun = $this->AuthLibaries->authCek();
         $cek = $this->OtpModel->cekid($akun['id_user']);
@@ -54,7 +82,7 @@ class User extends BaseController
         $data = [
             'title' => 'Home | Spairum.com',
             'akun' => $akun,
-            'saldo' => $saldo,
+            // 'saldo' => $saldo,
             // 'nama_depan' => $akun['nama_depan'],
             // 'nama_belakang' => $akun['nama_belakang'],
             // 'nama' => $akun['nama'],
@@ -63,7 +91,7 @@ class User extends BaseController
         ];
         // dd($data);
         $this->AuthLibaries->notif($akun, "Membuka halaman Home");
-        return view('user/home', $data);
+        return view('user/vue', $data);
     }
 
     public function take()
