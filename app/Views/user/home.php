@@ -98,7 +98,6 @@
 <!-- <div class="wrapper"> -->
 <div class="container botol">
     <!-- page content here -->
-    <!-- <div data-pagination='{"el": ".swiper-pagination"}'  data-space-between="50" data-loop="true" class="swiper-container swiper-init demo-swiper"> -->
     <div data-pagination='{"el": ".swiper-pagination"}' " class=" swiper-container ">
     <!-- <div class=" swiper-pagination"></div> -->
     <div class="swiper-wrapper">
@@ -235,16 +234,6 @@
                 </div>
                 <p class="text-mute">Arahkan kamera anda ke QR minuman yang anda pilih</p>
             </div>
-            <div class="modal-body text-center pt-0">
-                <!-- <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
-                    <label class="btn btn-primary active">
-                        <input type="radio" name="options" value="1" autocomplete="off" checked> Front Camera
-                    </label>
-                    <label class="btn btn-secondary">
-                        <input type="radio" name="options" value="2" autocomplete="off"> Back Camera
-                    </label>
-                </div> -->
-            </div>
         </div>
     </div>
 </div>
@@ -258,22 +247,16 @@
             </div>
             <div class="modal-body text-center pt-0">
                 <div class="camera">
-                    <div id="app">
-                        <div class="preview-container">
-                            <video id="preview2" class="kamera"></video>
-                        </div>
-                        <section class="cameras">
-                            <h2>Cameras</h2>
-                            <ul>
-                                <li v-if="cameras.length === 0" class="empty">No cameras found</li>
-                                <li v-for="camera in cameras">
-                                    <span v-if="camera.id == activeCameraId" :title="formatName(camera.name)" class="active">{{ formatName(camera.name) }}</span>
-                                    <span v-if="camera.id != activeCameraId" :title="formatName(camera.name)">
-                                        <a @click.stop="selectCamera(camera)">{{ formatName(camera.name) }}</a>
-                                    </span>
-                                </li>
-                            </ul>
-                        </section>
+                    <div class="camera">
+                        <video id="preview2" class="kamera"></video>
+                    </div>
+                    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+                        <label class="btn btn-primary active">
+                            <input type="radio" name="options" value="1" autocomplete="off" checked> Camera 1
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="options" value="2" autocomplete="off">Camera 2
+                        </label>
                     </div>
                 </div>
                 <p class="text-mute">Arahkan kamera anda ke QR Botol</p>
@@ -301,11 +284,11 @@
     }
 </script>
 
-<script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js" async></script>
+<!-- <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js" async></script> -->
+<!-- <script type="text/javascript" src="scanner/vendor/webrtc-adapter/adapter.min.js" async></script> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.1.0/adapter.js" async></script>
 <script src="/scanner/vendor/instascan/instascan.min.js" async></script>
 <!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-<script src="https://unpkg.com/vue-qrcode-reader/dist/VueQrcodeReader.umd.min.js"></script>
 <script src="/js/scane.js" async></script>
 <script src="/js/botol.js" async></script>
 <script>

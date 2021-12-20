@@ -2,133 +2,93 @@
 
 function addBotol() {
     $('#modal-addBotol').modal('show');
-    new Vue({
-        el: '#app',
-        data() {
-            return {
-                // camera: 'rear',
-                noRearCamera: false,
-                noFrontCamera: false
-            }
-        },
-        methods: {
-            startFrontCamera() {
-                this.camera = 'rear'
+
+    let scanner = new Instascan.Scanner({
+        video: document.getElementById('preview2'),
+        scanPeriod: 1,
+        mirror: false
+    });
+
+    scanner.addListener('scan', function (content, image) {
+        $("#code").val(content);
+        var formData = {
+            id_botol: content,
+        };
+        console.log(content);
+        $.ajax({
+            type: "POST",
+            url: "/addBotol/addBotol",
+            data: formData,
+            dataType: "json",
+            encode: true,
+            error: function (data) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Salah QRs',
+                });
             },
-            switchCamera() {
-                switch (this.camera) {
-                    case 'front':
-                        this.camera = 'front'
-                        break
-                    case 'rear':
-                        this.camera = 'rear'
-                        break
-                }
-            },
-            onDecode(url) {
-                // window.location.href = url
-                console.log(url)
-                var formData = {
-                    id_botol: url,
-                };
-                $.ajax({
-                    type: "POST",
-                    url: "/addBotol/addBotol",
-                    data: formData,
-                    dataType: "json",
-                    encode: true,
-                    error: function (data) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Salah QRs',
-                        });
-                    },
-                }).done(function (response) {
-                    Swal.fire({
-                        icon: response.icon,
-                        title: response.status,
-                        text: response.message,
-                        confirmButtonText: 'Oke',
-                    }).then((result) => {
-                        /* Read more about isConfirmed, isDenied below */
-                        if (result.isConfirmed) {
-                            $('#modal-addBotol').modal('hide');
-                            document.location.reload(true)
-                        }
-                    });
-                    console.log(response);
-
-                })
-                this.turnCameraOff()
-                // $('#modal-addBotol').modal('hide');
-                // document.location.reload(true)
-
-                this.result = url
-
-            },
-
-            async onInit(promise) {
-                promise
-                    .then(console.log)
-                    .catch(console.error)
-                try {
-                    await promise
-                    // this.error = promise
-                } catch (error) {
-                    if (error.name === 'NotAllowedError') {
-                        this.error = "ERROR: you need to grant camera access permission"
-                    } else if (error.name === 'NotFoundError') {
-                        this.error = "ERROR: no camera on this device"
-                    } else if (error.name === 'NotSupportedError') {
-                        this.error = "ERROR: secure context required (HTTPS, localhost)"
-                    } else if (error.name === 'NotReadableError') {
-                        this.error = "ERROR: is the camera already in use?"
-                    } else if (error.name === 'OverconstrainedError') {
-                        this.error = "ERROR: installed cameras are not suitable"
-                    } else if (error.name === 'StreamApiNotSupportedError') {
-                        this.error = "ERROR: Stream API is not supported in this browser"
-                    } else if (error.name === 'InsecureContextError') {
-                        this.error = 'ERROR: Camera access is only permitted in secure context. Use HTTPS or localhost rather than HTTP.';
-                    } else {
-                        this.error = `ERROR: Camera error (${error.name})`;
-                    }
-                    const triedFrontCamera = this.camera === 'front'
-                    const triedRearCamera = this.camera === 'rear'
-
-                    const cameraMissingError = error.name === 'OverconstrainedError'
-
-                    if (triedRearCamera && cameraMissingError) {
-                        this.noRearCamera = true
-                    }
-
-                    if (triedFrontCamera && cameraMissingError) {
-                        this.noFrontCamera = true
-                    }
-
-                    console.error(error)
-                }
-                $('#modal-addBotol').on('hidden.bs.modal', function () {
-                    console.log("ssaas")
+        }).done(function (response) {
+            Swal.fire({
+                icon: response.icon,
+                title: response.status,
+                text: response.message,
+                confirmButtonText: 'Oke',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $('#modal-addBotol').modal('hide');
                     document.location.reload(true)
-                })
-            },
+                }
+            });
+        });
+    });
 
-            turnCameraOff() {
-                this.camera = 'off'
-            },
+    // return window.location = route;
+    Instascan.Camera.getCameras().then(function (cameras) {
+        console.log(cameras);
 
-            greet: function (event) {
-                // `this` inside methods points to the Vue instance
-                this.camera = 'auto'
-            },
-        },
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+            $('[name="options"]').on('change', function () {
+                if ($(this).val() == 1) {
+                    if (cameras[0] != "") {
+                        scanner.start(cameras[0]);
+                    } else {
+                        alert('No Front camera found!');
+                    }
+                } else if ($(this).val() == 2) {
+                    if (cameras[1] != "") {
+                        scanner.start(cameras[1]);
+                    } else {
+                        alert('No Back camera found!');
+                    }
+                }
+            });
+            console.log(activeCameraId.name);
 
-    })
-    $('#modal-pindai').on('hidden.bs.modal', function () {
+
+            isQRScannerInitialised = true;
+
+        } else {
+
+            alert('No cameras found.');
+            console.error('No cameras found.');
+            isQRScannerInitialised = false;
+            return;
+        }
+    }).catch(function (e) {
+        console.error(e);
+    });
+    isQRScannerInitialised = false;
+
+    console.log('Show Modal');
+
+    $('#modal-addBotol').on('hidden.bs.modal', function () {
         console.log('close Modal');
-        // scanner.stop();
+        scanner.stop();
     })
+
 }
 function hapusbtol(id) {
     Swal.fire({
