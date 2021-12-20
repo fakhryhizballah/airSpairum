@@ -252,14 +252,24 @@
                 <div class="camera">
                     <div id="app">
                         <p class="error">{{ error }}</p>
-                        <!-- <qrcode-stream @decode="onDecode" @init="onInit"></qrcode-stream> -->
-                        <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit">
+                        <p class="error" v-if="noFrontCamera">
+                            You don't seem to have a front camera on your device
+                        </p>
+
+                        <p class="error" v-if="noRearCamera">
+                            You don't seem to have a rear camera on your device
+                        </p>
+                        <qrcode-stream @decode="onDecode" @init="onInit"></qrcode-stream>
+                        <!-- <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit"> -->
 
                         </qrcode-stream>
-                        <button class="btn btn-rounded bg-template" @click="switchCamera">
+                        <!-- <button class="btn btn-rounded bg-template" @click="switchCamera">
                             <span class="material-icons">
                                 flip_camera_ios
                             </span>
+                        </button> -->
+                        <button @click="switchCamera">
+                            <img alt="switch camera">
                         </button>
                     </div>
                 </div>
