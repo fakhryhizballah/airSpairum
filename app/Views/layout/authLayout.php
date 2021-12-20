@@ -1,14 +1,12 @@
 <!doctype html>
-<html lang="en" class="deeppurple-theme">
+<html lang="id" class="lightblue-theme">
 
-
-<!-- Mirrored from maxartkiller.com/website/Fimobile/Fimobile-HTML/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 04 Dec 2019 13:37:09 GMT -->
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover, user-scalable=no">
-    <meta name="description" content="">
-    <meta name="author" content="Maxartkiller">
+    <meta name="description" content="Aplikasi air spairum, yang dapat menghubungkan anda dengan stasiun pengisian air minum">
+    <meta name="author" content="fakhry Spairum">
 
     <title><?= $title; ?></title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-30Q4MD7E15"></script>
