@@ -21,6 +21,9 @@ function addBotol() {
                     case 'rear':
                         this.camera = 'front'
                         break
+                    case 'auto':
+                        this.camera = 'auto'
+                        break
                 }
             },
             onDecode(url) {
