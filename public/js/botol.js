@@ -1,5 +1,4 @@
 // $('#modal-addBotol').modal({ backdrop: 'static' })
-
 function addBotol() {
     $('#modal-addBotol').modal('show');
 

@@ -1,6 +1,11 @@
 <?= $this->extend('layout/user_template'); ?>
-<?= $this->section('content'); ?>
+<?= $this->section('head'); ?>
 
+<?= $this->endSection('head'); ?>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.1.0/adapter.js" async></script>
+<script src="/scanner/vendor/instascan/instascan.min.js" async></script>
+
+<?= $this->section('content'); ?>
 <div class="swal" data-swal="<?= session()->getFlashdata('Pesan'); ?>"></div>
 <div class="flash-data" data-flashdata="<?= session()->getFlashdata('flash'); ?>"></div>
 <section>
@@ -222,7 +227,7 @@
             </div>
             <div class="modal-body text-center pt-0">
                 <div class="camera">
-                    <video id="preview" class="kamera"></video>
+                    <video id="preview" class="kamera" playsinline></video>
                 </div>
                 <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
                     <label class="btn btn-primary active">
@@ -248,7 +253,7 @@
             <div class="modal-body text-center pt-0">
                 <div class="camera">
                     <div class="camera">
-                        <video id="preview2" class="kamera"></video>
+                        <video id="preview2" class="kamera" playsinline></video>
                     </div>
                     <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
                         <label class="btn btn-primary active">
@@ -286,8 +291,6 @@
 
 <!-- <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js" async></script> -->
 <!-- <script type="text/javascript" src="scanner/vendor/webrtc-adapter/adapter.min.js" async></script> -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.1.0/adapter.js" async></script>
-<script src="/scanner/vendor/instascan/instascan.min.js" async></script>
 <!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
 <script src="/js/scane.js" async></script>
 <script src="/js/botol.js" async></script>
