@@ -265,12 +265,12 @@
         $(window).on('load', function() {});
     </script> -->
 
+    <?= $this->renderSection('script'); ?>
     <script>
         $(document).ready(function() {
             $(".preloader").fadeOut();
         })
     </script>
-    <?= $this->renderSection('script'); ?>
 
 </body>
 
