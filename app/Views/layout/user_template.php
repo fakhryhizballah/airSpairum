@@ -50,6 +50,7 @@
 
         gtag('config', 'G-30Q4MD7E15');
     </script>
+    <?= $this->renderSection('head'); ?>
 
 </head>
 <title><?= $title; ?></title>
