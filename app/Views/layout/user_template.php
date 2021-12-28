@@ -18,14 +18,12 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
 
     <!-- Bootstrap core CSS -->
-    <!-- <link href="Mandor/bootstrap-4.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Swiper CSS -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" /> -->
-    <!-- <link href="Mandor/swiper/css/swiper.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="/Mandor/swiper/css/swiper-bundle.css" />
-    <!-- <link rel="stylesheet" href="Mandor/swiper/css/swiper-bundle.min.css" /> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/css/swiper.min.css" rel="stylesheet">
+
 
     <!-- my style.css -->
     <link rel="stylesheet" href="/css/style.css">
@@ -39,6 +37,7 @@
     <!-- Custom styles for this template -->
     <link href="/css/home_style.css" rel="stylesheet">
     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <?= $this->renderSection('head'); ?>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-30Q4MD7E15"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -50,19 +49,29 @@
 
         gtag('config', 'G-30Q4MD7E15');
     </script>
-    <?= $this->renderSection('head'); ?>
 
 </head>
 <title><?= $title; ?></title>
 
 
 <body>
-
-    <div class="preloader">
-        <div class="loading">
-            <img src="/img/2.gif" width="100%">
+    <!-- Loader -->
+    <div class="row no-gutters vh-100 loader-screen">
+        <div class="col align-self-center text-white text-center">
+            <img src="img/spairum logo.png" width="50%" alt=" logo">
+            <!-- <h1 class="mt-3"><span class="font-weight-light ">Air </span>Spairum</h1> -->
+            <!-- <p class="text-mute text-uppercase small">Ayo isi ulang air minum</p> -->
+            <p class="text-mute text-uppercase small"></p>
+            <div class="laoderhorizontal">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     </div>
+    <!-- Loader ends -->
+
     <div class="sidebar">
         <div class="mt-4 mb-3">
             <div class="row">
@@ -220,28 +229,22 @@
 
     <!-- jquery, popper and bootstrap js -->
     <script src="/js/jquery-3.3.1.min.js"></script>
-    <!-- <script src="Mandor/bootstrap-4.4.1/js/bootstrap.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <!-- cookie js -->
-    <!-- <script src="Mandor/cookie/jquery.cookie.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
-    <!-- <script src="js/popper.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
     <!-- swiper js -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-    <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/js/swiper.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <!-- template custom js -->
     <script src="/js/main.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id='G-30Q4MD7E15'"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="/js/script.js"></script>
-
 
     <script>
         function previewImg() {
@@ -266,12 +269,6 @@
     </script> -->
 
     <?= $this->renderSection('script'); ?>
-    <script>
-        $(document).ready(function() {
-            $(".preloader").fadeOut();
-        })
-    </script>
-
 </body>
 
 </html>
