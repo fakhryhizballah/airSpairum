@@ -20,6 +20,7 @@ var urlsToCache = [
 
 self.addEventListener('install', function(event) {
     // Perform install steps
+    console.log("SW Install");
     event.waitUntil(
         caches.open(CACHE_NAME)
         .then(function(cache) {
@@ -30,34 +31,38 @@ self.addEventListener('install', function(event) {
 });
 self.addEventListener('fetch', function(event) {
 
-    // event.respondWith(
-    //     caches.match(event.request)
-    //     .then(function(response) {
-    //         // Cache hit - return response
-    //         if (response) {
-    //             return response;
-    //         }
-    //         return fetch(event.request);
-    //     })
-    // );
     event.respondWith(
-        caches.open(CACHE_NAME).then(function(cache) {
-            return cache.match(event.request).then(function(response) {
-                return (
-                    response ||
-                    fetch(event.request).then(function(response) {
-                        cache.put(event.request, response.clone());
-                        return response;
-                    })
-                );
-            });
-        }),
+        caches.match(event.request)
+            .then(function (response) {
+                // Cache hit - return response
+                if (response) {
+                    return response;
+            }
+            return fetch(event.request);
+        })
     );
+    console.log("SW fecth");
+    const url = new URL(event.request.url);
+    console.log(event.request);
+    // event.respondWith(
+    //     caches.open(CACHE_NAME).then(function(cache) {
+    //         return cache.match(event.request).then(function(response) {
+    //             return (
+    //                 response ||
+    //                 fetch(event.request).then(function(response) {
+    //                     cache.put(event.request, response.clone());
+    //                     return response;
+    //                 })
+    //             );
+    //         });
+    //     }),
+    // );
 });
 
 
 //activate service worker 
 self.addEventListener('activate', event => {
+    console.log("SW activate now ready to handle fetches!");
     // delete any caches that aren't in expectedCaches
     // which will get rid of static-v1
     // event.waitUntil(
