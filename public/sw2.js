@@ -1,21 +1,19 @@
-var CACHE_NAME = 'my-site-cache-v1';
+var CACHE_NAME = 'my-site-cache-v2';
 var urlsToCache = [
-    '/js/jquery-3.3.1.min.js',
     '/js/main.js',
     '/js/script.js',
     '/css/home_style.css',
     '/css/style.css',
     '/img/user/user.png',
-    '/img/2.gif',
     '/img/spairum%20logo.png',
     '/img/infomarmation-graphics2.png',
     '/scanner/js/scanner.js',
     '/Manifes/manifes.json',
-    'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
-    'https://cdn.jsdelivr.net/npm/sweetalert2@9',
-    'https://unpkg.com/swiper@7.0.6/swiper-bundle.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css',
     'https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js',
-    'http://localhost:8080/Mandor/swiper/css/swiper-bundle.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/js/swiper.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/css/swiper.min.css',
+
     'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon-2x.png',
     'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
 ];

@@ -60,7 +60,7 @@ for (let i = 0; i < menuLength; i++) {
 // PWA 
 
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('/sw2.js')
         .then(function (registration) {
             console.log('Registration successful, scope is:', registration.scope);
         })
