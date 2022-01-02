@@ -185,7 +185,6 @@
 
 
         <?= $this->renderSection('content'); ?>
-
         <!-- footer-->
         <div class="footer">
             <div class="no-gutters">
@@ -273,6 +272,17 @@
     </script> -->
 
     <?= $this->renderSection('script'); ?>
+    <script>
+        $.ajax({
+            type: "put",
+            // data: data,
+            dataType: "json",
+            url: "/Ajax/log",
+            success: function(response) {
+                console.log(response);
+            }
+        })
+    </script>
 </body>
 
 </html>

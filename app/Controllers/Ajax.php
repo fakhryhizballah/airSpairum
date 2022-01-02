@@ -6,6 +6,7 @@ use App\Libraries\AuthLibaries;
 use App\Models\StasiunModel;
 use App\Models\UserModel;
 use App\Models\OtpModel;
+use App\Models\LogModel;
 use CodeIgniter\I18n\Time;
 use Generator;
 
@@ -18,6 +19,7 @@ class Ajax extends BaseController
         $this->StasiunModel = new StasiunModel();
         $this->UserModel = new UserModel();
         $this->OtpModel = new OtpModel();
+        $this->LogModel = new LogModel();
     }
     public function index()
     {
@@ -114,19 +116,88 @@ class Ajax extends BaseController
         echo json_encode($myJSON);
         $this->AuthLibaries->notif($akun, "Mengambil Air $minum di $lokasi sebanayk $vaule mL");
     }
-    // public function Generator()
-    // {
-    //     $db      = \Config\Database::connect();
-    //     $builder = $db->table('user');
-    //     $builder->select('*');
-    //     $builder->join('otp', 'otp.id_user = user.id_user');
-    //     $arr = $builder->get()->getResultObject();
-    //     // dd($arr);
-    //     $saldo = $db->table('saldo');
-    //     $history = $db->table('history');
+    public function log()
+    {
+        $akun = $this->AuthLibaries->authCek();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $browser = $_SERVER['HTTP_USER_AGENT'];
+        $name = ($akun['nama_depan'] . " " . $akun['nama_belakang']);
+        // $ip = '180.242.232.191';
+        $last = [
+            'user' => $akun['id_user'],
+            'ip' => $ip,
+            'brouser' => $browser
+        ];
+        $cek = implode("-", $last);
+        $key = hash('sha256', $cek);
+        $cekKey = $this->LogModel->cekKey($key);
+        if (!empty($cekKey)) {
+            $data = [
+                'id' => $cekKey['id']
+            ];
+            $status = $this->LogModel->save($data);
+            echo json_encode(array(
+                'status' => 200,
+                'error' => true,
+                'msg' => "Data telah ada",
+                'data' => $cekKey
+            ));
+            return;
+        };
+        $curl = curl_init();
 
-    //     echo "$value->nama <br>";
-    //     echo "$value->id_user<br>";
-    // }
-    // // dd($query[0]->nama);
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "http://ip-api.com/json/$ip",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        // echo $response;
+        $apiIP = json_decode($response, true);
+
+        try {
+            //If the exception is thrown, this text will not be shown
+            $data = [
+                'key'        => $key,
+                'id_user'    => $akun['id_user'],
+                'name'       => $name,
+                'user_agent' => $browser,
+                'ip_user'    => $ip,
+                'country'    => $apiIP['country'],
+                'regionName' => $apiIP['regionName'],
+                'city'       => $apiIP['city'],
+                'isp'        => $apiIP['isp'],
+                'org'        => $apiIP['org'],
+                'as'         => $apiIP['as'],
+                // 'time' => $myTime,
+            ];
+            $status = $this->LogModel->save($data);
+            echo json_encode(array(
+                'status' => 200,
+                'error' => true,
+                'msg' => $data,
+                'save' => $status,
+            ));
+            return;
+        }
+
+        //catch exception
+        catch (\Exception $e) {
+            echo $e;
+            echo json_encode(array(
+                'status' => '400',
+                'error' => false,
+                'msg' => $e
+            ));
+            return;
+        }
+    }
 }
