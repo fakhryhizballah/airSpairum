@@ -279,7 +279,10 @@
             dataType: "json",
             url: "/Ajax/log",
             success: function(response) {
-                console.log(response);
+                // console.log(response);
+            },
+            error: function(e) {
+                console.log(e);
             }
         })
     </script>
