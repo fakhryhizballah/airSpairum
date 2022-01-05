@@ -278,8 +278,8 @@ class Auth extends BaseController
 		];
 		//dd($this->request->getVar());
 		$id = $this->request->getVar('nama');
-		$gen = random_string('alnum', 3);
-		$id_usr = substr(sha1($id), 0, 8);
+		$gen = random_string('alnum', 5);
+		$id_usr = substr(sha1($id), 0, 10);
 		helper('text');
 		$token = random_string('alnum', 28);
 		$email = $this->request->getVar('email');
