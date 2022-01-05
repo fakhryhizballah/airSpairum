@@ -212,23 +212,29 @@ class Auth extends BaseController
 			'nama' => [
 				'rules'  => 'required|alpha_dash|is_unique[user.nama]',
 				'errors' => [
-					'required' => '{field} wajid di isi',
+					'required' => 'username wajid di isi',
 					'alpha_dash' => 'Tidak boleh mengunakan spasi',
 					'is_unique' => 'Nama Account sudah terdaftar'
 				]
 			],
-			'nama_depan' => [
-				'rules'  => 'required',
+			'fullname' => [
+				'rules'  => 'required|alpha_space',
 				'errors' => [
 					'required' => '{field} wajid di isi',
 				]
 			],
-			'nama_belakang' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => '{field} wajid di isi',
-				]
-			],
+			// 'nama_depan' => [
+			// 	'rules'  => 'required|alpha_space', 
+			// 	'errors' => [
+			// 		'required' => '{field} wajid di isi',
+			// 	]
+			// ],
+			// 'nama_belakang' => [
+			// 	'rules'  => 'required',
+			// 	'errors' => [
+			// 		'required' => '{field} wajid di isi',
+			// 	]
+			// ],
 			'email' => [
 				'rules'  => 'required|valid_email|is_unique[user.email]',
 				'errors' => [
@@ -264,7 +270,7 @@ class Auth extends BaseController
 		])) {
 			$validation = \config\Services::validation();
 
-			return redirect()->to('/daftar')->withInput()->with('validation', $validation);
+			// return redirect()->to('/daftar')->withInput()->with('validation', $validation);
 		}
 		$data = [
 			'title' => 'Registrasi',
@@ -278,12 +284,20 @@ class Auth extends BaseController
 		$token = random_string('alnum', 28);
 		$email = $this->request->getVar('email');
 		$user = $this->request->getVar('nama');
-		$nama_depan =  ucwords($this->request->getVar('nama_depan'));
-		$nama_belakang = ucwords($this->request->getVar('nama_belakang'));
+		// $nama_depan =  ucwords($this->request->getVar('nama_depan'));
+		// $nama_belakang = ucwords($this->request->getVar('nama_belakang'));
+		$fullname = ucwords($this->request->getVar('fullname'));
+		$pars_nama = explode(" ", $fullname);
+		$nama_belakang = "";
+		for ($i = 1; $i < count($pars_nama); $i++) {
+			$nama_belakang .= $pars_nama[$i] . " ";
+		}
 		$this->OtpModel->save([
 			'id_user' => "$id_usr$gen",
 			'nama' => $user,
-			'nama_depan' => $nama_depan,
+			// 'nama_depan' => $nama_depan,
+			// 'nama_belakang' => $nama_belakang,
+			'nama_depan' => $pars_nama[0],
 			'nama_belakang' => $nama_belakang,
 			'email' => $email,
 			'telp' => $this->request->getVar('telp'),
@@ -294,7 +308,9 @@ class Auth extends BaseController
 		$this->UserModel->save([
 			'id_user' => "$id_usr$gen",
 			'nama' => $user,
-			'nama_depan' => $nama_depan,
+			// 'nama_depan' => $nama_depan,
+			// 'nama_belakang' => $nama_belakang,
+			'nama_depan' => $pars_nama[0],
 			'nama_belakang' => $nama_belakang,
 			'email' => $email,
 			'telp' => $this->request->getVar('telp'),
@@ -303,6 +319,16 @@ class Auth extends BaseController
 			'debit' => '0',
 			'kredit' => '0',
 		]);
+		$masage = [
+				"message" => "$fullname mendaftar air.spairum.my.id",
+				"number" => "0895321701798"
+			];
+		$masage2 = [
+				"message" => "$fullname mendaftar air.spairum.my.id",
+				"number" => "082254894778"
+			];
+		$this->AuthLibaries->sendWa($masage);
+		$this->AuthLibaries->sendWa($masage2);
 		$this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
 		$this->email->setTo($email);
 		// $this->email->setBCC('falehry88@gmail.com');
@@ -328,7 +354,7 @@ class Auth extends BaseController
 					<tr>
 						<td style='text-align: left; padding: 0px 50px;' valign='top'>
 							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 3%;'>
-								Hi $nama_depan $nama_belakang,
+								Hi $fullname,
 							</p>
 							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 3%;'>
 								Terimakasih telah membuat akun spairum silahkan melakukan untuk mendapatkan saldo isi ulang air 2000 secara gratis silahkan klik tombol dibawah ini:
@@ -336,7 +362,8 @@ class Auth extends BaseController
 							<br>
 							<a href='https://air.spairum.my.id/otp/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'>Mau dong</a>
 							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 3%;'><br/>Jika ada masukan atau pertanyaan bisa langsung menghubungi :
-								<br/>Technical Support: +62895321701798</p>
+								<br/>Technical Support Spairum
+								<br/>Fakhry Hizballah : <a href='http://wa.me/+62895321701798'>+62895321701798</a></p>
 						</td>
 					</tr>
 					<tr>
@@ -390,7 +417,6 @@ class Auth extends BaseController
 			if (empty($_COOKIE['theme-color'])) {
 				setCookie("theme-color", "lightblue-theme",  $arr_cookie_options);
 			}
-
 			return redirect()->to('/user');
 		} else {
 			$data = $email->printDebugger(['headers']);

@@ -36,7 +36,11 @@
                                 <input type="text" class="form-control form-control-user <?= ($validation->hasError('nama')) ? 'is-invalid' : ''; ?>" id="nama" name="nama" placeholder="Username" autofocus value="<?= old('nama'); ?>">
                                 <div class="invalid-feedback"><?= $validation->getError('nama'); ?></div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user <?= ($validation->hasError('fullname')) ? 'is-invalid' : ''; ?>" id="fullname" name="fullname" placeholder="Nama Lengkap" autofocus value="<?= old('fullname'); ?>">
+                                <div class="invalid-feedback"><?= $validation->getError('fullname'); ?></div>
+                            </div>
+                            <!-- <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="text" class="form-control form-control-user <?= ($validation->hasError('nama_depan')) ? 'is-invalid' : ''; ?>" id="nama_depan" name="nama_depan" placeholder="Nama Depan" autofocus value="<?= old('nama_depan'); ?>">
                                     <div class="invalid-feedback"><?= $validation->getError('nama_depan'); ?></div>
@@ -45,7 +49,7 @@
                                     <input type="text" class="form-control form-control-user <?= ($validation->hasError('nama_belakang')) ? 'is-invalid' : ''; ?>" id="nama_belakang" name="nama_belakang" placeholder="Nama Belakang" autofocus value="<?= old('nama_belakang'); ?>">
                                     <div class="invalid-feedback"><?= $validation->getError('nama_belakang'); ?></div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" placeholder="Email Address" value="<?= old('email'); ?>">
                                 <div class="invalid-feedback"><?= $validation->getError('email'); ?></div>

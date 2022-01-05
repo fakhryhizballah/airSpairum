@@ -72,4 +72,26 @@ class AuthLibaries
         // // echo $response;
         return;
     }
+    public function sendWa($masage)
+    {
+        // $server   = 'ws.spairum.my.id';
+        $server   = 'spairum.my.id';
+        $port     = 1883;
+        $clientId =  "wa_Sender";
+        // $masage = [
+        //     "message" => 'hai',
+        //     "number" => "0895321701798"
+        // ];
+        $myJSON = json_encode($masage);
+        $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
+            ->setUsername('mqttuntan')
+            ->setPassword('mqttuntan');
+
+        $mqtt = new \PhpMqtt\Client\MqttClient($server, $port, $clientId);
+        $mqtt->connect($connectionSettings, true);
+        $mqtt->publish("sendPesan",  $myJSON);
+        $mqtt->disconnect();
+        // echo json_encode($myJSON);
+        return;
+    }
 }
