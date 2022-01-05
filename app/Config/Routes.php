@@ -37,6 +37,7 @@ $routes->get('/regis', 'Auth::regis');
 $routes->post('/save', 'Auth::save');
 $routes->get('/daftar', 'Auth::daftar');
 $routes->get('/otp/(:any)', 'Auth::otp/$1');
+$routes->get('/token_wa/(:any)', 'Auth::verified_wa/$1');
 $routes->get('/lupa', 'Auth::lupa');
 $routes->post('/sendemail', 'Auth::sendemail');
 

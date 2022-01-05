@@ -6,6 +6,7 @@ use App\Models\UserModel;
 use App\Models\OtpModel;
 use App\Models\TokenModel;
 use App\Models\HistoryModel;
+use App\Models\VerifiedModel;
 use CodeIgniter\I18n\Time;
 use \Firebase\JWT\JWT;
 use App\Libraries\AuthLibaries;
@@ -20,6 +21,7 @@ class Auth extends BaseController
 		$this->OtpModel = new OtpModel();
 		$this->TokenModel = new TokenModel();
 		$this->HistoryModel = new HistoryModel();
+		$this->VerifiedModel = new VerifiedModel();
 		$this->Time = new Time('Asia/Jakarta');
 		$this->email = \Config\Services::email();
 		$this->AuthLibaries = new AuthLibaries();
@@ -277,6 +279,7 @@ class Auth extends BaseController
 			'validation' => \Config\Services::validation()
 		];
 		//dd($this->request->getVar());
+		$time = $this->Time::now('Asia/Jakarta');
 		$id = $this->request->getVar('nama');
 		$gen = random_string('alnum', 5);
 		$id_usr = substr(sha1($id), 0, 10);
@@ -287,6 +290,7 @@ class Auth extends BaseController
 		// $nama_depan =  ucwords($this->request->getVar('nama_depan'));
 		// $nama_belakang = ucwords($this->request->getVar('nama_belakang'));
 		$fullname = ucwords($this->request->getVar('fullname'));
+		$telp = $this->request->getVar('telp');
 		$pars_nama = explode(" ", $fullname);
 		$nama_belakang = "";
 		for ($i = 1; $i < count($pars_nama); $i++) {
@@ -300,7 +304,7 @@ class Auth extends BaseController
 			'nama_depan' => $pars_nama[0],
 			'nama_belakang' => $nama_belakang,
 			'email' => $email,
-			'telp' => $this->request->getVar('telp'),
+			'telp' => $telp,
 			'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
 			'link' => $token,
 			'status' => 'belum verifikasi'
@@ -313,22 +317,41 @@ class Auth extends BaseController
 			'nama_depan' => $pars_nama[0],
 			'nama_belakang' => $nama_belakang,
 			'email' => $email,
-			'telp' => $this->request->getVar('telp'),
+			'telp' => $telp,
 			'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
 			'profil' => 'user.png',
 			'debit' => '0',
 			'kredit' => '0',
 		]);
+		$this->VerifiedModel->save([
+			'id_user' => "$id_usr$gen",
+			'email_status' => "unverified",
+			'verified_email_date' => $time,
+			'token_email' => $token,
+			'whatsapp_status' => "unverified",
+			'verified_wa_date' => $time,
+			'token_wa' => "$token$gen",
+		]);
 		$masage = [
-				"message" => "$fullname mendaftar air.spairum.my.id",
+			"message" => "$fullname mendaftar air.spairum.my.id",
 				"number" => "0895321701798"
 			];
 		$masage2 = [
 				"message" => "$fullname mendaftar air.spairum.my.id",
 				"number" => "082254894778"
 			];
+		$masage3 = [
+				"message" => "Hallo kak $fullname, salam kenal aku admin spairum",
+				"number" => "$telp"
+			];
+		$masage4 = [
+				"message" => "Terimakasih telah membuat akun spairum silahkan melakukan untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
+				"number" => "$telp"
+			];
+		$this->AuthLibaries->sendWa($masage3);
 		$this->AuthLibaries->sendWa($masage);
 		$this->AuthLibaries->sendWa($masage2);
+		$this->AuthLibaries->sendWa($masage4);
 		$this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
 		$this->email->setTo($email);
 		// $this->email->setBCC('falehry88@gmail.com');
@@ -426,6 +449,40 @@ class Auth extends BaseController
 		session()->setFlashdata('flash', 'Silakan cek kotak masuk email atau spam untuk verifikasi.');
 		return redirect()->to('/');
 	}
+	public function verified_wa($link)
+	{
+		$cek = $this->VerifiedModel->cekWa($link);
+		if (empty($cek)) {
+			session()->setFlashdata('gagal', 'Akun sudah di verifikasi');
+			return redirect()->to('/');
+		}
+		$time = $this->Time::now('Asia/Jakarta');
+		$token = substr(sha1($cek['token_wa']), 0, 10);
+		$user = $this->UserModel->cek_id($cek['id_user']);
+		$debit = $user['debit'] + 1000;
+		$token = substr(sha1($cek['link']), 0, 10);
+		$data = [
+			'debit' => $debit,
+		];
+		$this->UserModel->updateprofile($data, $user['id']);
+
+		$this->VerifiedModel->save([
+			'id' => $cek['id'],
+			'whatsapp_status' => "verified",
+			'verified_wa_date' => $time,
+			'token_wa' => $token
+		]);
+		$datavocer = [
+			'id_master' => $cek['id_user'],
+			'Id_slave' => 'Admin',
+			'Lokasi' => 'Verifikasi',
+			'status' => 'Verifikasi nomor telpon',
+			'created_at' => $this->Time::now('Asia/Jakarta')
+		];
+		$this->HistoryModel->save($datavocer);
+		session()->setFlashdata('flash', 'Terima kasih nomor telpon anda telah diverifikasi');
+		return redirect()->to('/user');
+	}
 
 	public function otp($link)
 	{
@@ -434,9 +491,11 @@ class Auth extends BaseController
 			session()->setFlashdata('gagal', 'Akun sudah di verifikasi');
 			return redirect()->to('/');
 		}
+		$time = $this->Time::now('Asia/Jakarta');
 		$user = $this->UserModel->cek_id($cek['id_user']);
-		// dd($user);
+		$cek_Verified = $this->VerifiedModel->cek_id($cek['id_user']);
 		$debit = $user['debit'] + 2000;
+		$token = substr(sha1($cek['link']), 0, 10);
 		$data = [
 			'debit' => $debit,
 		];
@@ -452,8 +511,14 @@ class Auth extends BaseController
 		$this->HistoryModel->save($datavocer);
 		$this->OtpModel->save([
 			'id' => $cek['id'],
-			'link' => substr(sha1($cek['link']), 0, 10),
+			'link' => $token,
 			'status' => 'terverifikasi',
+		]);
+		$this->VerifiedModel->save([
+			'id' => $cek_Verified['id'],
+			'email_status' => "verified",
+			'verified_email_date' => $time,
+			'token_email' => $token,
 		]);
 		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 2000');
 		return redirect()->to('/user');
