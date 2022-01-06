@@ -42,8 +42,6 @@ class User extends BaseController
 
     public function index()
     {
-        $benchmark = \Config\Services::timer();
-        $benchmark->start('render view');
         $akun = $this->AuthLibaries->authCek();
         $cek = $this->OtpModel->cekid($akun['id_user']);
         $saldo = $this->SaldoModel->cek_id($akun['id_user']);

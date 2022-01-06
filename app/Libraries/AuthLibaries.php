@@ -40,6 +40,10 @@ class AuthLibaries
         }
         $nama = $decoded->nama;
         $akun = $this->UserModel->cek_login($nama);
+        if (empty($akun)) {
+            session()->setFlashdata('gagal', 'sesi login anda telah habis');
+            return redirect()->to('/');
+        }
         return $akun;
     }
 
