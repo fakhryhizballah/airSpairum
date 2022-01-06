@@ -210,7 +210,7 @@ class Ajax extends BaseController
             $port     = 1883;
             $clientId =  $akun['id_user'];
             $masage = [
-                "message" => 'hai',
+                "message" => 'tes WA Mqtt',
                 "number" => $noHp
             ];
             $myJSON = json_encode($masage);
