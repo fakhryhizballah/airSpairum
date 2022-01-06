@@ -345,7 +345,7 @@ class Auth extends BaseController
 				"number" => "$telp"
 			];
 		$masage4 = [
-				"message" => "Terimakasih telah membuat akun spairum silahkan melakukan untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
+			"message" => "Terimakasih telah membuat akun spairum, untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
 				"number" => "$telp"
 			];
 		$this->AuthLibaries->sendWa($masage3);
