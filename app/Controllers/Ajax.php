@@ -200,4 +200,28 @@ class Ajax extends BaseController
             return;
         }
     }
+    public function sendWa()
+    {
+        $akun = $this->AuthLibaries->authCek();
+        $data = $this->request->getVar();
+
+        // $server   = 'ws.spairum.my.id';
+        $server   = 'spairum.my.id';
+        $port     = 1883;
+        $clientId =  $akun['id_user'];
+        $masage = [
+            "message" => 'hai',
+            "number" => "0895321701798"
+        ];
+        $myJSON = json_encode($masage);
+        $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
+            ->setUsername('mqttuntan')
+            ->setPassword('mqttuntan');
+
+        $mqtt = new \PhpMqtt\Client\MqttClient($server, $port, $clientId);
+        $mqtt->connect($connectionSettings, true);
+        $mqtt->publish("sendPesan",  $myJSON);
+        $mqtt->disconnect();
+        echo json_encode($myJSON);
+    }
 }
