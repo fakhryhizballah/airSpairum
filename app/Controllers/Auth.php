@@ -493,7 +493,7 @@ class Auth extends BaseController
 		}
 		$time = $this->Time::now('Asia/Jakarta');
 		$user = $this->UserModel->cek_id($cek['id_user']);
-		$cek_Verified = $this->VerifiedModel->cek_id($cek['id_user']);
+		$cek_Verified = $this->VerifiedModel->cekid($cek['id_user']);
 		$debit = $user['debit'] + 2000;
 		$token = substr(sha1($cek['link']), 0, 10);
 		$data = [
