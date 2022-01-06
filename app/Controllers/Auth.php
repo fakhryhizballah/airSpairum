@@ -475,8 +475,9 @@ class Auth extends BaseController
 		$datavocer = [
 			'id_master' => $cek['id_user'],
 			'Id_slave' => 'Admin',
-			'Lokasi' => 'Verifikasi',
+			'Lokasi' => 'Bonus',
 			'status' => 'Verifikasi nomor telpon',
+			'isi' => $debit,
 			'created_at' => $this->Time::now('Asia/Jakarta')
 		];
 		$this->HistoryModel->save($datavocer);
