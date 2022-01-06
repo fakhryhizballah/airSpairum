@@ -42,6 +42,7 @@ class AuthLibaries
         $akun = $this->UserModel->cek_login($nama);
         if (empty($akun)) {
             session()->setFlashdata('gagal', 'sesi login anda telah habis');
+            setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
             return redirect()->to('/');
         }
         return $akun;
