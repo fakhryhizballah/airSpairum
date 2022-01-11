@@ -10,6 +10,7 @@ use App\Models\VerifiedModel;
 use CodeIgniter\I18n\Time;
 use \Firebase\JWT\JWT;
 use App\Libraries\AuthLibaries;
+use App\Libraries\SetStatic;
 
 
 class Auth extends BaseController
@@ -25,6 +26,7 @@ class Auth extends BaseController
 		$this->Time = new Time('Asia/Jakarta');
 		$this->email = \Config\Services::email();
 		$this->AuthLibaries = new AuthLibaries();
+		$this->SetStatic = new SetStatic();
 		helper('text');
 		helper('cookie');
 	}
@@ -32,16 +34,9 @@ class Auth extends BaseController
 	public static string $key = 'ss';
 	public function index()
 	{
-		$arr_cookie_options = array(
-			'expires' => time() + 60 * 60 * 24 * 30,
-			'path' => '/',
-			'domain' => "", // leading dot for compatibility or use subdomain
-			'secure' => true,     // or false
-			'httponly' => false,    // or false
-			'samesite' => 'None' // None || Lax  || Strict
-		);
+		// dd(SetStatic::cookie_options());
 
-		setCookie("theme-color", "blue-theme",  $arr_cookie_options);
+		setCookie("theme-color", "blue-theme",  SetStatic::cookie_options());
 
 		if (empty($_COOKIE['X-Sparum-Token'])) {
 			$data = [
@@ -62,17 +57,8 @@ class Auth extends BaseController
 	}
 	public function masuk()
 	{
-		$arr_cookie_options = array(
-			'expires' => time() + 60 * 60 * 24 * 30,
-			'path' => '/',
-			'domain' => "", // leading dot for compatibility or use subdomain
-			'secure' => true,     // or false
-			'httponly' => false,    // or false
-			'samesite' => 'None' // None || Lax  || Strict
-		);
-
 		if (empty($_COOKIE['theme-color'])) {
-			setCookie("theme-color", "blue-theme",  $arr_cookie_options);
+			setCookie("theme-color", "blue-theme",  SetStatic::cookie_options());
 		}
 		$data = [
 			'title' => 'Login - Air Spairum',
@@ -136,19 +122,10 @@ class Auth extends BaseController
 				'status' => 'Login'
 			]);
 
-
-			$arr_cookie_options = array(
-				'expires' => time() + 60 * 60 * 24 * 60,
-				'path' => '/',
-				'domain' => "", // leading dot for compatibility or use subdomain
-				'secure' => true,     // or false
-				'httponly' => false,    // or false
-				'samesite' => 'None' // None || Lax  || Strict
-			);
-			setCookie("X-Sparum-Token", $jwt, $arr_cookie_options);
+			setCookie("X-Sparum-Token", $jwt, SetStatic::cookie_options());
 
 			if (empty($_COOKIE['theme-color'])) {
-				setCookie("theme-color", "teal-theme",  $arr_cookie_options);
+				setCookie("theme-color", "teal-theme", SetStatic::cookie_options());
 			}
 
 			return redirect()->to('/user');
@@ -171,29 +148,12 @@ class Auth extends BaseController
 			'token'    => "Keluar",
 			'status' => 'logout'
 		]);
-		$arr_cookie_options = array(
-			'expires' => time() + 60 * 60 * 24 * 30,
-			'path' => '/',
-			'domain' => "", // leading dot for compatibility or use subdomain
-			'secure' => true,     // or false
-			'httponly' => false,    // or false
-			'samesite' => 'None' // None || Lax  || Strict
-		);
+
 		session()->setFlashdata('flash', 'Berhasil Logout');
 		// setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
-		setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
+		setCookie("X-Sparum-Token", "Logout", SetStatic::cookie_options());
 		return redirect()->to('/');
 	}
-
-	// public function regis()
-	// {
-
-	// 	$data = [
-	// 		'title' => 'Registrasi',
-	// 		'validation' => \Config\Services::validation()
-	// 	];
-	// 	return view('auth/regis', $data);
-	// }
 
 	public function daftar()
 	{
@@ -416,18 +376,10 @@ class Auth extends BaseController
 				'token'    => $token,
 				'status' => 'Login'
 			]);
-			$arr_cookie_options = array(
-				'expires' => time() + 60 * 60 * 24 * 30,
-				'path' => '/',
-				'domain' => "", // leading dot for compatibility or use subdomain
-				'secure' => true,     // or false
-				'httponly' => false,    // or false
-				'samesite' => 'None' // None || Lax  || Strict
-			);
-			setCookie("X-Sparum-Token", $jwt, $arr_cookie_options);
+			setCookie("X-Sparum-Token", $jwt, SetStatic::cookie_options());
 
 			if (empty($_COOKIE['theme-color'])) {
-				setCookie("theme-color", "lightblue-theme",  $arr_cookie_options);
+				setCookie("theme-color", "lightblue-theme",  SetStatic::cookie_options());
 			}
 			return redirect()->to('/user');
 		} else {
