@@ -194,15 +194,23 @@ class Auth extends BaseController
 	// 	];
 	// 	return view('auth/regis', $data);
 	// }
+
 	public function daftar()
 	{
-		if (session()->get('id_user') == '') {
+		if (empty($_COOKIE['X-Sparum-Token'])) {
 			$data = [
-				'title' => 'Registrasi',
+				'title' => 'Login - Spairum',
 				'validation' => \Config\Services::validation()
 			];
 			return view('auth/daftar', $data);
 		} else {
+			if ($_COOKIE['X-Sparum-Token'] == 'Logout') {
+				$data = [
+					'title' => 'Login - Spairum',
+					'validation' => \Config\Services::validation()
+				];
+				return view('auth/daftar', $data);
+			}
 			return redirect()->to('/user');
 		}
 	}
@@ -225,18 +233,7 @@ class Auth extends BaseController
 					'required' => '{field} wajid di isi',
 				]
 			],
-			// 'nama_depan' => [
-			// 	'rules'  => 'required|alpha_space', 
-			// 	'errors' => [
-			// 		'required' => '{field} wajid di isi',
-			// 	]
-			// ],
-			// 'nama_belakang' => [
-			// 	'rules'  => 'required',
-			// 	'errors' => [
-			// 		'required' => '{field} wajid di isi',
-			// 	]
-			// ],
+
 			'email' => [
 				'rules'  => 'required|valid_email|is_unique[user.email]',
 				'errors' => [
@@ -278,17 +275,14 @@ class Auth extends BaseController
 			'title' => 'Registrasi',
 			'validation' => \Config\Services::validation()
 		];
-		//dd($this->request->getVar());
+		helper('text');
 		$time = $this->Time::now('Asia/Jakarta');
 		$id = $this->request->getVar('nama');
 		$gen = random_string('alnum', 5);
 		$id_usr = substr(sha1($id), 0, 10);
-		helper('text');
 		$token = random_string('alnum', 28);
 		$email = $this->request->getVar('email');
 		$user = $this->request->getVar('nama');
-		// $nama_depan =  ucwords($this->request->getVar('nama_depan'));
-		// $nama_belakang = ucwords($this->request->getVar('nama_belakang'));
 		$fullname = ucwords($this->request->getVar('fullname'));
 		$telp = $this->request->getVar('telp');
 		$pars_nama = explode(" ", $fullname);
@@ -299,8 +293,6 @@ class Auth extends BaseController
 		$this->OtpModel->save([
 			'id_user' => "$id_usr$gen",
 			'nama' => $user,
-			// 'nama_depan' => $nama_depan,
-			// 'nama_belakang' => $nama_belakang,
 			'nama_depan' => $pars_nama[0],
 			'nama_belakang' => $nama_belakang,
 			'email' => $email,
@@ -312,8 +304,6 @@ class Auth extends BaseController
 		$this->UserModel->save([
 			'id_user' => "$id_usr$gen",
 			'nama' => $user,
-			// 'nama_depan' => $nama_depan,
-			// 'nama_belakang' => $nama_belakang,
 			'nama_depan' => $pars_nama[0],
 			'nama_belakang' => $nama_belakang,
 			'email' => $email,
@@ -334,27 +324,27 @@ class Auth extends BaseController
 		]);
 		$masage = [
 			"message" => "$fullname mendaftar air.spairum.my.id",
-				"number" => "0895321701798"
-			];
+			"number" => "0895321701798"
+		];
 		$masage2 = [
-				"message" => "$fullname mendaftar air.spairum.my.id",
-				"number" => "082254894778"
-			];
+			"message" => "$fullname mendaftar air.spairum.my.id",
+			"number" => "082254894778"
+		];
 		$masage3 = [
-				"message" => "Hallo kak $fullname, salam kenal aku admin spairum",
-				"number" => "$telp"
-			];
+			"message" => "Hallo kak $fullname, salam kenal aku admin spairum",
+			"number" => "$telp"
+		];
 		$masage4 = [
 			"message" => "Terimakasih telah membuat akun spairum, untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
-				"number" => "$telp"
-			];
+			"number" => "$telp"
+		];
 		$this->AuthLibaries->sendWa($masage3);
 		$this->AuthLibaries->sendWa($masage);
 		$this->AuthLibaries->sendWa($masage2);
 		$this->AuthLibaries->sendWa($masage4);
+
 		$this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
 		$this->email->setTo($email);
-		// $this->email->setBCC('falehry88@gmail.com');
 		$this->email->setSubject('Verification Email Spairum');
 		$this->email->setMessage("
 		<table align='center' cellpadding='0' cellspacing='0' border='0' width='100%' bgcolor='#f0f0f0'>
@@ -421,7 +411,6 @@ class Auth extends BaseController
 				'nama' =>  $user
 			);
 			$jwt = JWT::encode($payload, $key,);
-
 			$this->TokenModel->save([
 				'id_user' => "$id_usr$gen",
 				'token'    => $token,
@@ -449,6 +438,7 @@ class Auth extends BaseController
 		session()->setFlashdata('flash', 'Silakan cek kotak masuk email atau spam untuk verifikasi.');
 		return redirect()->to('/');
 	}
+
 	public function verified_wa($link)
 	{
 		$cek = $this->VerifiedModel->cekWa($link);
