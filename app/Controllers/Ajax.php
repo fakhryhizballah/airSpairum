@@ -21,6 +21,7 @@ class Ajax extends BaseController
         $this->OtpModel = new OtpModel();
         $this->LogModel = new LogModel();
     }
+
     public function index()
     {
         $akun = $this->AuthLibaries->authCek();
@@ -36,17 +37,6 @@ class Ajax extends BaseController
         } else {
             $mesin = $this->StasiunModel->cek_newID($id_mesin['new_id']);
         }
-        // dd($mesin);
-        // $mesin = $this->StasiunModel->cek_newID('ProBali2');
-        // echo json_encode($id_mesin);
-        // if (empty($mesin)) {
-
-        //     $data = [
-        //         'status' => '204',
-        //         'total' => $mesin,
-        //     ];
-        //     echo json_encode($data);
-        // }
         $sisaSaldo = $akun['debit'] - ($take / 10 * $mesin['harga']);
         // echo json_encode($mesin);
         if ($sisaSaldo >= '0') {
@@ -72,8 +62,6 @@ class Ajax extends BaseController
             ];
             echo json_encode($data);
         };
-        // echo json_encode("sisaSaldo");
-        // echo json_encode($data);
     }
     public function PushAir()
     {
@@ -114,7 +102,8 @@ class Ajax extends BaseController
         $mqtt->publish("start/$idMesin",  $myJSON);
         $mqtt->disconnect();
         echo json_encode($myJSON);
-        $this->AuthLibaries->notif($akun, "Mengambil Air $minum di $lokasi sebanayk $vaule mL");
+
+        // $this->AuthLibaries->notif($akun, "Mengambil Air $minum di $lokasi sebanayk $vaule mL");
     }
     public function log()
     {
@@ -205,28 +194,21 @@ class Ajax extends BaseController
         $akun = $this->AuthLibaries->authCek();
         // $data = $this->request->getVar();
         if (!empty($noHp)) {
-            // $server   = 'ws.spairum.my.id';
-            $server   = 'spairum.my.id';
-            $port     = 1883;
-            $clientId =  $akun['id_user'];
-            $masage = [
+
+            $data = [
                 "message" => 'tes WA Mqtt',
                 "number" => $noHp
             ];
-            $myJSON = json_encode($masage);
-            $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
-            ->setUsername('mqttuntan')
-            ->setPassword('mqttuntan');
+            $message = json_encode($data);
+            $topic = "sendPesan";
+            $clientId = $akun['id_user'];
 
-            $mqtt = new \PhpMqtt\Client\MqttClient(
-                    $server,
-                    $port,
-                    $clientId
-                );
-            $mqtt->connect($connectionSettings, true);
-            $mqtt->publish("sendPesan",  $myJSON);
-            $mqtt->disconnect();
-            echo json_encode($myJSON);
+            $this->AuthLibaries->sendMqtt(
+                $topic,
+                $message,
+                $clientId
+            );
+
             return;
         }
         echo ("masukan nomor hp");

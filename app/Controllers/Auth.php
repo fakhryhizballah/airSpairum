@@ -34,8 +34,13 @@ class Auth extends BaseController
 	public static string $key = 'ss';
 	public function index()
 	{
-		// dd(SetStatic::cookie_options());
-
+		// if ($this->AuthLibaries->sendEmailOtp("falehry88@gmail.com", "fakhry tes apps", "123")) {
+		// 	echo "oke";
+		// 	return;
+		// } else {
+		// 	echo "no";
+		// 	return;
+		// }
 		setCookie("theme-color", "blue-theme",  SetStatic::cookie_options());
 
 		if (empty($_COOKIE['X-Sparum-Token'])) {
@@ -302,67 +307,7 @@ class Auth extends BaseController
 		$this->AuthLibaries->sendWa($masage);
 		$this->AuthLibaries->sendWa($masage2);
 		$this->AuthLibaries->sendWa($masage4);
-
-		$this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
-		$this->email->setTo($email);
-		$this->email->setSubject('Verification Email Spairum');
-		$this->email->setMessage("
-		<table align='center' cellpadding='0' cellspacing='0' border='0' width='100%' bgcolor='#f0f0f0'>
-		<tr>
-			<td style='padding: 30px 30px 20px 30px;'>
-				<table cellpadding='0' cellspacing='0' border='0' width='100%' bgcolor='#ffffff' style='max-width: 650px; margin: auto;'>
-					<tr>
-						<td colspan='2' align='center' style='background-color: #0d8eff; padding: 40px;'>
-							<a href='https://spairum.my.id/' target='_blank'><img src='https://spairum.my.id/Asset/img/spairum.png' width='50%' border='0' /></a>
-						</td>
-					</tr>
-					<tr>
-						<td colspan='2' align='center' style='padding: 50px 50px 0px 50px;'>
-							<h2 style='padding-right: 0em; margin: 0; line-height: 40px; font-weight:300; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 1em;'>
-							Mari kita gunakan Botol minum untuk mengurangi sampah plastik. 
-								<Br>Refill Your Tumbler</Br>
-							</h2>
-						</td>
-					</tr>
-					<tr>
-						<td style='text-align: left; padding: 0px 50px;' valign='top'>
-							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 3%;'>
-								Hi $fullname,
-							</p>
-							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 3%;'>
-								Terimakasih telah membuat akun spairum silahkan melakukan untuk mendapatkan saldo isi ulang air 2000 secara gratis silahkan klik tombol dibawah ini:
-							</p>
-							<br>
-							<a href='https://air.spairum.my.id/otp/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'>Mau dong</a>
-							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #666; text-align: left; padding-bottom: 3%;'><br/>Jika ada masukan atau pertanyaan bisa langsung menghubungi :
-								<br/>Technical Support Spairum
-								<br/>Fakhry Hizballah : <a href='http://wa.me/+62895321701798'>+62895321701798</a></p>
-						</td>
-					</tr>
-					<tr>
-						<td style='text-align: left; padding: 30px 50px 50px 50px' valign='top'>
-							<p style='font-size: 18px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #505050; text-align: left;'>
-								Thanks and best regards<br/>
-							</p>
-							<br> Spairum Team
-						</td>
-					</tr>
-					<tr>
-						<td colspan='2' align='center' style='padding: 20px 40px 40px 40px;' bgcolor='#f0f0f0'>
-							<p style='font-size: 12px; margin: 0; line-height: 24px; font-family: ' Nunito Sans ', Arial, Verdana, Helvetica, sans-serif; color: #777;'>
-								&copy; 2021
-								<a href='https://spairum.my.id/about' target='_blank' style='color: #777; text-decoration: none'>Spairum.my.id</a>
-								<br> Jl.Merdeka, Pontianak - Kalimantan Barat
-								<br> Indonesia
-							</p>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>");
-		// $this->email->send();
-		if ($this->email->send()) {
+		if ($this->AuthLibaries->sendEmailOtp($email, $fullname, $token)) {
 			$token = random_string('alnum', 28);
 			$key = $this->TokenModel->Key()['token'];
 			$payload = array(
@@ -383,12 +328,9 @@ class Auth extends BaseController
 			}
 			return redirect()->to('/user');
 		} else {
-			$data = $email->printDebugger(['headers']);
-			print_r($data);
+			session()->setFlashdata('flash', 'Silakan cek kotak masuk email atau spam untuk verifikasi.');
+			return redirect()->to('/');
 		}
-
-		session()->setFlashdata('flash', 'Silakan cek kotak masuk email atau spam untuk verifikasi.');
-		return redirect()->to('/');
 	}
 
 	public function verified_wa($link)
