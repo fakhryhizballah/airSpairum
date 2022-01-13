@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Material design icons CSS -->
-    <link rel="stylesheet" href="Mandor/materializeicon/material-icons.css">
+    <!-- <link rel="stylesheet" href="Mandor/materializeicon/material-icons.css"> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Roboto fonts CSS -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
@@ -167,7 +168,7 @@
                     <div class="col-1">
                         <button class="btn  btn-link text-dark menu-btn"><i class="material-icons">more_horiz</i></button>
                     </div>
-                    <div class="col text-center"><img src="img/spairum logo.png" alt="" class="header-logo"></div>
+                    <div class="col text-center"><img src="/img/spairum logo.png" alt="" class="header-logo"></div>
                 </div>
             </div>
         </div>
@@ -294,7 +295,8 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <!-- cookie js -->
-    <script src="Mandor/cookie/jquery.cookie.js"></script>
+    <!-- <script src="Mandor/cookie/jquery.cookie.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <!-- template custom js -->
     <script src="js/main.js"></script>
