@@ -45,7 +45,7 @@ class Auth extends BaseController
 
 		if (empty($_COOKIE['X-Sparum-Token'])) {
 			$data = [
-				'title' => 'Login - Spairum',
+				'title' => 'Air Spairum',
 				'validation' => \Config\Services::validation()
 			];
 			return view('auth/masuk', $data);
@@ -415,7 +415,7 @@ class Auth extends BaseController
 		// 	return redirect()->to('/user');
 		// }
 		$data = [
-			'title' => 'Lupa Password',
+			'title' => 'Lupa Password | Air Spairum',
 			'validation' => \Config\Services::validation()
 		];
 		return view('auth/lupa', $data);
