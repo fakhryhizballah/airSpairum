@@ -52,7 +52,7 @@ class Auth extends BaseController
 		} else {
 			if ($_COOKIE['X-Sparum-Token'] == 'Logout') {
 				$data = [
-					'title' => 'Login - Spairum',
+					'title' => 'Air Spairum',
 					'validation' => \Config\Services::validation()
 				];
 				return view('auth/masuk', $data);
@@ -164,14 +164,14 @@ class Auth extends BaseController
 	{
 		if (empty($_COOKIE['X-Sparum-Token'])) {
 			$data = [
-				'title' => 'Login - Spairum',
+				'title' => 'Air Spairum',
 				'validation' => \Config\Services::validation()
 			];
 			return view('auth/daftar', $data);
 		} else {
 			if ($_COOKIE['X-Sparum-Token'] == 'Logout') {
 				$data = [
-					'title' => 'Login - Spairum',
+					'title' => 'Air Spairum',
 					'validation' => \Config\Services::validation()
 				];
 				return view('auth/daftar', $data);
