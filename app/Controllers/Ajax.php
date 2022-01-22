@@ -37,6 +37,7 @@ class Ajax extends BaseController
         } else {
             $mesin = $this->StasiunModel->cek_newID($id_mesin['new_id']);
         }
+        $status = $this->StasiunModel->cek_mesin($id_mesin['id_mesin']);
         $sisaSaldo = $akun['debit'] - ($take / 10 * $mesin['harga']);
         // echo json_encode($mesin);
         if ($sisaSaldo >= '0') {
@@ -52,7 +53,8 @@ class Ajax extends BaseController
                 'newID' => $mesin['new_id'],
                 'mesinID' => $mesin['id_mesin'],
                 'index' => $mesin['faktor'],
-                'sisaSaldo' => $sisaSaldo
+                'sisaSaldo' => $sisaSaldo,
+                'status_mesin' => $status['status']
             ];
             echo json_encode($data);
         } else {
@@ -69,14 +71,7 @@ class Ajax extends BaseController
         $data = $this->request->getVar();
         $vaule = $data['diambil'];
         $idMesin =  $data['newID'];
-        $mesinNew = $this->StasiunModel->cek_newID($idMesin);
-        $mesin = $this->StasiunModel->cek_ID($idMesin);
-        $minum = $mesinNew['nama'];
-        $lokasi = $mesin['lokasi'];
 
-        // $server   = 'ws.spairum.my.id';
-        $server   = 'spairum.my.id';
-        $port     = 1883;
         $clientId =  $akun['id_user'];
         $idMesin =  $idMesin;
         $vaule =  $data['diambil'];
@@ -92,16 +87,18 @@ class Ajax extends BaseController
             'faktor' =>    $data['index'],
             'HargaTotal' => $data['total']
         ];
-        $myJSON = json_encode($respoun);
-        $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
-            ->setUsername('mqttuntan')
-            ->setPassword('mqttuntan');
+        $message = json_encode($respoun);
 
-        $mqtt = new \PhpMqtt\Client\MqttClient($server, $port, $clientId);
-        $mqtt->connect($connectionSettings, true);
-        $mqtt->publish("start/$idMesin",  $myJSON);
-        $mqtt->disconnect();
-        echo json_encode($myJSON);
+        $topic = "start/$idMesin";
+        $clientId = $akun['id_user'];
+
+        $this->AuthLibaries->sendMqtt(
+            $topic,
+            $message,
+            $clientId
+        );
+        return;
+        echo json_encode($data);
 
         // $this->AuthLibaries->notif($akun, "Mengambil Air $minum di $lokasi sebanayk $vaule mL");
     }
@@ -189,12 +186,54 @@ class Ajax extends BaseController
             return;
         }
     }
+    public function stopAir()
+    {
+        $akun = $this->AuthLibaries->authCek();
+        $data = $this->request->getVar();
+        // dd($data);
+        // $idMesin = $data['id'];
+        $idMesin = $data['newID'];
+        $data = [
+            "akun" => $akun['id_user'],
+            "vaule" => $data['diambil'],
+            "faktor" => $data['index'],
+        ];
+        $message = json_encode($data);
+        $topic = "pause/$idMesin";
+        $clientId = $akun['id_user'];
+
+        $this->AuthLibaries->sendMqtt(
+            $topic,
+            $message,
+            $clientId
+        );
+        // echo ("ping");
+        return;
+    }
+    public function ping()
+    {
+        $akun = $this->AuthLibaries->authCek();
+        $data = $this->request->getVar();
+        $data = [
+            "message" => 'ping',
+        ];
+        $message = json_encode($data);
+        $topic = "ping";
+        $clientId = $akun['id_user'];
+
+        $this->AuthLibaries->sendMqtt(
+            $topic,
+            $message,
+            $clientId
+        );
+        // echo ("ping");
+        return;
+    }
     public function sendWa($noHp)
     {
         $akun = $this->AuthLibaries->authCek();
         // $data = $this->request->getVar();
         if (!empty($noHp)) {
-
             $data = [
                 "message" => 'tes WA Mqtt',
                 "number" => $noHp
@@ -208,11 +247,29 @@ class Ajax extends BaseController
                 $message,
                 $clientId
             );
-
             return;
         }
         echo ("masukan nomor hp");
         return;
-       
+    }
+    public function sendgrubWA()
+    {
+        $akun = $this->AuthLibaries->authCek();
+        // $data = $this->request->getVar();
+        $data = [
+            "message" => 'tes kirim pesan ke grub',
+            "grup" => 'log spairum'
+        ];
+        $message = json_encode($data);
+        $topic = "sendGrup";
+        $clientId = $akun['id_user'];
+
+        $this->AuthLibaries->sendMqtt(
+            $topic,
+            $message,
+            $clientId
+        );
+        echo ("terkirim : ");
+        return;
     }
 }

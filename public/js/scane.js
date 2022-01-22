@@ -7,7 +7,7 @@ function scane() {
         mirror: false
     });
 
-    scanner.addListener('scan', function(content, image) {
+    scanner.addListener('scan', function (content, image) {
         $("#code").val(content);
         // console.log(content);
         // document.getElementById("take").submit();
@@ -16,21 +16,24 @@ function scane() {
             code: $("#code").val(),
         };
         console.log(formData);
+        $('#modal-pindai').modal('hide');
+        Swal.showLoading()
         $.ajax({
             type: "POST",
             url: "/Ajax/index",
             data: formData,
             dataType: "json",
             encode: true,
-            error: function(data) {
+            error: function (data) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Salah QR',
                 });
             },
-        }).done(function(data) {
+        }).done(function (data) {
             console.log(data);
+
             take(data);
 
             $('#modal-pindai').modal('hide');
@@ -38,7 +41,7 @@ function scane() {
     });
 
     // return window.location = route;
-    Instascan.Camera.getCameras().then(function(cameras) {
+    Instascan.Camera.getCameras().then(function (cameras) {
         console.log(cameras);
 
         if (cameras.length > 0) {
@@ -70,22 +73,55 @@ function scane() {
             isQRScannerInitialised = false;
             return;
         }
-    }).catch(function(e) {
+    }).catch(function (e) {
         console.error(e);
     });
     isQRScannerInitialised = false;
 
     console.log('Show Modal');
 
-    $('#modal-pindai').on('hidden.bs.modal', function() {
+    $('#modal-pindai').on('hidden.bs.modal', function () {
         console.log('close Modal');
         scanner.stop();
     })
 }
-
-
+const socket = io("http://localhost:3000", {
+    withCredentials: true,
+    extraHeaders: {
+        "my-custom-header": "abcd"
+    }
+});
+// const socket = io("https://socket.spairum.my.id:3000", {
+//     withCredentials: true,
+//     extraHeaders: {
+//         "my-custom-header": "abcd"
+//     }
+// });
+socket.on("connect", () => {
+    console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+    socket.on("pesan", (arg) => {
+        console.log(arg); // world
+    });
+});
+// var id_Mes = 'Prototipe3';
+// socket.on("dari " + id_Mes, (data) => {
+//     console.log(data);
+// });
+// socket.on("current/51E5EF69", (msg) => {
+//     console.log(msg);
+// });
 function take(data) {
     if (data.status == '200') {
+        if (data.status_mesin == 'Offline') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Maaf dalam perbaikan',
+                text: "Mohon Maaf Stasiun Spairum dalam perbaikan",
+                footer: '<a href="https://wa.me/+6289601207398">Hubungi admin? klik di sini</a>',
+                confirmButtonText: 'Baik'
+            })
+            return;
+        }
         Swal.fire({
             title: "Membeli " + data['nama'],
             text: "Harga " + data['harga'] +
@@ -95,7 +131,8 @@ function take(data) {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Ambil Air'
+            confirmButtonText: 'Ambil Air',
+            allowOutsideClick: false
         }).then((result) => {
             if (result.isConfirmed) {
                 console.log('ambil');
@@ -103,37 +140,77 @@ function take(data) {
                     type: "post",
                     data: data,
                     dataType: "json",
-                    // url: "<?php echo site_url('/TransMqtt/PushAir'); ?>",
                     url: "/Ajax/PushAir",
-                    success: function(response) {
+                    error: function (e) {
+                        console.log("error");
+                        console.log(e);
+                    },
+                    success: function (response) {
                         console.log(response);
-                        const ws = new WebSocket("wss://apptes.spairum.my.id:3000");
-                        ws.addEventListener("open", function open() {
-                            ws.send('Hello Server!');
-                            console.log("Terhubung");
-                        });
-                        ws.addEventListener('message', function incoming(current) {
-                            console.log(current.data);
-                            var obj = JSON.parse(current.data);
-                            console.log(obj.id_user);
-                            console.log(response.id_user);
-                            // if (obj.id_user == response.id_user) {
-                            //     Swal.fire({
-                            //         position: 'top-end',
-                            //         icon: 'success',
-                            //         title: 'Permintaan sedang di proses',
-                            //         showConfirmButton: false,
-                            //         timer: 1500
-                            //     })
-                            // }
-                        });
-                        ws.addEventListener('close', (event) => {
-                            console.log('The connection has been closed successfully.');
-                        });
-                        console.log(response);
+                        const obj = JSON.parse(response);
+                        console.log(obj);
+                        console.log(obj.akun);
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Sedang Megisi',
+                            // html: 'I will close in <b></b> milliseconds.',
+                            // timer: 20000,
+                            text: "jika ingin meghntikan klik stop",
+                            // timerProgressBar: true,
+                            // cancelButtonColor: '#be4d25',
+                            // showCancelButton: true,
+                            // cancelButtonText: 'STOP',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                // const b = Swal.getHtmlContainer().querySelector('b')
+                                // timerInterval = setInterval(() => {
+                                //     b.textContent = Swal.getTimerLeft()
+                                // }, 100)
+                                socket.on("current/" + obj.akun, (msg) => {
+                                    console.log(msg);
+                                    // console.log(msg.Status);
+                                    // b.textContent = msg.Status
+                                    if (msg.Status == "Selesai") {
+                                        Swal.close()
+
+                                    }
+                                });
+                            },
+                            willClose: () => {
+                                console.log('Stop Air')
+                                console.log(data)
+                                Swal.fire('stop', '', 'success')
+                                $.ajax({
+                                    type: "post",
+                                    data: data,
+                                    dataType: "json",
+                                    url: "/Ajax/stopAir",
+                                    error: function (e) {
+                                        console.log("error");
+                                        console.log(e);
+                                    },
+                                    success: function (response) {
+                                        console.log("stop sukses");
+                                        console.log(response);
+                                    }
+
+                                })
+                            }
+
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.dismiss) {
+                                console.log('dismiss')
+                                // document.location.reload(true)
+
+                            }
+                        })
+
                         console.log('PuSH');
 
-                    }
+                    },
+
                 })
 
             }

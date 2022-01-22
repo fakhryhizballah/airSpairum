@@ -129,7 +129,7 @@ $(document).ready(function() {
                 },
                 'mouseup': function() {
                     clicked = false;
-                    $('html').css('cursor', 'url(img/logo-cursor.png), auto');
+                    // $('html').css('cursor', 'url(img/logo-cursor.png), auto');
                 }
             });
         }
