@@ -33,7 +33,7 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Auth::index');
-$routes->get('/regis', 'Auth::regis');
+$routes->get('/daftar', 'Auth::daftar');
 $routes->post('/save', 'Auth::save');
 $routes->get('/daftar', 'Auth::daftar');
 $routes->get('/otp/(:any)', 'Auth::otp/$1');

@@ -418,7 +418,8 @@ class Auth extends BaseController
 			'title' => 'Lupa Password | Air Spairum',
 			'validation' => \Config\Services::validation()
 		];
-		return view('auth/lupa', $data);
+		// return view('auth/lupa', $data);
+		return view('auth/lupa_pas', $data);
 	}
 	public function sendemail()
 	{
@@ -528,7 +529,8 @@ class Auth extends BaseController
 			'title' => 'Change Password | Spairum.com',
 			'validation' => \Config\Services::validation()
 		];
-		return view('/auth/otplupa', $data);
+		// session()->setFlashdata('gagal', 'gagal tes flash');
+		return view('/auth/otp', $data);
 	}
 
 	public function changepassword($link = NULL)

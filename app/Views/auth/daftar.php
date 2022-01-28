@@ -1,4 +1,5 @@
-<?= $this->extend('layout/auth_template', $title); ?>
+<!-- <?= $this->extend('layout/auth_template', $title); ?> -->
+<?= $this->extend('layout/authLayout', $title); ?>
 
 <?= $this->section('auth'); ?>
 <div class="container">
@@ -22,54 +23,58 @@
                 <div class="col-lg">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            <h1 class="h4 text-gray-900 mb-4">Daftar Akun Spairum</h1>
                         </div>
 
                         <form class="user" method="POST" action="auth/userSave" autocomplete="on">
                             <?= csrf_field(); ?>
                             <!-- <div class="form-group">
-                                <input type="text" class="form-control form-control-user <?= ($validation->hasError('id_user')) ? 'is-invalid' : ''; ?> " id="id_user" name="id_user" placeholder="ID account" autofocus value="<?= old('id_user'); ?>" />
+                                <input type="text" class="form-control form-control-lg <?= ($validation->hasError('id_user')) ? 'is-invalid' : ''; ?> " id="id_user" name="id_user" placeholder="ID account" autofocus value="<?= old('id_user'); ?>" />
                                 <div class="invalid-feedback"><?= $validation->getError('id_user'); ?></div>
 
                             </div> -->
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user <?= ($validation->hasError('nama')) ? 'is-invalid' : ''; ?>" id="nama" name="nama" placeholder="Username" autofocus value="<?= old('nama'); ?>">
+                                <input type="text" class="form-control form-control-lg <?= ($validation->hasError('nama')) ? 'is-invalid' : ''; ?>" id="nama" name="nama" placeholder="Username" autofocus value="<?= old('nama'); ?>">
                                 <div class="invalid-feedback"><?= $validation->getError('nama'); ?></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user <?= ($validation->hasError('fullname')) ? 'is-invalid' : ''; ?>" id="fullname" name="fullname" placeholder="Nama Lengkap" autofocus value="<?= old('fullname'); ?>">
+                                <input type="text" class="form-control form-control-lg <?= ($validation->hasError('fullname')) ? 'is-invalid' : ''; ?>" id="fullname" name="fullname" placeholder="Nama Lengkap" autofocus value="<?= old('fullname'); ?>">
                                 <div class="invalid-feedback"><?= $validation->getError('fullname'); ?></div>
                             </div>
                             <!-- <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user <?= ($validation->hasError('nama_depan')) ? 'is-invalid' : ''; ?>" id="nama_depan" name="nama_depan" placeholder="Nama Depan" autofocus value="<?= old('nama_depan'); ?>">
+                                    <input type="text" class="form-control form-control-lg <?= ($validation->hasError('nama_depan')) ? 'is-invalid' : ''; ?>" id="nama_depan" name="nama_depan" placeholder="Nama Depan" autofocus value="<?= old('nama_depan'); ?>">
                                     <div class="invalid-feedback"><?= $validation->getError('nama_depan'); ?></div>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user <?= ($validation->hasError('nama_belakang')) ? 'is-invalid' : ''; ?>" id="nama_belakang" name="nama_belakang" placeholder="Nama Belakang" autofocus value="<?= old('nama_belakang'); ?>">
+                                    <input type="text" class="form-control form-control-lg <?= ($validation->hasError('nama_belakang')) ? 'is-invalid' : ''; ?>" id="nama_belakang" name="nama_belakang" placeholder="Nama Belakang" autofocus value="<?= old('nama_belakang'); ?>">
                                     <div class="invalid-feedback"><?= $validation->getError('nama_belakang'); ?></div>
                                 </div>
                             </div> -->
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" placeholder="Email Address" value="<?= old('email'); ?>">
+                                <input type="text" class="form-control form-control-lg <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" placeholder="Email Address" value="<?= old('email'); ?>">
                                 <div class="invalid-feedback"><?= $validation->getError('email'); ?></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user <?= ($validation->hasError('telp')) ? 'is-invalid' : ''; ?>" id="telp" name="telp" placeholder="Nomor Telepon" autofocus value="<?= old('telp'); ?>">
+                                <input type="text" class="form-control form-control-lg <?= ($validation->hasError('telp')) ? 'is-invalid' : ''; ?>" id="telp" name="telp" placeholder="Nomor Telepon" autofocus value="<?= old('telp'); ?>">
                                 <div class="invalid-feedback"><?= $validation->getError('telp'); ?></div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user <?= ($validation->hasError('password')) ? 'is-invalid' : ''; ?>" id="password" name="password" placeholder="Password">
+                                    <input type="password" class="form-control form-control-lg <?= ($validation->hasError('password')) ? 'is-invalid' : ''; ?>" id="password" name="password" placeholder="Password">
                                     <div class="invalid-feedback"><?= $validation->getError('password'); ?></div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control form-control-user <?= ($validation->hasError('password2')) ? 'is-invalid' : ''; ?>" id="password2" name="password2" placeholder="Repeat Password">
+                                    <input type="password" class="form-control form-control-lg <?= ($validation->hasError('password2')) ? 'is-invalid' : ''; ?>" id="password2" name="password2" placeholder="Repeat Password">
                                     <div class="invalid-feedback"><?= $validation->getError('password2'); ?></div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-user btn-block">
-                                Register Account
+                            <p class="mt-4 d-block text-secondary">
+                                Dengan mengklik daftar, Anda setuju dengan Syarat dan Ketentuan
+                                <a href="javascript:void(0)">Syarat dan Ketentuan.</a>
+                            </p>
+                            <button type="submit" class="btn btn-default btn-lg btn-rounded shadow btn-block">
+                                Daftar Akun
                             </button>
                         </form>
                         <hr />
@@ -77,7 +82,7 @@
                             <a class="small" href="forgot-password.html">Forgot Password?</a>
                         </div> -->
                         <div class="text-center">
-                            <a class="small" href="/">Already have an account? Login!</a>
+                            <a class="small" href="/">Sudah memiliki akun? Login di sini</a>
                         </div>
                     </div>
                 </div>

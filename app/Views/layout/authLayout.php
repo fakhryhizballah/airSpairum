@@ -5,8 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover, user-scalable=no">
-    <meta name="description" content="stasiun pengisian air minum untuk tumbler ,Ini merupakan aplikasi spairum untuk menghubungkan anda ke stasiun air minum,
-    .silah kan masuk Masuk ke Aplikasi Spairum">
+    <meta name="description" content="stasiun pengisian air minum untuk tumbler ,Ini merupakan aplikasi spairum untuk menghubungkan anda ke stasiun air minum,.silah kan masuk Masuk ke Aplikasi Spairum">
     <meta name="google" content="notranslate" />
     <meta name="author" content="Spairum">
     <link rel="apple-touch-icon" href="/img/logo.png">
@@ -63,7 +62,8 @@
         </div>
     </div>
     <!-- Loader ends -->
-    <div class="swal" data-swal="<?= session()->getFlashdata('gagal'); ?>"></div>
+
+    <div class="flash-Error" data-flashdata="<?= session()->getFlashdata('gagal'); ?>"></div>
     <div class="flash-Success" data-flashdata="<?= session()->getFlashdata('Berhasil'); ?>"></div>
 
     <div class="wrapper ">
@@ -146,7 +146,7 @@
     <!-- jquery, popper and bootstrap js -->
     <!-- <script src="js/jquery-3.3.1.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="/js/popper.min.js"></script>
+    <!-- <script src="/js/popper.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.1/cjs/popper.min.js"></script> -->
     <!-- <script src="vendor/bootstrap-4.4.1/js/bootstrap.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -161,9 +161,9 @@
 
     <!-- template custom js -->
     <script async src="/js/main1.js"></script>
-    <script async src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="/js/script.js"></script>
-    <script>
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script defer src="/js/script.js"></script>
+    <!-- <script>
         $(".password").click(function() {
 
             $(this).toggleClass("fa-eye fa-eye-slash");
@@ -174,9 +174,9 @@
                 input.attr("type", "password");
             }
         });
-    </script>
+    </script> -->
     <!-- page level script -->
-    <script>
+    <!-- <script>
         $(window).on('load', function() {
             var swiper = new Swiper('.introduction', {
                 pagination: {
@@ -195,7 +195,7 @@
                 $(this).closest('.notification').removeClass('active')
             });
         });
-    </script>
+    </script> -->
 
 </body>
 

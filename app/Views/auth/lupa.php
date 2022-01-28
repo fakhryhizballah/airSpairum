@@ -29,7 +29,7 @@
                         <form class="user" method="POST" action="/sendemail">
                             <?= csrf_field(); ?>
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" placeholder="Tulis alamat Email akun anda" value="<?= old('email'); ?>">
+                                <input type="text" class="form-control form-control-lg text-center <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" placeholder="Tulis alamat Email akun anda" value="<?= old('email'); ?>">
                                 <div class="invalid-feedback"><?= $validation->getError('email'); ?></div>
                             </div>
                             <button type="submit" class="btn btn-primary btn-user btn-block">
