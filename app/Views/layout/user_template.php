@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="id">
+<html lang="id" class="lightblue-theme">
 
 <head>
     <!-- Required meta tags -->
