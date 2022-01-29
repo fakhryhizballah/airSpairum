@@ -291,8 +291,9 @@
 <!-- <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js" async></script> -->
 <!-- <script type="text/javascript" src="scanner/vendor/webrtc-adapter/adapter.min.js" async></script> -->
 <!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
-<script src="/js/scane.js" async></script>
-<script src="/js/botol.js" async></script>
+<script src="/js/scane.js" defer></script>
+<!-- <script src="/js/botol.js" async></script> -->
+<script src="/js/botol.min.js" defer></script>
 <script>
     var swiper = new Swiper('.swiper-container', {
         slidesPerView: 1,

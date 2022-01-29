@@ -244,12 +244,13 @@
 
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script> -->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- template custom js -->
     <script src="/js/main.js"></script>
 
-    <script src="/js/script.js"></script>
+    <!-- <script src="/js/script.js"></script> -->
+    <script src="/js/script.min.js"></script>
 
     <script>
         function previewImg() {
