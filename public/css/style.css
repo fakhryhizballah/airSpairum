@@ -1,10 +1,10 @@
-    body {
-    background-color: #E5E5E5;
+body {
+    background-color: #E5E5E5
 }
 
 .buttonNav {
     width: 18px;
-    margin-top: 22px;
+    margin-top: 22px
 }
 
 .view-back {
@@ -14,7 +14,7 @@
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
-    margin-left: auto;
+    margin-left: auto
 }
 
 .fontNav {
@@ -22,12 +22,12 @@
     font-style: normal;
     font-weight: 500;
     font-size: 10px;
-    line-height: 15px;
+    line-height: 15px
 }
 
 .nav-margin {
     margin-left: 15px;
-    margin-right: 15px;
+    margin-right: 15px
 }
 
 .p {
@@ -36,8 +36,7 @@
     font-weight: 500;
     font-size: 10px;
     line-height: 15px;
-    /* identical to box height */
-    color: #000000;
+    color: #000
 }
 
 .name {
@@ -49,7 +48,7 @@
     font-size: 14px;
     line-height: 21px;
     text-align: center;
-    color: #000000;
+    color: #000
 }
 
 .name-crop {
@@ -60,7 +59,7 @@
     font-size: 10px;
     line-height: 15px;
     text-align: center;
-    color: #FFFFFF;
+    color: #FFF
 }
 
 .profil {
@@ -69,11 +68,11 @@
     height: 60px;
     display: block;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto
 }
 
 .jumbotron-fluid {
-    background: #21B0FC;
+    background: #21B0FC
 }
 
 .counter {
@@ -82,32 +81,32 @@
     height: 111px;
     left: 29px;
     top: 195px;
-    background: #FFFFFF;
-    border-radius: 20px;
+    background: #FFF;
+    border-radius: 20px
 }
 
 .col-auto {
     margin-left: 25px;
-    margin-right: 25px;
+    margin-right: 25px
 }
 
 .nav-link {
-    color: #333333;
+    color: #333
 }
 
 .card-dasbord {
     margin-left: 26px;
     margin-right: 26px;
     margin-top: -75px;
-    background: #FFFFFF;
-    border-radius: 20px;
+    background: #FFF;
+    border-radius: 20px
 }
 
 .card-item {
     width: 55px;
     height: 55px;
     background: linear-gradient(90deg, #11A4FD 0%, #84FAF8 92.73%);
-    border-radius: 12px;
+    border-radius: 12px
 }
 
 .card-item-title {
@@ -117,11 +116,10 @@
     font-weight: 500;
     font-size: 22px;
     line-height: 33px;
-    /* identical to box height */
     text-align: center;
     padding-top: 20%;
-    color: #FFFFFF;
-    opacity: 0.8;
+    color: #FFF;
+    opacity: .8
 }
 
 .card-block {
@@ -131,15 +129,15 @@
     padding-bottom: 12px;
     display: block;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto
 }
 
 .card-iden {
     margin-left: 26px;
     margin-right: 26px;
     margin-top: 37px;
-    background: #FFFFFF;
-    border-radius: 20px;
+    background: #FFF;
+    border-radius: 20px
 }
 
 .h5-navbar {
@@ -149,7 +147,7 @@
     font-size: 15px;
     line-height: 22px;
     padding-top: 14px;
-    padding-left: 20px;
+    padding-left: 20px
 }
 
 .card-iden-h5 {
@@ -163,9 +161,8 @@
     font-weight: 500;
     font-size: 15px;
     line-height: 22px;
-    /* identical to box height */
-    color: #000000;
-    opacity: 0.4;
+    color: #000;
+    opacity: .4
 }
 
 .card-iden-p1 {
@@ -177,7 +174,7 @@
     font-style: normal;
     font-weight: 500;
     font-size: 10px;
-    line-height: 15px;
+    line-height: 15px
 }
 
 .card-iden-p2 {
@@ -188,27 +185,26 @@
     font-weight: 600;
     font-size: 10px;
     line-height: 15px;
-    /* identical to box height */
     color: #21B0FC;
-    opacity: 0.8;
+    opacity: .8
 }
 
 .status {
     width: 32px;
-    margin-top: 20px;
+    margin-top: 20px
 }
 
 .back {
     width: 16px;
     margin-left: 29px;
     margin-top: 17px;
-    margin-bottom: 24px;
+    margin-bottom: 24px
 }
 
 .img-thumbnail {
-    height: 100px;
+    height: 100px
 }
 
 .botol {
-    margin-top: 100px;
+    margin-top: 100px
 }

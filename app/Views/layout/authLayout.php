@@ -34,7 +34,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.0.6/swiper-bundle.css" />
 
     <!-- Custom styles for this template -->
-    <link href="/css/style1.css" rel="stylesheet">
+    <!-- <link href="/css/style1.css" rel="stylesheet"> -->
+    <link href="/css/style1.min.css" rel="stylesheet">
 
     <!-- Material design icons CSS -->
     <!-- <link rel="stylesheet" href="vendor/materializeicon/material-icons.css"> -->
