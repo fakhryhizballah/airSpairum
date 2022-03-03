@@ -287,27 +287,40 @@ class Auth extends BaseController
 			'verified_wa_date' => $time,
 			'token_wa' => "$token$gen",
 		]);
-		$masage = [
-			"message" => "$fullname mendaftar air.spairum.my.id",
-			"number" => "0895321701798"
+		$message =
+			[
+				'message' => "$fullname mendaftar air.spairum.my.id",
+				'grup' => "New User Spairum",
 		];
-		$masage2 = [
-			"message" => "$fullname mendaftar air.spairum.my.id",
-			"number" => "082254894778"
-		];
-		$masage3 = [
-			"message" => "Hallo kak $fullname, salam kenal aku admin spairum",
-			"number" => "$telp"
-		];
-		$masage4 = [
-			"message" => "Terimakasih telah membuat akun spairum, untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
-			"number" => "$telp"
-		];
-		$this->AuthLibaries->sendWa($masage3);
-		$this->AuthLibaries->sendWa($masage);
-		$this->AuthLibaries->sendWa($masage2);
-		$this->AuthLibaries->sendWa($masage4);
-		if ($this->AuthLibaries->sendEmailOtp($email, $fullname, $token)) {
+		$this->AuthLibaries->sendMqtt("sendGrup", json_encode($message), $user);
+		$PesanWA = array(
+			[
+				"message" => "Hallo kak $fullname, salam kenal aku admin spairum",
+				"number" => "$telp"
+			],
+			[
+				"message" => "Sebelumnya terimakasih ya telah membuat akun spairum, khusus untuk kak $fullname ada *Saldo air Gratis 1000*",
+				"number" => "$telp"
+			],
+			[
+				"message" => " untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
+				"number" => "$telp"
+			]
+
+		);
+		foreach ($PesanWA as $value) {
+			$this->AuthLibaries->sendWa($value);
+			// dd($value);
+		}
+		$pesanEmail = ([
+			'email' => $email,
+			'fullname' => $fullname,
+			'token' => $token,
+			'subject' => 'Konfirmasi Email akun Spairum Anda',
+			'status' => 'otp',
+			'id_user' => "$id_usr$gen"
+		]);
+		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $user);
 			$token = random_string('alnum', 28);
 			$key = $this->TokenModel->Key()['token'];
 			$payload = array(
@@ -326,11 +339,7 @@ class Auth extends BaseController
 			if (empty($_COOKIE['theme-color'])) {
 				setCookie("theme-color", "lightblue-theme",  SetStatic::cookie_options());
 			}
-			return redirect()->to('/user');
-		} else {
-			session()->setFlashdata('flash', 'Silakan cek kotak masuk email atau spam untuk verifikasi.');
-			return redirect()->to('/');
-		}
+		return redirect()->to('/user');
 	}
 
 	public function verified_wa($link)
