@@ -210,3 +210,17 @@ v1.0.2 (fix Bug user)
 ### Inprove
 
 - Edit Error to warning
+
+# [v2.1.4.2] 15-11-2021
+
+### fix
+
+- Duplikat registrasi
+
+### Changed
+
+- Send Email OTP via Mqtt
+- Send Email Lupa password via Mqtt
+
+
+
