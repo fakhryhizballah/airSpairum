@@ -222,5 +222,8 @@ v1.0.2 (fix Bug user)
 - Send Email OTP via Mqtt
 - Send Email Lupa password via Mqtt
 
+# [v2.1.4.3] 15-11-2021
 
+### fix
 
+- Instascane for Iphone

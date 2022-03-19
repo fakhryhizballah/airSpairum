@@ -1,7 +1,8 @@
 <?= $this->extend('layout/user_template'); ?>
 <?= $this->section('head'); ?>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.1.0/adapter.js" async></script>
-<script src="/scanner/vendor/instascan/instascan.min.js" async></script>
+<!-- <script src="/scanner/vendor/instascan/instascan.min.js" async></script> -->
+<script src="/js/instascan.min.js" async></script>
 <?= $this->endSection('head'); ?>
 
 <?= $this->section('content'); ?>
