@@ -43,31 +43,37 @@ function scane() {
     // return window.location = route;
     Instascan.Camera.getCameras().then(function (cameras) {
         console.log(cameras);
-
+        // alert(JSON.stringify(cameras));
         if (cameras.length > 0) {
-            scanner.start(cameras[0]);
+            if (cameras[2] != undefined) {
+                scanner.start(cameras[2]);
+            } else if (cameras[1] != undefined) {
+                scanner.start(cameras[1]);
+            } else {
+                scanner.start(cameras[0]);
+            }
+            // scanner.start(cameras[1]);
             $('[name="options"]').on('change', function () {
                 if ($(this).val() == 1) {
-                    if (cameras[0] != "") {
+                    if (cameras[0] != undefined) {
                         scanner.start(cameras[0]);
                     } else {
                         alert('No Front camera found!');
                     }
                 } else if ($(this).val() == 2) {
-                    if (cameras[1] != "") {
+                    if (cameras[1] != undefined) {
                         scanner.start(cameras[1]);
                     } else {
                         alert('No Back camera found!');
                     }
                 }
             });
-            console.log(activeCameraId.name);
+            // console.log(activeCameraId.name);
 
 
             isQRScannerInitialised = true;
 
         } else {
-
             alert('No cameras found.');
             console.error('No cameras found.');
             isQRScannerInitialised = false;
