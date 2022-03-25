@@ -211,7 +211,7 @@ v1.0.2 (fix Bug user)
 
 - Edit Error to warning
 
-# [v2.1.4.2] 15-11-2021
+# [v2.1.4.2] 21-03-2022
 
 ### fix
 
@@ -222,8 +222,18 @@ v1.0.2 (fix Bug user)
 - Send Email OTP via Mqtt
 - Send Email Lupa password via Mqtt
 
-# [v2.1.4.3] 15-11-2021
+# [v2.1.4.3] 19-03-2022
 
 ### fix
 
 - Instascane for Iphone
+
+# [v2.1.4.3] 25-03-2022
+
+### fix
+
+-  Tanggal readme update
+
+### Changed
+
+- Mempercepat auth, change cek token
