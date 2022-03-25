@@ -17,12 +17,6 @@ class TokenModel extends Model
         'status'
     ];
 
-    public function Key()
-    {
-        return $this->db->table('token')
-            ->where(array('id_user' => 'Token'))
-            ->get()->getRowArray();
-    }
     public function cek($token)
     {
         return $this->db->table('token')

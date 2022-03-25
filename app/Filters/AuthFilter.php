@@ -25,18 +25,14 @@ class AuthFilter implements FilterInterface
             return redirect()->to('/');
         }
         $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        // $decoded = JWT::decode($jwt, $key, array('HS256'));
+        $key = getenv('tokenkey');
         try {
-            $decoded = JWT::decode($jwt, $key, array('HS256'));
-            $key = $this->TokenModel->Key()['token'];
             $decoded = JWT::decode($jwt, $key, array('HS256'));
         } catch (Exception $exception) {
             session()->setFlashdata('gagal', 'Login Dulu');
             return redirect()->to('/');
         }
         $token = $decoded->Key;
-        // dd($token);
         if (empty($this->TokenModel->cek($token))) {
             session()->setFlashdata('gagal', 'Anda sudah Logout, Silahkan Masuk lagi');
             return redirect()->to('/');
