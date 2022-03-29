@@ -146,19 +146,10 @@ class User extends BaseController
     }
     public function riwayat()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $keyword = $decoded->id_user;
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
+        $history = $this->HistoryModel->search($akun['id_user']);
 
-        // $data = $this->HistoryModel->search($keyword);
-        $history = $this->HistoryModel->search($keyword);
-
-        // $history = $this->HistoryModel->orderBy('created_at', 'DESC')->findAll();
         $history = $this->HistoryModel->orderBy('created_at', 'DESC');
-        // dd($history);
         $pager = \Config\Services::pager();
         $data = [
             'title' => 'Riwayat | Spairum.com',
