@@ -228,7 +228,7 @@ v1.0.2 (fix Bug user)
 
 - Instascane for Iphone
 
-# [v2.1.4.3] 25-03-2022
+# [v2.1.4.4] 25-03-2022
 
 ### fix
 
@@ -237,3 +237,9 @@ v1.0.2 (fix Bug user)
 ### Changed
 
 - Mempercepat auth, change cek token
+
+# [v2.1.4.5] 25-03-2022
+
+### Changed
+
+- Change notifikasi Email
