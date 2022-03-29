@@ -7,6 +7,7 @@
 
 <?= $this->section('content'); ?>
 <div class="swal" data-swal="<?= session()->getFlashdata('Pesan'); ?>"></div>
+<div class="email" data-email=<?= session()->getFlashdata('email'); ?>></div>
 <div class="flash-data" data-flashdata="<?= session()->getFlashdata('flash'); ?>"></div>
 <section>
     <div class="container">
@@ -20,7 +21,8 @@
                     <div class="col pl-0 align-self-center">
                         <h5 class="mb-1"><?= $akun['nama_depan']; ?>&nbsp;<?= $akun['nama_belakang']; ?></h5>
                         <p class="text-mute small">Username : <?= $akun['nama']; ?>
-                            <!-- <br> ID : <?= $akun['id_user']; ?></p> -->
+                            <!-- <br> ID : <?= $akun['id_user']; ?>-->
+                        </p>
                     </div>
                 </div>
             </div>

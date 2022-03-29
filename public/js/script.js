@@ -8,6 +8,20 @@ if (swal) {
         confirmButtonText: 'Oke'
     })
 }
+
+const email = $(".email").data("email");
+// console.log(email);
+if (email) {
+    Swal.fire({
+        title: 'Verifikasi email',
+        text: 'Segera cek email dan nomor telpon anda untuk mendapatkan saldo Air 2000 secara gratis',
+        imageUrl: 'https://cdn.spairum.my.id/img/message.svg',
+        imageWidth: 200,
+        imageHeight: 200,
+        imageAlt: 'Verifikasi email',
+    })
+}
+
 const flashData = $(".flash-data").data("flashdata");
 // cek console
 // console.log(flashData);

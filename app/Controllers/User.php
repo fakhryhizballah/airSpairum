@@ -18,6 +18,7 @@ use App\Models\SaldoModel;
 use \Firebase\JWT\JWT;
 use App\Libraries\AuthLibaries;
 use App\Models\BotolModel;
+use App\Models\VerifiedModel;
 
 class User extends BaseController
 {
@@ -36,6 +37,7 @@ class User extends BaseController
         $this->SaldoModel = new SaldoModel();
         $this->AuthLibaries = new AuthLibaries();
         $this->BotolModel = new BotolModel();
+        $this->VerifiedModel = new VerifiedModel();
         helper('cookie');
         
     }
@@ -43,17 +45,21 @@ class User extends BaseController
     public function index()
     {
         $akun = $this->AuthLibaries->authCek();
-        $cek = $this->OtpModel->cekid($akun['id_user']);
         $saldo = $this->SaldoModel->cek_id($akun['id_user']);
         $botol = $this->BotolModel->botol($akun['id_user']);
-        // dd($saldo);
         if ($akun['nama_depan'] == null) {
             session()->setFlashdata('salah', 'Silahkan lengkapi identitas anda');
             return redirect()->to('editprofile');
         }
-        if ($cek['status'] == 'belum verifikasi') {
-            session()->setFlashdata('Pesan', 'Terimakasih Telah mendaftar, Segera cek email anda untuk mendapatkan saldo Air 2000 secara gratis');
-            // dd($cek['status']);
+        if (empty($_COOKIE['verification-akun'])) {
+            $cek = $this->VerifiedModel->cekid($akun['id_user']);
+            // dd($cek);
+            if (($cek['email_status'] == 'unverified') || ($cek['whatsapp_status'] == 'unverified')) {
+                setCookie("verification-akun", "unverified", time() + (60 * 3));
+                session()->setFlashdata('email', '-');
+            } else {
+                setCookie("verification-akun", "verified", time() + (60 * 60 * 24 * 30));
+            }
         }
         $data = [
             'title' => 'Home | Spairum.com',
@@ -65,34 +71,6 @@ class User extends BaseController
         // dd($data);
         // $this->AuthLibaries->notif($akun, "Membuka halaman Home");
         return view('user/home', $data);
-    }
-    public function camera()
-    {
-        $akun = $this->AuthLibaries->authCek();
-        $cek = $this->OtpModel->cekid($akun['id_user']);
-        $saldo = $this->SaldoModel->cek_id($akun['id_user']);
-        // dd($saldo);
-        if ($akun['nama_depan'] == null) {
-            session()->setFlashdata('salah', 'Silahkan lengkapi identitas anda');
-            return redirect()->to('editprofile');
-        }
-        if ($cek['status'] == 'belum verifikasi') {
-            session()->setFlashdata('Pesan', 'Terimakasih Telah mendaftar, Segera cek email anda untuk mendapatkan saldo Air 2000 secara gratis');
-            // dd($cek['status']);
-        }
-        $data = [
-            'title' => 'Home | Spairum.com',
-            'akun' => $akun,
-            // 'saldo' => $saldo,
-            // 'nama_depan' => $akun['nama_depan'],
-            // 'nama_belakang' => $akun['nama_belakang'],
-            // 'nama' => $akun['nama'],
-            // 'id_user' => $akun['id_user'],
-            // 'profil' => $akun['profil'],
-        ];
-        // dd($data);
-        // $this->AuthLibaries->notif($akun, "Membuka halaman Home");
-        return view('welcome_message', $data);
     }
 
     public function take()
