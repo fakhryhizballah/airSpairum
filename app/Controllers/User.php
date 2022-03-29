@@ -52,9 +52,15 @@ class User extends BaseController
             return redirect()->to('editprofile');
         }
         if (empty($_COOKIE['verification-akun'])) {
-            $cek = $this->VerifiedModel->cekid($akun['id_user']);
-            // dd($cek);
-            if (($cek['email_status'] == 'unverified') || ($cek['whatsapp_status'] == 'unverified')) {
+            // $cek = $this->VerifiedModel->cekid($akun['id_user']);
+            // if (($cek['email_status'] == 'unverified')) {
+            //     setCookie("verification-akun", "unverified", time() + (60 * 3));
+            //     session()->setFlashdata('email', '-');
+            // } else {
+            //     setCookie("verification-akun", "verified", time() + (60 * 60 * 24 * 30));
+            // }
+            $cek = $this->OtpModel->cekid($akun['id_user']);
+            if (($cek['status'] == 'belum verifikasi')) {
                 setCookie("verification-akun", "unverified", time() + (60 * 3));
                 session()->setFlashdata('email', '-');
             } else {
