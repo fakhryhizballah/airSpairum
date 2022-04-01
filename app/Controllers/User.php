@@ -322,7 +322,7 @@ class User extends BaseController
         // echo "status = ";
         $data = [
             'order_id' => $order_id,
-            'user_id' => $keyword,
+            'user_id' => $akun['id_user'],
             'status' => 'Token',
             'created_at' => Time::now('Asia/Jakarta')
         ];
