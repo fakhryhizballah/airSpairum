@@ -170,14 +170,10 @@ class User extends BaseController
     }
     public function payriwayat()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $keyword = $decoded->id_user;
-        $nama = $decoded->nama;
-        $akun = $this->UserModel->cek_login($nama);
 
-        $history = $this->TransaksiModel->search($keyword);
+        $akun = $this->AuthLibaries->authCek();
+
+        $history = $this->TransaksiModel->search($akun['id_user']);
         $history = $this->TransaksiModel->orderBy('created_at', 'DESC')->findAll();
 
         // dd($history);
@@ -205,13 +201,7 @@ class User extends BaseController
     }
     public function snap()
     {
-        $jwt = $_COOKIE['X-Sparum-Token'];
-        $key = $this->TokenModel->Key()['token'];
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $keyword = $decoded->id_user;
-        $nama = $decoded->nama;
-
-        $akun = $this->UserModel->cek_login($nama);
+        $akun = $this->AuthLibaries->authCek();
         // \Midtrans\Config::$serverKey = "SB-Mid-server-OBUKKrJVEPM_WIpDt57XrGHp";
         \Midtrans\Config::$serverKey = "Mid-server-4i1pIlyNH096QXt7HWHDBT8_";
 
