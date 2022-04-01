@@ -106,7 +106,9 @@ class Auth extends BaseController
 			// session()->set('id_user', $cek['id_user']);
 
 			$token = random_string('alnum', 28);
-			$key = $this->TokenModel->Key()['token'];
+
+			// $key = $this->TokenModel->Key()['token'];
+			$key = getenv('tokenkey');
 			$payload = array(
 				'Key' => $token,
 				'id_user' => $cek['id_user'],
@@ -138,7 +140,8 @@ class Auth extends BaseController
 	public function logout()
 	{
 		$jwt = $_COOKIE['X-Sparum-Token'];
-		$key = $this->TokenModel->Key()['token'];
+		// $key = $this->TokenModel->Key()['token'];
+		$key = getenv('tokenkey');
 		$decoded = JWT::decode($jwt, $key, array('HS256'));
 		$token = $decoded->Key;
 		$id = $this->TokenModel->cek($token)['id'];
@@ -314,7 +317,8 @@ class Auth extends BaseController
 		]);
 		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $user);
 		$token = random_string('alnum', 28);
-		$key = $this->TokenModel->Key()['token'];
+		// $key = $this->TokenModel->Key()['token'];
+		$key = getenv('tokenkey');
 		$payload = array(
 			'Key' => $token,
 			'id_user' => "$id_usr$gen",
