@@ -13,8 +13,9 @@
         "kint-php/kint": "^3.3",
         "psr/log": "^1.1",
         "laminas/laminas-escaper": "^2.6",
-        "midtrans/midtrans-php": "2.*",
-        "php-mqtt/client": "^1.1"
+        "midtrans/midtrans-php": "^2.5",
+        "php-mqtt/client": "^1.1",
+        "firebase/php-jwt": "^6.1"
     },
     "require-dev": {
         "codeigniter4/codeigniter4-standard": "^1.0",

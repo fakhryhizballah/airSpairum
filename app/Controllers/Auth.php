@@ -9,6 +9,7 @@ use App\Models\HistoryModel;
 use App\Models\VerifiedModel;
 use CodeIgniter\I18n\Time;
 use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 use App\Libraries\AuthLibaries;
 use App\Libraries\SetStatic;
 
@@ -114,7 +115,7 @@ class Auth extends BaseController
 				'id_user' => $cek['id_user'],
 				'nama' => $cek['nama']
 			);
-			$jwt = JWT::encode($payload, $key,);
+			$jwt = JWT::encode($payload, $key, 'HS256');
 
 			$this->TokenModel->save([
 				'id_user' => $cek['id_user'],
@@ -142,7 +143,9 @@ class Auth extends BaseController
 		$jwt = $_COOKIE['X-Sparum-Token'];
 		// $key = $this->TokenModel->Key()['token'];
 		$key = getenv('tokenkey');
-		$decoded = JWT::decode($jwt, $key, array('HS256'));
+		// $decoded = JWT::decode($jwt, $key, array('HS256'));
+		$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+		dd($decoded);
 		$token = $decoded->Key;
 		$id = $this->TokenModel->cek($token)['id'];
 		$this->TokenModel->update($id, [
@@ -324,7 +327,7 @@ class Auth extends BaseController
 			'id_user' => "$id_usr$gen",
 			'nama' =>  $user
 		);
-		$jwt = JWT::encode($payload, $key,);
+		$jwt = JWT::encode($payload, $key, 'HS256');
 		$this->TokenModel->save([
 			'id_user' => "$id_usr$gen",
 			'token'    => $token,
@@ -644,7 +647,7 @@ class Auth extends BaseController
 			"Key" => "Login Spairum",
 			"User" => "password",
 		);
-		$jwt = JWT::encode($payload, self::$key,);
+		$jwt = JWT::encode($payload, self::$key, 'HS256');
 		$decoded = JWT::decode($jwt, self::$key, array('HS256'));
 
 		print_r($decoded);
