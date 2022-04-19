@@ -15,7 +15,6 @@ use App\Models\OtpModel;
 use App\Models\VoucherModel;
 use App\Models\TokenModel;
 use App\Models\SaldoModel;
-use \Firebase\JWT\JWT;
 use App\Libraries\AuthLibaries;
 use App\Models\BotolModel;
 use App\Models\VerifiedModel;
