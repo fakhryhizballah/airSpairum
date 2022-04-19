@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'PHPUnit\\Exception' => $vendorDir . '/phpunit/phpunit/src/Exception.php',
     'PHPUnit\\Framework\\Assert' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert.php',
     'PHPUnit\\Framework\\AssertionFailedError' => $vendorDir . '/phpunit/phpunit/src/Framework/Exception/AssertionFailedError.php',
@@ -102,7 +103,6 @@ return array(
     'PHPUnit\\Framework\\MockObject\\MockObject' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/MockObject.php',
     'PHPUnit\\Framework\\MockObject\\MockTrait' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/MockTrait.php',
     'PHPUnit\\Framework\\MockObject\\MockType' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/MockType.php',
-    'PHPUnit\\Framework\\MockObject\\MockedCloneMethod' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/Api/MockedCloneMethod.php',
     'PHPUnit\\Framework\\MockObject\\Rule\\AnyInvokedCount' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/Rule/AnyInvokedCount.php',
     'PHPUnit\\Framework\\MockObject\\Rule\\AnyParameters' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/Rule/AnyParameters.php',
     'PHPUnit\\Framework\\MockObject\\Rule\\ConsecutiveParameters' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/Rule/ConsecutiveParameters.php',
@@ -126,7 +126,6 @@ return array(
     'PHPUnit\\Framework\\MockObject\\Stub\\ReturnStub' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/Stub/ReturnStub.php',
     'PHPUnit\\Framework\\MockObject\\Stub\\ReturnValueMap' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/Stub/ReturnValueMap.php',
     'PHPUnit\\Framework\\MockObject\\Stub\\Stub' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/Stub/Stub.php',
-    'PHPUnit\\Framework\\MockObject\\UnmockedCloneMethod' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/Api/UnmockedCloneMethod.php',
     'PHPUnit\\Framework\\MockObject\\Verifiable' => $vendorDir . '/phpunit/phpunit/src/Framework/MockObject/Verifiable.php',
     'PHPUnit\\Framework\\NoChildTestSuiteException' => $vendorDir . '/phpunit/phpunit/src/Framework/Exception/NoChildTestSuiteException.php',
     'PHPUnit\\Framework\\OutputError' => $vendorDir . '/phpunit/phpunit/src/Framework/Exception/OutputError.php',
@@ -453,11 +452,13 @@ return array(
     'PharIo\\Version\\AbstractVersionConstraint' => $vendorDir . '/phar-io/version/src/constraints/AbstractVersionConstraint.php',
     'PharIo\\Version\\AndVersionConstraintGroup' => $vendorDir . '/phar-io/version/src/constraints/AndVersionConstraintGroup.php',
     'PharIo\\Version\\AnyVersionConstraint' => $vendorDir . '/phar-io/version/src/constraints/AnyVersionConstraint.php',
+    'PharIo\\Version\\BuildMetaData' => $vendorDir . '/phar-io/version/src/BuildMetaData.php',
     'PharIo\\Version\\ExactVersionConstraint' => $vendorDir . '/phar-io/version/src/constraints/ExactVersionConstraint.php',
     'PharIo\\Version\\Exception' => $vendorDir . '/phar-io/version/src/exceptions/Exception.php',
     'PharIo\\Version\\GreaterThanOrEqualToVersionConstraint' => $vendorDir . '/phar-io/version/src/constraints/GreaterThanOrEqualToVersionConstraint.php',
     'PharIo\\Version\\InvalidPreReleaseSuffixException' => $vendorDir . '/phar-io/version/src/exceptions/InvalidPreReleaseSuffixException.php',
     'PharIo\\Version\\InvalidVersionException' => $vendorDir . '/phar-io/version/src/exceptions/InvalidVersionException.php',
+    'PharIo\\Version\\NoBuildMetaDataException' => $vendorDir . '/phar-io/version/src/exceptions/NoBuildMetaDataException.php',
     'PharIo\\Version\\NoPreReleaseSuffixException' => $vendorDir . '/phar-io/version/src/exceptions/NoPreReleaseSuffixException.php',
     'PharIo\\Version\\OrVersionConstraintGroup' => $vendorDir . '/phar-io/version/src/constraints/OrVersionConstraintGroup.php',
     'PharIo\\Version\\PreReleaseSuffix' => $vendorDir . '/phar-io/version/src/PreReleaseSuffix.php',

@@ -14,7 +14,6 @@ return array(
     'PhpMqtt\\Client\\' => array($vendorDir . '/php-mqtt/client/src'),
     'MyCLabs\\Enum\\' => array($vendorDir . '/myclabs/php-enum/src'),
     'Midtrans\\' => array($vendorDir . '/midtrans/midtrans-php/Midtrans'),
-    'Laminas\\ZendFrameworkBridge\\' => array($vendorDir . '/laminas/laminas-zendframework-bridge/src'),
     'Laminas\\Escaper\\' => array($vendorDir . '/laminas/laminas-escaper/src'),
     'Kint\\' => array($vendorDir . '/kint-php/kint/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
