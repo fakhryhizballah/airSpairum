@@ -145,7 +145,6 @@ class Auth extends BaseController
 		$key = getenv('tokenkey');
 		// $decoded = JWT::decode($jwt, $key, array('HS256'));
 		$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
-		dd($decoded);
 		$token = $decoded->Key;
 		$id = $this->TokenModel->cek($token)['id'];
 		$this->TokenModel->update($id, [
