@@ -243,3 +243,13 @@ v1.0.2 (fix Bug user)
 ### Changed
 
 - Change notifikasi Email
+
+# [v2.2] 20-04-2022
+
+### added
+
+- Static voucher
+
+### Changed
+
+- Version JWT
