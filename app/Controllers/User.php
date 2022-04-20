@@ -342,56 +342,6 @@ class User extends BaseController
         return view('user/snap', $data);
     }
 
-    public function voucher()
-    {
-        $akun = $this->AuthLibaries->authCek();
-
-        $kvoucher = $this->request->getVar('kvoucher');
-        $getV = $this->VoucherModel->cari($kvoucher);
-        if (empty($getV)) {
-            session()->setFlashdata('Pesan', 'Kode Voucher Salah');
-            return redirect()->to('/topup');
-        }
-        if ($getV['ket'] == 'Baru') {
-            $saldo =  $akun['debit'] + $getV['nominal'];
-            $data = [
-                'debit' => $saldo,
-            ];
-            $this->UserModel->updateprofile($data, $akun['id']);
-
-            $data = [
-                'id_user' => $akun['id_user'],
-                'ket' => 'Lama'
-            ];
-            $this->VoucherModel->updatevoucher($data, $getV['id']);
-
-            $datavocer = [
-                'id_master' => $akun['id_user'],
-                'Id_slave' => $getV['kvoucher'],
-                'Lokasi' => 'voucher',
-                'status' => 'Top Up',
-                'isi' => $getV['nominal'],
-                'created_at' => Time::now('Asia/Jakarta')
-            ];
-
-            $this->HistoryModel->save($datavocer);
-            // dd($datavocer);
-            // dd($saldo);
-            session()->setFlashdata('Berhasil', 'Voucher berhasil digunakan');
-            return redirect()->to('/user');
-        }
-        session()->setFlashdata('Pesan', 'Kode voucher telah digunakan');
-        return redirect()->to('/topup');
-
-        $data = [
-            'title' => 'Edit Profile | Spairum.com',
-            'akun' => $akun,
-            'validation' => \Config\Services::validation()
-        ];
-
-        // return view('user/editprofile', $data);
-    }
-
     public function editprofile()
     {
         $akun = $this->AuthLibaries->authCek();

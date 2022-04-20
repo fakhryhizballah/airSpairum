@@ -30,7 +30,7 @@
                 </div>
                 <div class="col">
                     <h3><span class="text-mute text-secondary">Isi ulang saldo air </span><small class=" text-template ">Kode Voucher</small></h3>
-                    <form class="vocer" method="POST" action="user/voucher">
+                    <form class="vocer" method="POST" action="saldo/voucher">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" id="kvoucher" name="kvoucher" placeholder="Masukan kode Voucher" aria-label="Masukan kode Voucher" required>
                             <div class="input-group-append">
