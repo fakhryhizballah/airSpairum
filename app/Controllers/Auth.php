@@ -54,6 +54,13 @@ class Auth extends BaseController
 			return redirect()->to('/user');
 		}
 	}
+	public function welcome()
+	{
+		$data = [
+			'title' => 'Air Spairum',
+		];
+		return view('onboarding', $data);
+	}
 	public function masuk()
 	{
 		if (empty($_COOKIE['theme-color'])) {

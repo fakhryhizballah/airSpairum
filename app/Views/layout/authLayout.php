@@ -44,6 +44,7 @@
 
     <!-- Roboto fonts CSS -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
+    <?= $this->renderSection('css'); ?>
 
 </head>
 
@@ -164,6 +165,9 @@
     <script async src="/js/main1.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer src="/js/script.js"></script>
+
+    <?= $this->renderSection('script'); ?>
+
     <!-- <script>
         $(".password").click(function() {
 
