@@ -375,7 +375,7 @@ class Auth extends BaseController
 			'Id_slave' => 'Admin',
 			'Lokasi' => 'Bonus',
 			'status' => 'Verifikasi nomor telpon',
-			'isi' => $debit,
+			'isi' => 1000,
 			'created_at' => $this->Time::now('Asia/Jakarta')
 		];
 		$this->HistoryModel->save($datavocer);
@@ -404,7 +404,7 @@ class Auth extends BaseController
 			'Id_slave' => 'Admin',
 			'Lokasi' => 'Bonus',
 			'status' => 'Verifikasi Email',
-			'isi' => $debit,
+			'isi' => 2000,
 			'created_at' => $this->Time::now('Asia/Jakarta')
 		];
 		$this->HistoryModel->save($datavocer);

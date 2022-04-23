@@ -253,3 +253,9 @@ v1.0.2 (fix Bug user)
 ### Changed
 
 - Version JWT
+
+# [v2.2.1] 24-04-2022
+
+### fix
+
+-  Fix bug History
