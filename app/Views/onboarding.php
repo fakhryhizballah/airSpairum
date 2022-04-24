@@ -44,10 +44,10 @@
         <div class="swiper-slide overflow-hidden text-center">
             <div class="row no-gutters">
                 <div class="col align-self-center px-3">
-                    <img src="/img/information-graphics3.png" alt="" class="mx-100 my-5">
+                    <img src="https://cdn.spairum.my.id/img/icon/Location%20spairum.svg" alt="Spairum refill here" class="mx-100 my-5">
                     <div class="row">
                         <div class="container mb-5">
-                            <h4>Experience ease of use</h4>
+                            <h4>Temukan lokasi spairum terdekat</h4>
                             <p>Lorem ipsum dolor sit amet, consect etur adipiscing elit. Sndisse conv allis.</p>
                         </div>
                     </div>

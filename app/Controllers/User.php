@@ -476,7 +476,7 @@ class User extends BaseController
             'id_master' => $akun['id_user'],
             'Id_slave' => "User",
             'Lokasi' => "Cek email anda -> $email ",
-            'status' => 'Anda menganti rmail',
+            'status' => 'Anda menganti Email',
         ]);
 
         $this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
