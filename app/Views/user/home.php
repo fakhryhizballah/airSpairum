@@ -203,7 +203,7 @@
                 </button>
             </div>
             <div class="modal-body text-center pt-0">
-                <img src="img/infomarmation-graphics2.png" alt="logo" class="logo-small">
+                <img src="https://cdn.spairum.my.id/img/icon/information-graphics3.png" alt="voucher redeem" class="logo-small">
                 <form class="vocer" method="POST" action="saldo/voucher">
                     <div class="form-group mt-4">
                         <input required type="text" class="form-control form-control-lg text-center" id="kvoucher" name="kvoucher" placeholder="Masukan kode Voucher" aria-label="Masukan kode Voucher">
