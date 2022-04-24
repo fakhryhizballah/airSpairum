@@ -239,12 +239,9 @@ class Auth extends BaseController
 		])) {
 			$validation = \config\Services::validation();
 
-			// return redirect()->to('/daftar')->withInput()->with('validation', $validation);
+			return redirect()->to('/daftar')->withInput()->with('validation', $validation);
 		}
-		$data = [
-			'title' => 'Registrasi',
-			'validation' => \Config\Services::validation()
-		];
+	
 		helper('text');
 		$time = $this->Time::now('Asia/Jakarta');
 		$id = $this->request->getVar('nama');
@@ -355,10 +352,9 @@ class Auth extends BaseController
 			return redirect()->to('/');
 		}
 		$time = $this->Time::now('Asia/Jakarta');
-		$token = substr(sha1($cek['token_wa']), 0, 10);
+		$token = substr(sha1($cek['token_wa']), 0, 12);
 		$user = $this->UserModel->cek_id($cek['id_user']);
 		$debit = $user['debit'] + 1000;
-		$token = substr(sha1($cek['link']), 0, 10);
 		$data = [
 			'debit' => $debit,
 		];
