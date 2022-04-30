@@ -3,7 +3,7 @@ async function kirimSaldo() {
     const nominal = document.querySelector('#nominal').value
     const nomortujuan = document.querySelector('#nomortujuan').value
     if (!nominal || !nomortujuan) {
-        Swal.fire('Oops', 'Nominal dan Nomor Tujuan harus diisi', 'error');
+        Swal.fire('Oops', 'Nominal dan Nomor Tujuan harus diisi', 'error')
         return;
     }
     let FormData = {
@@ -50,11 +50,19 @@ async function kirimSaldo() {
                     }
                     return (response.json()).then(data => {
                         if (data.status == 'error') {
-                            Swal.fire('Oops', data.message, 'error');
+                            Swal.fire('Oops', data.message, 'error').then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload()
+                                }
+                            });
                             return;
                         } else {
-                            Swal.fire('Berhasil', data.message, 'success');
-                            return window.location.reload();
+                            Swal.fire('Berhasil', data.message, 'success').then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/user';
+                                }
+                            });
+                            return
                         }
 
                     })
