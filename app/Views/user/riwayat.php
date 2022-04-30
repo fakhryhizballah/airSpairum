@@ -4,7 +4,7 @@
 <!-- page content here -->
 
 <div class="container">
-    <div class="row shadow p-3 rounded bg-template" >
+    <div class="row shadow p-3 rounded bg-template">
         <div class="col-12 px-0" style="margin: 7px auto 7px; width:100%">
             <span class="material-icons" style="margin: 20px auto; display:inline;">
                 history
@@ -35,9 +35,17 @@
                                     <span class="material-icons">
                                         shopping_cart
                                     </span>
+                                <?php elseif ($r['status'] == "Kirim Saldo") : ?>
+                                    <span class="material-icons">
+                                        share
+                                    </span>
+                                <?php elseif ($r['status'] == "Menerima Saldo") : ?>
+                                    <span class="material-icons">
+                                        volunteer_activism
+                                    </span>
                                 <?php else : ?>
                                     <span class="material-icons">
-                                        android
+                                        polymer
                                     </span>
                                 <?php endif; ?>
 
