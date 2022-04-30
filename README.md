@@ -265,3 +265,7 @@ v1.0.2 (fix Bug user)
 ### added
 
 -  Fitur Berbagi air
+
+### Changed
+
+- Hiden add botol
