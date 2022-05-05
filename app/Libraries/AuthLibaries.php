@@ -39,12 +39,12 @@ class AuthLibaries
     }
     public function sendMqtt($topic, $message, $clientId)
     {
-        $server   = 'spairum.my.id';
-        $port     = 1883;
+        $server   = getenv('mqtt.server');
+        $port     = getenv('mqtt.port');
         $clientId =  $clientId;
         $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
-            ->setUsername('mqttuntan')
-            ->setPassword('mqttuntan');
+            ->setUsername(getenv('mqtt.username'))
+            ->setPassword(getenv('mqtt.password'));
 
         $mqtt = new \PhpMqtt\Client\MqttClient(
             $server,
@@ -65,20 +65,20 @@ class AuthLibaries
     }
     public function sendWa($masage)
     {
-        // $server   = 'ws.spairum.my.id';
-        $server   = 'spairum.my.id';
-        $port     = 1883;
-        $clientId =  "wa_Sender";
-        // $masage = [
-        //     "message" => 'hai',
-        //     "number" => "0895321701798"
-        // ];
-        $myJSON = json_encode($masage);
+        $server   = getenv('mqtt.server');
+        $port     = getenv('mqtt.port');
+        $clientId = rand(10, 100);
         $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
-            ->setUsername('mqttuntan')
-            ->setPassword('mqttuntan');
+            ->setUsername(getenv('mqtt.username'))
+            ->setPassword(getenv('mqtt.password'));
 
-        $mqtt = new \PhpMqtt\Client\MqttClient($server, $port, $clientId);
+        $mqtt = new \PhpMqtt\Client\MqttClient(
+            $server,
+            $port,
+            $clientId
+        );
+
+        $myJSON = json_encode($masage);
         $mqtt->connect($connectionSettings, true);
         $mqtt->publish("sendPesan",  $myJSON);
         $mqtt->disconnect();
