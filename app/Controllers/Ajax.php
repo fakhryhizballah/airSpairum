@@ -190,16 +190,9 @@ class Ajax extends BaseController
     {
         $akun = $this->AuthLibaries->authCek();
         $data = $this->request->getVar();
-        // dd($data);
-        // $idMesin = $data['id'];
         $idMesin = $data['newID'];
-        $data = [
-            "akun" => $akun['id_user'],
-            "vaule" => $data['diambil'],
-            "faktor" => $data['index'],
-        ];
-        $message = json_encode($data);
-        $topic = "pause/$idMesin";
+        $message = $akun['id_user'];
+        $topic = "stop/$idMesin";
         $clientId = $akun['id_user'];
 
         $this->AuthLibaries->sendMqtt(

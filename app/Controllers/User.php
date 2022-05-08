@@ -70,8 +70,8 @@ class User extends BaseController
             'title' => 'Home | Spairum.com',
             'akun' => $akun,
             'saldo' => $saldo,
-            'botol' => $botol
-
+            'botol' => $botol,
+            'socket' => getenv('soket.url'),
         ];
         // dd($data);
         // $this->AuthLibaries->notif($akun, "Membuka halaman Home");
@@ -123,15 +123,6 @@ class User extends BaseController
         }
         session()->set('id_mesin', $mesin['id_mesin']);
         return redirect()->to('/control');
-
-
-        // $Hambil = $ambil * '10';
-        // $sisa = $akun['debit'] - $Hambil;
-        // $kere = $akun['kredit'] + $Hambil;
-
-        // // dd($kere);
-
-
     }
 
 

@@ -91,13 +91,10 @@ function scane() {
         scanner.stop();
     })
 }
-// const socket = io("http://localhost:3000", {
-//     withCredentials: true,
-//     extraHeaders: {
-//         "my-custom-header": "abcd"
-//     }
-// });
-const socket = io("https://socket.spairum.my.id:3000", {
+
+// const socket = io("https://socket.spairum.my.id:3000", {
+const url = document.getElementById("socket");
+const socket = io(url.value, {
     withCredentials: true,
     extraHeaders: {
         "my-custom-header": "abcd"
@@ -109,13 +106,6 @@ socket.on("connect", () => {
         console.log(arg); // world
     });
 });
-// var id_Mes = 'Prototipe3';
-// socket.on("dari " + id_Mes, (data) => {
-//     console.log(data);
-// });
-// socket.on("current/51E5EF69", (msg) => {
-//     console.log(msg);
-// });
 function take(data) {
     if (data.status == '200') {
         if (data.status_mesin == 'Offline') {
@@ -163,9 +153,9 @@ function take(data) {
                             // timer: 20000,
                             text: "jika ingin meghntikan klik stop",
                             // timerProgressBar: true,
-                            // cancelButtonColor: '#be4d25',
-                            // showCancelButton: true,
-                            // cancelButtonText: 'STOP',
+                            showCancelButton: true,
+                            cancelButtonText: 'STOP',
+                            cancelButtonColor: '#be4d25',
                             allowOutsideClick: false,
                             didOpen: () => {
                                 Swal.showLoading()
