@@ -469,18 +469,28 @@ class User extends BaseController
             'Lokasi' => "Cek email anda -> $email ",
             'status' => 'Anda menganti Email',
         ]);
+        $pesanEmail = ([
+            'email' => $email,
+            'fullname' => "$nama_depan $nama_belakang",
+            'token' => $token,
+            'subject' => 'Ganti Email Akun Anda',
+            'status' => 'change',
+            'lastemail' => $akun['email'],
 
-        $this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
-        $this->email->setTo($email);
-        $this->email->setSubject('Ganti Email Akun Anda');
-        $this->email->setMessage(" <h1>Hallo $nama_depan $nama_belakang </h1>
-        <p>Anda baru saja menganti Email <br>Email anda akan terganti setelah klik verifikasi pada tautan dibawah : </p>
-		<a href='https://air.spairum.my.id/verifikasi/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'> verifikasi</a>
-        <br>
-		<p>Salam Hormat Kami Tim Support Spairum</p>
-        <a href='https://wa.me/+6285159174224'>Spairum: 085159174224 </a>
-        ");
-        $this->email->send();
+        ]);
+        $this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail),  $akun['id_user']);
+
+        // $this->email->setFrom('infospairum@gmail.com', 'noreply-spairum');
+        // $this->email->setTo($email);
+        // $this->email->setSubject('Ganti Email Akun Anda');
+        // $this->email->setMessage(" <h1>Hallo $nama_depan $nama_belakang </h1>
+        // <p>Anda baru saja menganti Email <br>Email anda akan terganti setelah klik verifikasi pada tautan dibawah : </p>
+		// <a href='https://air.spairum.my.id/verifikasi/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'> verifikasi</a>
+        // <br>
+		// <p>Salam Hormat Kami Tim Support Spairum</p>
+        // <a href='https://wa.me/+6285159174224'>Spairum: 085159174224 </a>
+        // ");
+        // $this->email->send();
 
         session()->setFlashdata('Berhasil', "Email anda akan diganti setelah anda memverifikasi email anda. cek di kotak masuk atau di spam");
         return redirect()->to('/user');
