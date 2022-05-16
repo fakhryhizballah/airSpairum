@@ -219,8 +219,7 @@ class Saldo extends BaseController
                         'kredit' => $akun['kredit'] + $decoded->nominal,
                         'debit' =>  $akun['debit'] - $decoded->nominal,
                     ], $akun['id']);
-                    $this->UserModel->updateprofile([
-                        'debit' =>  $penerima['kredit'] + $decoded->nominal,
+                    $this->UserModel->updateprofile(['debit' =>  $penerima['debit'] + $decoded->nominal,
                     ], $penerima['id']);
                 } catch (\Exception $e) {
                     $data = [
