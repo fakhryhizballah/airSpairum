@@ -15,7 +15,8 @@
         "laminas/laminas-escaper": "^2.6",
         "midtrans/midtrans-php": "^2.5",
         "php-mqtt/client": "^1.1",
-        "firebase/php-jwt": "^6.1"
+        "firebase/php-jwt": "^6.1",
+        "google/apiclient": "^2.12.1"
     },
     "require-dev": {
         "codeigniter4/codeigniter4-standard": "^1.0",
@@ -26,7 +27,10 @@
     "autoload": {
         "psr-4": {
             "CodeIgniter\\": "system/"
-        }
+        },
+        "classmap": [
+            "vendor/google/apiclient/src/Google"
+        ]
     },
     "scripts": {
         "post-update-cmd": [
