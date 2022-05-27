@@ -11,9 +11,9 @@ class Oauth extends BaseController
     {
         $clientID = '479807555120-3cp5jte7th6gnreujjbrrjmn8647rhls.apps.googleusercontent.com';
         $clientSecret = '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';
-        $redirectUri = 'http://localhost:8080/Oauth/redirect'; //Harus sama dengan yang kita daftarkan
+        // $redirectUri = 'http://localhost:8080/Oauth/redirect'; //Harus sama dengan yang kita daftarkan
         // $redirectUri = 'https://app.spairum.my.id/Oauth/redirect'; //Harus sama dengan yang kita daftarkan
-        // $redirectUri = 'https://air.spairum.my.id/Oauth/redirect'; //Harus sama dengan yang kita daftarkan
+        $redirectUri = 'https://air.spairum.my.id/Oauth/redirect'; //Harus sama dengan yang kita daftarkan
 
         // require_once APPPATH . '../vendor/autoload.php';
         $client = new \Google_Client();
