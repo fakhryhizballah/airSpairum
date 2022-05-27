@@ -29,6 +29,7 @@ class Oauth extends BaseController
     public function redirect()
     {
         // dd($_GET["code"]);
+        $client = new \Google_Client();
         $clientID = '479807555120-3cp5jte7th6gnreujjbrrjmn8647rhls.apps.googleusercontent.com';
         $clientSecret = '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';
         $redirectUri = 'http://localhost:8080/Oauth/redirect'; //Harus sama dengan yang kita daftarkan
@@ -36,7 +37,6 @@ class Oauth extends BaseController
         // $redirectUri = 'https://air.spairum.my.id/Oauth/redirect'; //Harus sama dengan yang kita daftarkan
 
         // require_once APPPATH . '../vendor/autoload.php';
-        $client = new \Google_Client();
         // $client = new Google\Client();
 
         $client->setClientId($clientID);
@@ -46,7 +46,7 @@ class Oauth extends BaseController
         $client->addScope("profile");
         $code = $this->request->getGet('code');
         $token = $client->fetchAccessTokenWithRefreshToken($code);
-        dd($code);
+        dd($token);
         // $client = new \Google_Client();
         if (!isset($token["error"])) {
             $client->setAccessToken($token['access_token']);
