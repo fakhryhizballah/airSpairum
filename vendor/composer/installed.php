@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-koin',
-        'version' => 'dev-koin',
+        'pretty_version' => 'dev-Oauth',
+        'version' => 'dev-Oauth',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'f821a7c722272750497b56811e45d7d1e3526718',
+        'reference' => '61568d8a7435d7199d86d1f4c38e928b645f6a8a',
         'name' => 'codeigniter4/codeigniter4',
         'dev' => true,
     ),
     'versions' => array(
         'codeigniter4/codeigniter4' => array(
-            'pretty_version' => 'dev-koin',
-            'version' => 'dev-koin',
+            'pretty_version' => 'dev-Oauth',
+            'version' => 'dev-Oauth',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'f821a7c722272750497b56811e45d7d1e3526718',
+            'reference' => '61568d8a7435d7199d86d1f4c38e928b645f6a8a',
             'dev_requirement' => false,
         ),
         'codeigniter4/codeigniter4-standard' => array(
