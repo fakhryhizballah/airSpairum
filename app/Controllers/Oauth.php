@@ -41,8 +41,8 @@ class Oauth extends BaseController
     public function redirect()
     {
         $code = $this->request->getGet('code');
-        $token = $this->client->fetchAccessTokenWithRefreshToken($code);
-        // $token = $client->fetchAccessTokenWithAuthCode($code);
+        // $token = $this->client->fetchAccessTokenWithRefreshToken($code);
+        $token = $client->fetchAccessTokenWithAuthCode($code);
         if (!isset($token["error"])) {
             $access_token = $this->client->setAccessToken($token['access_token']);
             $google_service = new \Google_Service_Oauth2($access_token);
