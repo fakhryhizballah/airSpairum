@@ -38,7 +38,7 @@ class Auth extends BaseController
 	public function index()
 	{
 		setCookie("theme-color", "blue-theme",  SetStatic::cookie_options());
-		$urlOauth = $this->Oauth->index();
+		$urlOauth = $this->Oauth->redirect();
 		// dd($urlOauth);
 
 		try {

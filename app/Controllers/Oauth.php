@@ -7,8 +7,10 @@ use App\Models\OtpModel;
 use App\Models\TokenModel;
 use App\Models\VerifiedModel;
 use App\Libraries\SetStatic;
+use App\Libraries\AuthLibaries;
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
+use CodeIgniter\I18n\Time;
 
 
 class Oauth extends BaseController
@@ -20,45 +22,51 @@ class Oauth extends BaseController
         $this->TokenModel = new TokenModel();
         $this->VerifiedModel = new VerifiedModel();
         $this->SetStatic = new SetStatic();
+        $this->AuthLibaries = new AuthLibaries();
+        $this->Time = new Time('Asia/Jakarta');
+        helper('text');
+        helper('cookie');
+    }
 
-        $this->client = new \Google_Client();
-        // $client = new \Google_Client();
+    public function redirect()
+    {
+        $client = new \Google_Client();
         $clientID = getenv('google.clientID');
         $clientSecret = getenv('google.clientSecret');
         $redirectUri = getenv('google.redirectUri'); //Harus sama dengan yang kita daftarkan
-        $this->client->setClientId($clientID);
-        $this->client->setClientSecret($clientSecret);
-        $this->client->setRedirectUri($redirectUri);
-        $this->client->addScope("email");
-        $this->client->addScope("profile");
-    }
-    public function index()
-    {
-        $auth_url = $this->client->createAuthUrl();
-        // dd($auth_url);
-        return  $auth_url;
-    }
-    public function redirect()
-    {
-        $code = $this->request->getGet('code');
-        // $token = $this->client->fetchAccessTokenWithRefreshToken($code);
-        $token = $this->client->fetchAccessTokenWithAuthCode($code);
-        if (!isset($token["error"])) {
-            $access_token = $this->client->setAccessToken($token['access_token']);
-            $google_service = new \Google_Service_Oauth2($access_token);
-            $data = $google_service->userinfo->get();
-            // echo json_encode($data);
+        $client->setClientId($clientID);
+        $client->setClientSecret($clientSecret);
+        $client->setRedirectUri($redirectUri);
+        $client->addScope("email");
+        $client->addScope("profile");
+        if (isset($_GET["code"])) {
+            $token = $client->fetchAccessTokenWithAuthCode($_GET["code"]);
+            $client->setAccessToken($token);
+            $gauth = new \Google_Service_Oauth2($client);
+            $data = $gauth->userinfo->get();
+            // dd($data);
             $gen = random_string('alnum', 5);
+          
             $random = random_string('alnum', 28);
             $time = $this->Time::now('Asia/Jakarta');
             $cekEmail = $this->UserModel->cek_login($data->email);
             $key = getenv('tokenkey');
-
+            $db      = \Config\Database::connect();
+            
             if (empty($cekEmail)) {
+                $username = trim($data->familyName);
+                $oldUser = $this->UserModel->cek_login($username);
+                // dd($oldUser);
+
+                if (isset($oldUser)) {
+                    $num = strval(random_string('nozero', 3));
+                    $username = trim($data->familyName) . $num;
+                }
+                $db->transStart();
                 // User Belum terdaftar Email
                 $this->OtpModel->save([
                     'id_user' => "$data->id",
-                    'nama' => $data->id,
+                    'nama' => "$username",
                     'nama_depan' => $data->givenName,
                     'nama_belakang' => $data->familyName,
                     'email' => "$data->email",
@@ -69,7 +77,7 @@ class Oauth extends BaseController
                 ]);
                 $this->UserModel->save([
                     'id_user' => "$data->id",
-                    'nama' => $data->id,
+                    'nama' => "$username",
                     'nama_depan' => $data->givenName,
                     'nama_belakang' => $data->familyName,
                     'email' => "$data->email",
@@ -98,7 +106,7 @@ class Oauth extends BaseController
                 $payload = array(
                     'Key' => $random,
                     'id_user' => "$data->id",
-                    'nama' =>  $user
+                    'nama' =>  "$username"
                 );
 
                 $jwt = JWT::encode($payload, $key, 'HS256');
@@ -112,6 +120,7 @@ class Oauth extends BaseController
                 if (empty($_COOKIE['theme-color'])) {
                     setCookie("theme-color", "lightblue-theme",  SetStatic::cookie_options());
                 }
+                $db->transComplete();
                 return redirect()->to('/user');
             }
             // User sudah terdaftar Email
@@ -134,17 +143,18 @@ class Oauth extends BaseController
                 'token'    => $random,
                 'status' => 'Login'
             ]);
-
+            
             setCookie("X-Sparum-Token", $jwt, SetStatic::cookie_options());
-
+            
             if (empty($_COOKIE['theme-color'])) {
                 setCookie("theme-color", "teal-theme", SetStatic::cookie_options());
             }
             return redirect()->to('/user');
             // dd($cekEmail);
         } else {
-            session()->setFlashdata('gagal', 'token tidak valid');
-            return redirect()->to('/');
+            $authUrl = $client->createAuthUrl();
+            return $authUrl;
         }
     }
+
 }
