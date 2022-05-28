@@ -143,7 +143,7 @@ class Oauth extends BaseController
             return redirect()->to('/user');
             // dd($cekEmail);
         } else {
-            session()->setFlashdata('gagal', 'Username atau Password salah');
+            session()->setFlashdata('gagal', 'token tidak valid');
             return redirect()->to('/');
         }
     }
