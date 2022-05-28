@@ -124,7 +124,7 @@ class Oauth extends BaseController
                 return redirect()->to('/user');
             }
             // User sudah terdaftar Email
-            if ($cekEmail['profil'] == 'https://cdn.spairum.my.id/img/user.png') {
+            if ($cekEmail['profil'] == 'user.png') {
                 $this->UserModel->save([
                     'id_user' => "$data->id",
                     'profil' => $data->picture
