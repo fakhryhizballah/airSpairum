@@ -35,6 +35,10 @@
             Masuk
         </button>
         <hr>
+        <a href="<?= $urlOauth; ?>" class="btn btn-default btn-lg btn-rounded shadow btn-block">
+            <i class="fab fa-google-plus-g"></i> Masuk dengan Google
+        </a>
+        <hr>
     </div>
     <div class="row mx-0 bottom-button-container">
         <div class="col">
