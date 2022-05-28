@@ -125,8 +125,7 @@ class Oauth extends BaseController
             }
             // User sudah terdaftar Email
             if ($cekEmail['profil'] == 'user.png') {
-                $this->UserModel->save([
-                    'id_user' => "$data->id",
+                $this->UserModel->save(['id_user' => $cekEmail['id_user'],
                     'profil' => $data->picture
                 ]);
             }
