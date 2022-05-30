@@ -269,3 +269,10 @@ v1.0.2 (fix Bug user)
 ### Changed
 
 - Hiden add botol
+
+# [v2.4.0] 30-05-2022
+
+### added
+
+-  Fitur login via Oauth2 Google
+-  add foto profil Google account
