@@ -12,6 +12,7 @@ use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 use App\Libraries\AuthLibaries;
 use App\Libraries\SetStatic;
+use App\Controllers\Oauth;
 
 
 class Auth extends BaseController
@@ -28,6 +29,7 @@ class Auth extends BaseController
 		$this->email = \Config\Services::email();
 		$this->AuthLibaries = new AuthLibaries();
 		$this->SetStatic = new SetStatic();
+		$this->Oauth = new Oauth();
 		helper('text');
 		helper('cookie');
 	}
@@ -36,23 +38,21 @@ class Auth extends BaseController
 	public function index()
 	{
 		setCookie("theme-color", "blue-theme",  SetStatic::cookie_options());
+		$urlOauth = $this->Oauth->redirect();
+		// dd($urlOauth);
 
-		if (empty($_COOKIE['X-Sparum-Token'])) {
+		try {
+			$akun = $this->AuthLibaries->authCek();
+			return redirect()->to('/user');
+		} catch (\Exception $e) {
 			$data = [
 				'title' => 'Air Spairum',
-				'validation' => \Config\Services::validation()
-			];
-			return view('auth/masuk', $data);
-		} else {
-			if ($_COOKIE['X-Sparum-Token'] == 'Logout') {
-				$data = [
-					'title' => 'Air Spairum',
-					'validation' => \Config\Services::validation()
+				'validation' => \Config\Services::validation(),
+				'urlOauth' => $urlOauth
 				];
 				return view('auth/masuk', $data);
 			}
-			return redirect()->to('/user');
-		}
+		return redirect()->to('/user');
 	}
 	public function welcome()
 	{
