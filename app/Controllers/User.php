@@ -395,38 +395,64 @@ class User extends BaseController
 
 
         if ($fileProfil->getError() == 4) {
-            $potoProfil = $fotolama;
+            $url = $fotolama;
         } else {
             $potoProfil = $fileProfil->getName();
-            $fileProfil->move('/img/user');
-            $image->withFile("/img/user/$potoProfil")->resize(300, 300, false, 'auto')->save("/img/user/$potoProfil");
+            $mime = $fileProfil->getMimeType();
+            $fileProfil->move('./img/user', $potoProfil);
+            $image->withFile("./img/user/$potoProfil")->resize(300, 300, false, 'auto')->save("./img/user/$potoProfil");
+            $file = new \CodeIgniter\Files\File("./img/user/$potoProfil");
+            $link = $file->getRealPath();
+            $img = new \CURLFILE($link);
+            $img->setMimetype($mime);
+            $img->setPostFilename($potoProfil);
+
 
             $curl = curl_init();
+            $headers = array("Content-Type:multipart/form-data");
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://cdn.spairum.my.id/api/upload/single',
+                CURLOPT_URL => 'https://cdn.spairum.my.id/api/upload/single/',
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
+                // CURLOPT_ENCODING => '',
+                // CURLOPT_MAXREDIRS => 10,
+                // CURLOPT_TIMEOUT => 0,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => array('image' => ("/img/user/$potoProfil")),
+                CURLOPT_HEADER => true,
+                CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_POSTFIELDS => array('image' => $img),
             ));
 
             $response = curl_exec($curl);
 
+            if (!curl_errno($curl)) {
+                $status = curl_getinfo($curl);
+                dd($status);
+                if ($status['http_code'] == 200) {
+                    $info = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+                    $body = substr($response, $info);
+                } else {
+                    unlink("./img/user/$potoProfil");
+                    session()->setFlashdata('flash', 'Foto tidak sesuai format');
+                    return redirect()->to('/user');
+                }
+            } else {
+                unlink("./img/user/$potoProfil");
+                session()->setFlashdata('flash', 'Foto tidak sesuai format');
+                return redirect()->to('/user');
+            }
+
             curl_close($curl);
-            dd($response);
             echo $response;
-            // if ($fotolama != 'user.png') {
-            //     // dd($fotolama);
-            //     unlink('/img/user/' . $akun['profil']);
-            // }
+            $url = json_decode($body, true)['data']['url'];
 
 
-
+            if ($fotolama != 'user.png') {
+                // dd($fotolama);
+                unlink("./img/user/$potoProfil");
+            }
         }
 
 
@@ -436,7 +462,7 @@ class User extends BaseController
             // 'nama' => $this->request->getVar('nama'),
             // 'telp' => $this->request->getVar('telp'),
             // 'telp' => $telp,
-            'profil' => $potoProfil,
+            'profil' => $url,
             // 'validation' => \Config\Services::validation()
 
 
