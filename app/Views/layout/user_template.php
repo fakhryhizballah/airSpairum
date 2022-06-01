@@ -78,7 +78,13 @@
         <div class="mt-4 mb-3">
             <div class="row">
                 <div class="col-auto">
-                    <figure class="avatar avatar-60 border-0"><img src="/img/user/<?= $akun['profil']; ?>" alt=""></figure>
+                    <figure class="avatar avatar-60 border-0">
+                        <?php
+                        if ($akun['profil'] == "user.png") : ?>
+                            <img src="/img/user/<?= $akun['profil']; ?>" alt="">
+                        <?php endif; ?>
+                        <img src="<?= $akun['profil']; ?>" alt=""> -->
+                    </figure>
                 </div>
                 <div class="col pl-0 align-self-center">
                     <h5 class="mb-1"><?= $akun['nama_depan']; ?>&nbsp;<?= $akun['nama_belakang']; ?></h5>
