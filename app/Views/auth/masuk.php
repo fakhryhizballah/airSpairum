@@ -8,7 +8,7 @@
     <div class="col align-self-center px-3 text-center">
         <br>
         <!-- <img src="/img/spairum logo.png" alt="logo" class="logo-small"> -->
-        <img src="/img/spairum logo.png" alt="Logo Spairum" class="logo-small">
+        <img src="https://cdn.spairum.my.id/img/spairum.png" alt="Logo Spairum" class="logo-small">
         <br>
         <p class="text-mute text-uppercase ">Login Spairum</p>
         <form class="form-signin mt-3" method="POST" action="Auth/login">

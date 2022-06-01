@@ -27,7 +27,7 @@
 
 
     <!-- my style.css -->
-    <link rel="stylesheet" href="/css/style.css">
+    <!-- <link rel="stylesheet" href="/css/style.css"> -->
     <!-- My font -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"> -->
     <!-- Manifes -->
@@ -60,7 +60,7 @@
     <!-- Loader -->
     <div class="row no-gutters vh-100 loader-screen">
         <div class="col align-self-center text-white text-center">
-            <img src="img/spairum logo.png" width="50%" alt=" logo">
+            <img src="https://cdn.spairum.my.id/img/spairum.png" width="50%" alt=" logo">
             <!-- <h1 class="mt-3"><span class="font-weight-light ">Air </span>Spairum</h1> -->
             <!-- <p class="text-mute text-uppercase small">Ayo isi ulang air minum</p> -->
             <p class="text-mute text-uppercase small"></p>
@@ -175,7 +175,7 @@
                     <div class="col-1">
                         <button class="btn  btn-link text-dark menu-btn"><i class="material-icons">more_horiz</i></button>
                     </div>
-                    <div class="col text-center"><img src="/img/spairum logo.png" alt="" class="header-logo"></div>
+                    <div class="col text-center"><img src="https://cdn.spairum.my.id/img/spairum.png" alt="" class="header-logo"></div>
                     <div class="col-11">
                         <!-- <a href="notification.html" class="btn  btn-link text-dark position-relative"><i class="material-icons">notifications_none</i><span class="counts">9+</span></a> -->
                     </div>
