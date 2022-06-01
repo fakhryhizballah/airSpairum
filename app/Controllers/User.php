@@ -378,17 +378,12 @@ class User extends BaseController
         ])) {
             $validation = \config\Services::validation();
 
-            session()->setFlashdata('salah', 'Nomor telpon tidak bisa digunakan');
+            // session()->setFlashdata('salah', 'Nomor telpon tidak bisa digunakan');
 
             return redirect()->to('/editprofile')->withInput()->with('validation', $validation);
         }
 
         $fileProfil = $this->request->getFile('profil');
-
-
-        // dd($fileProfil);
-
-
 
         // apakah foto di ganti
         $fotolama = $this->request->getVar('profilLama');
@@ -406,53 +401,46 @@ class User extends BaseController
             $img = new \CURLFILE($link);
             $img->setMimetype($mime);
             $img->setPostFilename($potoProfil);
-
-
+          
             $curl = curl_init();
             $headers = array("Content-Type:multipart/form-data");
 
             curl_setopt_array($curl, array(
                 CURLOPT_URL => 'https://cdn.spairum.my.id/api/upload/single/',
                 CURLOPT_RETURNTRANSFER => true,
-                // CURLOPT_ENCODING => '',
-                // CURLOPT_MAXREDIRS => 10,
-                // CURLOPT_TIMEOUT => 0,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_HEADER => true,
+                // CURLOPT_SSL_VERIFYPEER => false, // this line makes it work under https
                 CURLOPT_HTTPHEADER => $headers,
                 CURLOPT_POSTFIELDS => array('image' => $img),
             ));
 
             $response = curl_exec($curl);
+            $status = curl_getinfo($curl);
+            unlink("./img/user/$potoProfil");
 
             if (!curl_errno($curl)) {
                 $status = curl_getinfo($curl);
-                dd($status);
                 if ($status['http_code'] == 200) {
                     $info = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
                     $body = substr($response, $info);
                 } else {
-                    unlink("./img/user/$potoProfil");
-                    session()->setFlashdata('flash', 'Foto tidak sesuai format');
-                    return redirect()->to('/user');
+                    // unlink("./img/user/$potoProfil");
+                    // dd($status);
+                    session()->setFlashdata('salah', 'sorry Gagal mengupdate foto profil');
+                    return redirect()->to('/editprofile');
                 }
             } else {
-                unlink("./img/user/$potoProfil");
-                session()->setFlashdata('flash', 'Foto tidak sesuai format');
-                return redirect()->to('/user');
+                $errmsg = curl_error($curl);
+                // dd($errmsg);
             }
 
-            curl_close($curl);
-            echo $response;
+            // curl_close($curl);
+        
             $url = json_decode($body, true)['data']['url'];
-
-
-            if ($fotolama != 'user.png') {
-                // dd($fotolama);
-                unlink("./img/user/$potoProfil");
-            }
+ 
         }
 
 
@@ -468,8 +456,7 @@ class User extends BaseController
 
 
         ];
-        // dd($telp);
-        // $this->UserModel->where('id', $id);
+
         $this->UserModel->updateprofile($data, $id);
         $this->UserModel->save([
             'id' => $akun['id'],

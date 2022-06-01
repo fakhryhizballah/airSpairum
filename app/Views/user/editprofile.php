@@ -12,9 +12,9 @@
                         <figure class="avatar avatar-60 border-0">
                             <?php
                             if ($akun['profil'] == "user.png") : ?>
-                                <img src="/img/user/<?= $akun['profil']; ?>" alt="">
+                                <img src="/img/user/<?= $akun['profil']; ?>" alt="<?= $akun['nama_depan']; ?>">
                             <?php endif; ?>
-                            <img src="<?= $akun['profil']; ?>" alt="">
+                            <img src="<?= $akun['profil']; ?>" alt="<?= $akun['nama_depan']; ?>">
                         </figure>
 
                         <div class="btn btn-dark text-white floating-btn custom-file">
