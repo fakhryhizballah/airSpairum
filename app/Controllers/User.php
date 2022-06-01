@@ -394,9 +394,9 @@ class User extends BaseController
         } else {
             $potoProfil = $fileProfil->getName();
             $mime = $fileProfil->getMimeType();
-            $fileProfil->move('./img/user', $potoProfil);
-            $image->withFile("./img/user/$potoProfil")->resize(300, 300, false, 'auto')->save("./img/user/$potoProfil");
-            $file = new \CodeIgniter\Files\File("./img/user/$potoProfil");
+            $fileProfil->move(WRITEPATH . '/img/user', $potoProfil);
+            $image->withFile(WRITEPATH . "/img/user/$potoProfil")->resize(300, 300, false, 'auto')->save(WRITEPATH . "/img/user/$potoProfil");
+            $file = new \CodeIgniter\Files\File(WRITEPATH . "/img/user/$potoProfil");
             $link = $file->getRealPath();
             $img = new \CURLFILE($link);
             $img->setMimetype($mime);
@@ -419,7 +419,7 @@ class User extends BaseController
 
             $response = curl_exec($curl);
             $status = curl_getinfo($curl);
-            unlink("./img/user/$potoProfil");
+            unlink(WRITEPATH . "/img/user/$potoProfil");
 
             if (!curl_errno($curl)) {
                 $status = curl_getinfo($curl);
@@ -427,7 +427,7 @@ class User extends BaseController
                     $info = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
                     $body = substr($response, $info);
                 } else {
-                    // unlink("./img/user/$potoProfil");
+                    // unlink(WRITEPATH ."/img/user/$potoProfil");
                     // dd($status);
                     session()->setFlashdata('salah', 'sorry Gagal mengupdate foto profil');
                     return redirect()->to('/editprofile');
