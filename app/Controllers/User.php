@@ -38,7 +38,6 @@ class User extends BaseController
         $this->BotolModel = new BotolModel();
         $this->VerifiedModel = new VerifiedModel();
         helper('cookie');
-        
     }
 
     public function index()
@@ -379,31 +378,69 @@ class User extends BaseController
         ])) {
             $validation = \config\Services::validation();
 
-            session()->setFlashdata('salah', 'Nomor telpon tidak bisa digunakan');
+            // session()->setFlashdata('salah', 'Nomor telpon tidak bisa digunakan');
 
             return redirect()->to('/editprofile')->withInput()->with('validation', $validation);
         }
 
         $fileProfil = $this->request->getFile('profil');
 
-
-        // dd($resize);
-
         // apakah foto di ganti
         $fotolama = $this->request->getVar('profilLama');
 
+
         if ($fileProfil->getError() == 4) {
-            $potoProfil = $fotolama;
+            $url = $fotolama;
         } else {
-            // $potoProfil = $fileProfil->getRandomName();
-            // $fileProfil->move('img/user', $potoProfil);
             $potoProfil = $fileProfil->getName();
-            $fileProfil->move('/img/user');
-            $image->withFile("/img/user/$potoProfil")->resize(300, 300, false, 'auto')->save("/img/user/$potoProfil");
-            if ($fotolama != 'user.png') {
-                // dd($fotolama);
-                unlink('/img/user/' . $akun['profil']);
+            $mime = $fileProfil->getMimeType();
+            $fileProfil->move('./img/user', $potoProfil);
+            $image->withFile("./img/user/$potoProfil")->resize(300, 300, false, 'auto')->save("./img/user/$potoProfil");
+            $file = new \CodeIgniter\Files\File("./img/user/$potoProfil");
+            $link = $file->getRealPath();
+            $img = new \CURLFILE($link);
+            $img->setMimetype($mime);
+            $img->setPostFilename($potoProfil);
+          
+            $curl = curl_init();
+            $headers = array("Content-Type:multipart/form-data");
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://cdn.spairum.my.id/api/upload/single/',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_HEADER => true,
+                // CURLOPT_SSL_VERIFYPEER => false, // this line makes it work under https
+                CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_POSTFIELDS => array('image' => $img),
+            ));
+
+            $response = curl_exec($curl);
+            $status = curl_getinfo($curl);
+            unlink("./img/user/$potoProfil");
+
+            if (!curl_errno($curl)) {
+                $status = curl_getinfo($curl);
+                if ($status['http_code'] == 200) {
+                    $info = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+                    $body = substr($response, $info);
+                } else {
+                    // unlink("./img/user/$potoProfil");
+                    // dd($status);
+                    session()->setFlashdata('salah', 'sorry Gagal mengupdate foto profil');
+                    return redirect()->to('/editprofile');
+                }
+            } else {
+                $errmsg = curl_error($curl);
+                // dd($errmsg);
             }
+
+            // curl_close($curl);
+        
+            $url = json_decode($body, true)['data']['url'];
+ 
         }
 
 
@@ -413,20 +450,19 @@ class User extends BaseController
             // 'nama' => $this->request->getVar('nama'),
             // 'telp' => $this->request->getVar('telp'),
             // 'telp' => $telp,
-            'profil' => $potoProfil,
+            'profil' => $url,
             // 'validation' => \Config\Services::validation()
 
 
 
         ];
-        // dd($telp);
-        // $this->UserModel->where('id', $id);
+
         $this->UserModel->updateprofile($data, $id);
         $this->UserModel->save([
             'id' => $akun['id'],
             'telp' => $telp,
         ]);
-        session()->setFlashdata('Berhasil', 'Profile anda telah di perbahruhi');
+        session()->setFlashdata('Berhasil', 'Profile anda telah di perbaharui');
         return redirect()->to('/user');
     }
 
@@ -485,9 +521,9 @@ class User extends BaseController
         // $this->email->setSubject('Ganti Email Akun Anda');
         // $this->email->setMessage(" <h1>Hallo $nama_depan $nama_belakang </h1>
         // <p>Anda baru saja menganti Email <br>Email anda akan terganti setelah klik verifikasi pada tautan dibawah : </p>
-		// <a href='https://air.spairum.my.id/verifikasi/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'> verifikasi</a>
+        // <a href='https://air.spairum.my.id/verifikasi/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'> verifikasi</a>
         // <br>
-		// <p>Salam Hormat Kami Tim Support Spairum</p>
+        // <p>Salam Hormat Kami Tim Support Spairum</p>
         // <a href='https://wa.me/+6285159174224'>Spairum: 085159174224 </a>
         // ");
         // $this->email->send();
