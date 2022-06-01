@@ -83,7 +83,7 @@
                         if ($akun['profil'] == "user.png") : ?>
                             <img src="/img/user/<?= $akun['profil']; ?>" alt="">
                         <?php endif; ?>
-                        <img src="<?= $akun['profil']; ?>" alt=""> -->
+                        <img src="<?= $akun['profil']; ?>" alt="">
                     </figure>
                 </div>
                 <div class="col pl-0 align-self-center">
@@ -189,7 +189,6 @@
             </div>
         </div>
         <!-- header ends -->
-
 
         <?= $this->renderSection('content'); ?>
         <!-- footer-->

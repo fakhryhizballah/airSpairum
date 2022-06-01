@@ -38,7 +38,6 @@ class User extends BaseController
         $this->BotolModel = new BotolModel();
         $this->VerifiedModel = new VerifiedModel();
         helper('cookie');
-        
     }
 
     public function index()
@@ -387,23 +386,47 @@ class User extends BaseController
         $fileProfil = $this->request->getFile('profil');
 
 
-        // dd($resize);
+        // dd($fileProfil);
+
+
 
         // apakah foto di ganti
         $fotolama = $this->request->getVar('profilLama');
 
+
         if ($fileProfil->getError() == 4) {
             $potoProfil = $fotolama;
         } else {
-            // $potoProfil = $fileProfil->getRandomName();
-            // $fileProfil->move('img/user', $potoProfil);
             $potoProfil = $fileProfil->getName();
             $fileProfil->move('/img/user');
             $image->withFile("/img/user/$potoProfil")->resize(300, 300, false, 'auto')->save("/img/user/$potoProfil");
-            if ($fotolama != 'user.png') {
-                // dd($fotolama);
-                unlink('/img/user/' . $akun['profil']);
-            }
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://cdn.spairum.my.id/api/upload/single',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array('image' => ("/img/user/$potoProfil")),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            dd($response);
+            echo $response;
+            // if ($fotolama != 'user.png') {
+            //     // dd($fotolama);
+            //     unlink('/img/user/' . $akun['profil']);
+            // }
+
+
+
         }
 
 
@@ -426,7 +449,7 @@ class User extends BaseController
             'id' => $akun['id'],
             'telp' => $telp,
         ]);
-        session()->setFlashdata('Berhasil', 'Profile anda telah di perbahruhi');
+        session()->setFlashdata('Berhasil', 'Profile anda telah di perbaharui');
         return redirect()->to('/user');
     }
 
@@ -485,9 +508,9 @@ class User extends BaseController
         // $this->email->setSubject('Ganti Email Akun Anda');
         // $this->email->setMessage(" <h1>Hallo $nama_depan $nama_belakang </h1>
         // <p>Anda baru saja menganti Email <br>Email anda akan terganti setelah klik verifikasi pada tautan dibawah : </p>
-		// <a href='https://air.spairum.my.id/verifikasi/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'> verifikasi</a>
+        // <a href='https://air.spairum.my.id/verifikasi/$token' style='display:block;width:115px;height:25px;background:#0008ff;padding:10px;text-align:center;border-radius:5px;color:white;font-weight:bold'> verifikasi</a>
         // <br>
-		// <p>Salam Hormat Kami Tim Support Spairum</p>
+        // <p>Salam Hormat Kami Tim Support Spairum</p>
         // <a href='https://wa.me/+6285159174224'>Spairum: 085159174224 </a>
         // ");
         // $this->email->send();

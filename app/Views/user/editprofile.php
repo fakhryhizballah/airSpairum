@@ -4,12 +4,18 @@
 <div class="wrapper">
     <div class="container">
         <div class="flash-Error" data-flashdata="<?= session()->getFlashdata('salah'); ?>"></div>
-        <form method="post" action="user/profileupdate" enctype="multipart/form-data">
+        <form method="post" action="/user/profileupdate" enctype="multipart/form-data">
 
             <div class="text-center">
                 <div class="form-group">
                     <div class="figure-profile shadow my-4">
-                        <figure><img class="img-thumbnail img-preview" src="/img/user/<?= $akun['profil']; ?>" alt=""></figure>
+                        <figure class="avatar avatar-60 border-0">
+                            <?php
+                            if ($akun['profil'] == "user.png") : ?>
+                                <img src="/img/user/<?= $akun['profil']; ?>" alt="">
+                            <?php endif; ?>
+                            <img src="<?= $akun['profil']; ?>" alt="">
+                        </figure>
 
                         <div class="btn btn-dark text-white floating-btn custom-file">
                             <i class="material-icons">camera_alt</i>
@@ -17,17 +23,12 @@
                             <input type="hidden" name="profilLama" id="profilLama" value="<?= $akun['profil']; ?>">
                             <div class="invalid-feedback"><?= $validation->getError('profil'); ?></div>
                         </div>
-
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <!-- <div class="col-md-2">
-                            <img src="/img/driver/<?= $akun['profil']; ?>" class="img-thumbnail img-preview mx-auto d-block">
-                        </div> -->
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="custom-file">
-                                <!-- <input type="file" class="custom-file-input <?= ($validation->hasError('profil')) ? 'is-invalid' : ''; ?>" id="profil" name="profil" onchange="previewImg()"> -->
                                 <label class="custom-file-label" for="profil">Pilih Gambar</label>
                                 <div class="invalid-feedback"><?= $validation->getError('profil'); ?></div>
                             </div>
@@ -59,9 +60,6 @@
                         <label class="form-control-label">Nama Belakang</label>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-
                 <div class="col-12 col-md-6">
                     <div class="form-group float-label active mb-0">
                         <input type="text" id="telp" name="telp" class="form-control form-control-user <?= ($validation->hasError('telp')) ? 'is-invalid' : ''; ?>" id="telp" name="telp" placeholder="" value="<?= $akun['telp']; ?>">
@@ -70,7 +68,6 @@
                     </div>
                 </div>
             </div>
-
             <br>
             <button type="submit" class="btn btn-lg btn-default text-white btn-block btn-rounded shadow"><span>Submit</span></button>
             <br>
