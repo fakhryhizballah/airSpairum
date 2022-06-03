@@ -35,7 +35,6 @@ class User extends BaseController
         $this->TokenModel = new TokenModel();
         $this->SaldoModel = new SaldoModel();
         $this->AuthLibaries = new AuthLibaries();
-        $this->BotolModel = new BotolModel();
         $this->VerifiedModel = new VerifiedModel();
         helper('cookie');
     }
@@ -44,7 +43,6 @@ class User extends BaseController
     {
         $akun = $this->AuthLibaries->authCek();
         $saldo = $this->SaldoModel->cek_id($akun['id_user']);
-        $botol = $this->BotolModel->botol($akun['id_user']);
         if ($akun['nama_depan'] == null) {
             session()->setFlashdata('salah', 'Silahkan lengkapi identitas anda');
             return redirect()->to('editprofile');
@@ -69,7 +67,6 @@ class User extends BaseController
             'title' => 'Home | Spairum.com',
             'akun' => $akun,
             'saldo' => $saldo,
-            'botol' => $botol,
             'socket' => getenv('soket.url'),
         ];
         // dd($data);
