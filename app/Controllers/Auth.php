@@ -43,7 +43,15 @@ class Auth extends BaseController
 
 		try {
 			$akun = $this->AuthLibaries->authCek();
-			return redirect()->to('/user');
+			if ($akun == null) {
+				$data = [
+					'title' => 'Air Spairum',
+					'validation' => \Config\Services::validation(),
+					'urlOauth' => $urlOauth
+				];
+				return view('auth/masuk', $data);
+			}
+			// return redirect()->to('/user');
 		} catch (\Exception $e) {
 			$data = [
 				'title' => 'Air Spairum',
@@ -167,22 +175,31 @@ class Auth extends BaseController
 
 	public function daftar()
 	{
-		if (empty($_COOKIE['X-Sparum-Token'])) {
-			$data = [
-				'title' => 'Air Spairum',
-				'validation' => \Config\Services::validation()
-			];
-			return view('auth/daftar', $data);
-		} else {
-			if ($_COOKIE['X-Sparum-Token'] == 'Logout') {
+		$akun = $this->AuthLibaries->authCek();
+		if ($akun == null) {
 				$data = [
 					'title' => 'Air Spairum',
 					'validation' => \Config\Services::validation()
 				];
 				return view('auth/daftar', $data);
 			}
-			return redirect()->to('/user');
-		}
+		return redirect()->to('/user');
+		// if (empty($_COOKIE['X-Sparum-Token'])) {
+		// 	$data = [
+		// 		'title' => 'Air Spairum',
+		// 		'validation' => \Config\Services::validation()
+		// 	];
+		// 	return view('auth/daftar', $data);
+		// } else {
+		// 	if ($_COOKIE['X-Sparum-Token'] == 'Logout') {
+		// 		$data = [
+		// 			'title' => 'Air Spairum',
+		// 			'validation' => \Config\Services::validation()
+		// 		];
+		// 		return view('auth/daftar', $data);
+		// 	}
+		// 	return redirect()->to('/user');
+		// }
 	}
 
 	public function userSave()
