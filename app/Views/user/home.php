@@ -105,7 +105,83 @@
                 </form>
             </div>
         </div>
+        <!-- Botol -->
+        <div class="mt-4 pt-5">
+            <div data-pagination='{"el": ".swiper-pagination"}' " class=" swiper-container ">
+            <div class=" swiper-wrapper">
+                <?php foreach ($botol as $r) : ?>
+                    <div class="swiper-slide swiper-slide card shadow  text-white" id="mybotol">
+                        <div class="card-header bg-template">
+                            <div class="row">
+                                <div class="col-10">
+                                    <h5 class="card-title text-center text-white">Botol Saya</h5>
+                                </div>
+                                <div class="col-2">
+                                    <div onclick="hapusbtol('<?= $r['id_botol']; ?>')">
+                                        <span class="material-icons">
+                                            delete
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="card shadow border-0 mb-2"> -->
+                        <div class="card shadow">
+                            <div class="card-body border-bottom mb-2 text-secondary">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <img src="/img/botol/botol.jpg" alt="">
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <h5 class="f-light text-left text-template"><?= $r['nama_botol']; ?></h5>
+                                        </div>
+                                        <div class="row">
+                                            <p class="mb-0 text-secondary f-sm text-black">
+                                                jenis Botol : <?= $r['jenis_botol']; ?>
+                                                <br>Ukuran Botol : <?= $r['ukuran_botol']; ?> mL
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-none">
+                                <!-- <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template"></button> -->
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+                <div class="swiper-slide swiper-slide card shadow text-white">
+                    <!-- <div class="card shadow-sm border-0 mb-3 bg-warning text-white"> -->
+                    <div class="card-header bg-template">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-white text-center">Tambahkan Botol</h5>
+                                <div id="qr-reader-results"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow border-0 mb-2">
+                        <div class="card-body mb-2 text-secondary">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <img class="text-center" src="/img/botol/botol.jpg" alt="Botol Spairum">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-none">
+                            <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template" onclick="addBotol()">Tambah Botol</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- end botol -->
     </div>
+
+
 </section>
 <input type="hidden" id="socket" value="<?= $socket; ?>">
 
@@ -214,8 +290,7 @@
 <!-- <script type="text/javascript" src="scanner/vendor/webrtc-adapter/adapter.min.js" async></script> -->
 <!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
 <script src="/js/scane.js" async></script>
-<!-- <script src="/js/botol.js" async></script> -->
-<!-- <script src="/js/botol.min.js" defer></script> -->
+<script src="/js/botol.js" async></script>
 <script>
     var swiper = new Swiper('.swiper-container', {
         slidesPerView: 1,
@@ -240,81 +315,5 @@
 
 <div class="container botol">
     <!-- page content here -->
-    <div data-pagination='{"el": ".swiper-pagination"}' " class=" swiper-container ">
-    <div class=" swiper-wrapper">
-        <?php foreach ($botol as $r) : ?>
-            <div class="swiper-slide swiper-slide card shadow  text-white" id="mybotol">
-                <div class="card-header bg-template">
-                    <div class="row">
-                        <div class="col-10">
-                            <h5 class="card-title text-center text-white">Botol Saya</h5>
-                        </div>
-                        <div class="col-2">
-                            <div onclick="hapusbtol('<?= $r['id_botol']; ?>')">
-                                <span class="material-icons">
-                                    delete
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="card shadow border-0 mb-2"> -->
-                <div class="card shadow">
-                    <div class="card-body border-bottom mb-2 text-secondary">
-                        <div class="row">
-                            <div class="col-4">
-                                <img src="/img/botol/botol.jpg" alt="">
-                            </div>
-                            <div class="col-8">
-                                <div class="row">
-                                    <h5 class="f-light text-left text-template"><?= $r['nama_botol']; ?></h5>
-                                </div>
-                                <div class="row">
-                                    <p class="mb-0 text-secondary f-sm text-black">
-                                        jenis Botol : <?= $r['jenis_botol']; ?>
-                                        <br>Ukuran Botol : <?= $r['ukuran_botol']; ?> mL
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-none">
-                        <!-- <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template"></button> -->
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-        <div class="swiper-slide swiper-slide card shadow text-white">
-            <!-- <div class="card shadow-sm border-0 mb-3 bg-warning text-white"> -->
-            <div class="card-header bg-template">
-                <div class="row">
-                    <div class="col">
-                        <h5 class="card-title text-white text-center">Tambahkan Botol</h5>
-                        <div id="qr-reader-results"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card shadow border-0 mb-2">
-                <div class="card-body mb-2 text-secondary">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <img class="text-center" src="/img/botol/botol.jpg" alt="Botol Spairum">
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-none">
-                    <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template" onclick="addBotol()">Tambah Botol</button>
-                </div>
-            </div>
-            <!-- </div> -->
-        </div>
-        <!-- <div class="swiper-slide">Slide 3</div>
-        <div class="swiper-slide">Slide 4</div>
-        <div class="swiper-slide">Slide 5</div>
-        <div class="swiper-slide">Slide 6</div>
-        <div class="swiper-slide">Slide 7</div>
-        <div class="swiper-slide">Slide 8</div>
-        <div class="swiper-slide">Slide 9</div>
-        <div class="swiper-slide">Slide 10</div> -->
-    </div>
+
 </div>
