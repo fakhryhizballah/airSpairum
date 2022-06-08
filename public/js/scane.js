@@ -41,9 +41,7 @@ function scane() {
             },
         }).done(function (data) {
             console.log(data);
-
-            // take(data);
-
+            take(data);
             $('#modal-pindai').modal('hide');
         })
     });
