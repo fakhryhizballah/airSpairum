@@ -265,4 +265,8 @@ class Ajax extends BaseController
         echo ("terkirim : ");
         return;
     }
+    public function qrs()
+    {
+        return redirect()->to('/');
+    }
 }
