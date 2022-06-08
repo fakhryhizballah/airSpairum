@@ -630,46 +630,16 @@ class Auth extends BaseController
 		session()->setFlashdata('Berhasil', 'Password anda telah diperbaharui.');
 		return redirect()->to('/');
 	}
-	public function waOTP()
+
+	public function verificationEmail()
 	{
-		$curl = curl_init();
-		$nama = ("nama");
-		$data_pesan = array(
-			'number' => '0895321701798',
-			'message' => $nama
-		);
-
-		curl_setopt_array($curl, array(
-			CURLOPT_URL => 'http://10.8.0.3:8000/send-message',
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => '',
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 0,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => $data_pesan,
-			// CURLOPT_POSTFIELDS => $masage['nama_depan'],
-		));
-
-		$response = curl_exec($curl);
-
-		curl_close($curl);
-		// dd($response);
-		echo $response;
-		return;
-	}
-
-	public function tes()
-	{
-		$payload = array(
-			"Key" => "Login Spairum",
-			"User" => "password",
-		);
-		$jwt = JWT::encode($payload, self::$key, 'HS256');
-		$decoded = JWT::decode($jwt, self::$key, array('HS256'));
-
-		print_r($decoded);
-		print_r($jwt);
+		$akun = $this->AuthLibaries->authCek();
+		$data = [
+			'title' => 'Change Password | Spairum.com',
+			'akun' => $akun,
+			'validation' => \Config\Services::validation()
+		];
+		return view('auth/emailverification', $data);
+		
 	}
 }

@@ -16,6 +16,7 @@ use App\Models\VoucherModel;
 use App\Models\TokenModel;
 use App\Models\SaldoModel;
 use App\Libraries\AuthLibaries;
+use App\Libraries\VerifikasiLibraries;
 use App\Models\BotolModel;
 use App\Models\VerifiedModel;
 
@@ -35,7 +36,7 @@ class User extends BaseController
         $this->TokenModel = new TokenModel();
         $this->SaldoModel = new SaldoModel();
         $this->AuthLibaries = new AuthLibaries();
-        $this->VerifiedModel = new VerifiedModel();
+        $this->VerifikasiLibraries = new VerifikasiLibraries();
         helper('cookie');
     }
 
@@ -47,22 +48,14 @@ class User extends BaseController
             session()->setFlashdata('salah', 'Silahkan lengkapi identitas anda');
             return redirect()->to('editprofile');
         }
-        if (empty($_COOKIE['verification-akun'])) {
-            // $cek = $this->VerifiedModel->cekid($akun['id_user']);
-            // if (($cek['email_status'] == 'unverified')) {
-            //     setCookie("verification-akun", "unverified", time() + (60 * 3));
-            //     session()->setFlashdata('email', '-');
-            // } else {
-            //     setCookie("verification-akun", "verified", time() + (60 * 60 * 24 * 30));
-            // }
-            $cek = $this->OtpModel->cekid($akun['id_user']);
-            if (($cek['status'] == 'belum verifikasi')) {
-                setCookie("verification-akun", "unverified", time() + (60 * 3));
-                session()->setFlashdata('email', '-');
+        if ($this->VerifikasiLibraries->user($akun['id_user'])) {
+            if ($this->VerifikasiLibraries->Verified()) {
+                return redirect()->to('/auth/verificationEmail');
             } else {
-                setCookie("verification-akun", "verified", time() + (60 * 60 * 24 * 30));
+                dd("whatsapp");
             }
         }
+
         $data = [
             'title' => 'Home | Spairum.com',
             'akun' => $akun,
