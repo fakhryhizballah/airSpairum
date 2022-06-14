@@ -6,8 +6,11 @@ use App\Models\UserModel;
 use App\Models\OtpModel;
 use App\Models\TokenModel;
 use App\Models\VerifiedModel;
+use App\Models\VoucherModel;
+
 use App\Libraries\SetStatic;
 use App\Libraries\AuthLibaries;
+
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 use CodeIgniter\I18n\Time;
@@ -21,6 +24,7 @@ class Oauth extends BaseController
         $this->OtpModel = new OtpModel();
         $this->TokenModel = new TokenModel();
         $this->VerifiedModel = new VerifiedModel();
+        $this->VoucherModel = new VoucherModel();
         $this->SetStatic = new SetStatic();
         $this->AuthLibaries = new AuthLibaries();
         $this->Time = new Time('Asia/Jakarta');
@@ -96,6 +100,22 @@ class Oauth extends BaseController
                     'verified_wa_date' => $time,
                     'token_wa' => "$gen$random",
                 ]);
+                $kodeV = random_string('alnum', 4);
+                $this->VoucherModel->save([
+                    'id_akun' => "$data->id",
+                    'kvoucher' => "$kodeV",
+                    'nominal' => 1000,
+                    'ket' => "Baru",
+                ]);
+                $pesanEmail = ([
+                    'email' => "$data->email",
+                    'fullname' => $data->givenName,
+                    'kode' => "$kodeV",
+                    'subject' => 'Selamat bergabung dengan Spairum',
+                    'status' => 'referral',
+                    'id_user' => "$data->id"
+                ]);
+                $this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $data->id);
                 $message =
                 [
                     'message' => "$data->name mendaftar air.spairum.my.id",
@@ -120,6 +140,7 @@ class Oauth extends BaseController
                 if (empty($_COOKIE['theme-color'])) {
                     setCookie("theme-color", "lightblue-theme",  SetStatic::cookie_options());
                 }
+
                 $db->transComplete();
                 return redirect()->to('/user');
             }
