@@ -276,3 +276,13 @@ v1.0.2 (fix Bug user)
 
 -  Fitur login via Oauth2 Google
 -  add foto profil Google account
+
+# [v2.4.1] 14-06-2022
+
+### added
+
+-  Fitur Referral login via Oauth2 Google send to email
+
+### Fixed
+
+- Foto save foto profile via CDN cdn.spairum.my.id
