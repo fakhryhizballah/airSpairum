@@ -48,12 +48,9 @@ class User extends BaseController
             session()->setFlashdata('salah', 'Silahkan lengkapi identitas anda');
             return redirect()->to('editprofile');
         }
-        if ($this->VerifikasiLibraries->user($akun['id_user'])) {
-            if ($this->VerifikasiLibraries->Verified()) {
-                return redirect()->to('/auth/verificationEmail');
-            } else {
-                dd("whatsapp");
-            }
+        $verifikasi = $this->VerifikasiLibraries->user($akun['id_user']);
+        if (isset($verifikasi)) {
+            return redirect()->to("/Auth/$verifikasi");
         }
 
         $data = [

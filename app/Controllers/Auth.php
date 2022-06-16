@@ -410,6 +410,7 @@ class Auth extends BaseController
 		$token = substr(sha1($cek['link']), 0, 10);
 		$data = [
 			'debit' => $debit,
+			'email' => $user['email'],
 		];
 		$this->UserModel->updateprofile($data, $user['id']);
 		$datavocer = [
@@ -630,7 +631,7 @@ class Auth extends BaseController
 		session()->setFlashdata('Berhasil', 'Password anda telah diperbaharui.');
 		return redirect()->to('/');
 	}
-
+// validation Email
 	public function verificationEmail()
 	{
 		$akun = $this->AuthLibaries->authCek();
@@ -640,6 +641,86 @@ class Auth extends BaseController
 			'validation' => \Config\Services::validation()
 		];
 		return view('auth/emailverification', $data);
-		
+	}
+	public function emailtoken()
+	{
+		$akun = $this->AuthLibaries->authCek();
+		$db      = \Config\Database::connect();
+		$token = $this->request->getVar('token');
+		$cek_token = $this->VerifiedModel->emailtoken($token, $akun['id_user']);
+		if (empty($cek_token)) {
+			session()->setFlashdata('gagal', 'Token Salah');
+			return redirect()->to('/Auth/verificationEmail');
+		}
+		$cekotp = $this->OtpModel->cekid($akun['id_user']);
+		$time = $this->Time::now('Asia/Jakarta');
+		$user = $this->UserModel->cek_id($akun['id_user']);
+
+		$db->transStart();
+		$debit = $user['debit'] + 2000;
+
+		$rand = substr(sha1($token), 0, 10);
+
+		$data = [
+			'debit' => $debit,
+			'email' => $user['email'],
+		];
+		$this->UserModel->updateprofile($data, $user['id']);
+		$datavocer = [
+			'id_master' => $akun['id_user'],
+			'Id_slave' => 'Admin',
+			'Lokasi' => 'Bonus',
+			'status' => 'Verifikasi Email',
+			'isi' => 2000,
+			'created_at' => $this->Time::now('Asia/Jakarta')
+		];
+		$this->HistoryModel->save($datavocer);
+
+		$this->OtpModel->save([
+			'id' => $cekotp['id'],
+			'link' => $rand,
+			'status' => 'terverifikasi',
+		]);
+		$this->VerifiedModel->save([
+			'id' => $cek_token['id'],
+			'email_status' => "verified",
+			'verified_email_date' => $time,
+			'token_email' => $rand,
+		]);
+		$db->transComplete();
+		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 2000');
+		return redirect()->to('/user');
+	}
+	public function resedemail()
+	{
+		$akun = $this->AuthLibaries->authCek();
+		// $email =  $this->request->getVar('email');
+		$body = $this->request->getBody();
+		$body = json_decode($body, true);
+		$email = strval($body['email']);
+		$verif = $this->VerifiedModel->cekid($akun['id_user']);
+		$otp = $this->OtpModel->cekid($akun['id_user']);
+		// dd($email);
+		// echo $body;
+		$token = random_string('numeric', 5);
+		$this->OtpModel->save([
+			'id' => $otp['id'],
+			'email' => $email,
+		]);
+		$this->VerifiedModel->save([
+			'id' => $verif['id'],
+			'token_email' => $token,
+		]);
+		$pesanEmail = ([
+			'email' => $email,
+			'fullname' => $akun['nama_depan'],
+			'token' => $otp['link'],
+			'kode' => $token,
+			'subject' => 'Konfirmasi Email akun Spairum Anda',
+			'status' => 'otp',
+			'id_user' => $akun['id_user']
+		]);
+		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $akun['id_user']);
+		return true;
 	}
 }
