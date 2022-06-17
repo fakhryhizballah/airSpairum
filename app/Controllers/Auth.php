@@ -14,6 +14,9 @@ use App\Libraries\AuthLibaries;
 use App\Libraries\SetStatic;
 use App\Controllers\Oauth;
 
+use CodeIgniter\Cookie\Cookie;
+use DateTime;
+
 
 class Auth extends BaseController
 {
@@ -410,6 +413,7 @@ class Auth extends BaseController
 		$token = substr(sha1($cek['link']), 0, 10);
 		$data = [
 			'debit' => $debit,
+			'email' => $user['email'],
 		];
 		$this->UserModel->updateprofile($data, $user['id']);
 		$datavocer = [
@@ -630,46 +634,218 @@ class Auth extends BaseController
 		session()->setFlashdata('Berhasil', 'Password anda telah diperbaharui.');
 		return redirect()->to('/');
 	}
-	public function waOTP()
+// validation Email
+	public function verificationEmail()
 	{
-		$curl = curl_init();
-		$nama = ("nama");
-		$data_pesan = array(
-			'number' => '0895321701798',
-			'message' => $nama
-		);
-
-		curl_setopt_array($curl, array(
-			CURLOPT_URL => 'http://10.8.0.3:8000/send-message',
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => '',
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 0,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => $data_pesan,
-			// CURLOPT_POSTFIELDS => $masage['nama_depan'],
-		));
-
-		$response = curl_exec($curl);
-
-		curl_close($curl);
-		// dd($response);
-		echo $response;
-		return;
+		$akun = $this->AuthLibaries->authCek();
+		$cek_token = $this->VerifiedModel->cekid($akun['id_user']);
+		if ($cek_token['email_status'] == 'verified') {
+			return redirect()->to('/');
+		}
+		$data = [
+			'title' => 'Email Validation | Spairum.com',
+			'akun' => $akun,
+			'validation' => \Config\Services::validation()
+		];
+		return view('auth/emailverification', $data);
 	}
-
-	public function tes()
+	public function emailtoken()
 	{
-		$payload = array(
-			"Key" => "Login Spairum",
-			"User" => "password",
-		);
-		$jwt = JWT::encode($payload, self::$key, 'HS256');
-		$decoded = JWT::decode($jwt, self::$key, array('HS256'));
+		$akun = $this->AuthLibaries->authCek();
 
-		print_r($decoded);
-		print_r($jwt);
+		$db      = \Config\Database::connect();
+		$token = $this->request->getVar('token');
+		$cek_token = $this->VerifiedModel->emailtoken($token, $akun['id_user']);
+		if (empty($cek_token)) {
+			session()->setFlashdata('gagal', 'Token Salah');
+			return redirect()->to('/Auth/verificationEmail');
+		}
+		$cekotp = $this->OtpModel->cekid($akun['id_user']);
+		$time = $this->Time::now('Asia/Jakarta');
+		$user = $this->UserModel->cek_id($akun['id_user']);
+
+		$db->transStart();
+		$debit = $user['debit'] + 2000;
+
+		$rand = substr(sha1($token), 0, 10);
+
+		$data = [
+			'debit' => $debit,
+			'email' => $cekotp['email'],
+		];
+		$this->UserModel->updateprofile($data, $user['id']);
+		$datavocer = [
+			'id_master' => $akun['id_user'],
+			'Id_slave' => 'Admin',
+			'Lokasi' => 'Bonus',
+			'status' => 'Verifikasi Email',
+			'isi' => 2000,
+			'created_at' => $this->Time::now('Asia/Jakarta')
+		];
+		$this->HistoryModel->save($datavocer);
+
+		$this->OtpModel->save([
+			'id' => $cekotp['id'],
+			'link' => $rand,
+			'status' => 'terverifikasi',
+		]);
+		$this->VerifiedModel->save([
+			'id' => $cek_token['id'],
+			'email_status' => "verified",
+			'verified_email_date' => $time,
+			'token_email' => $rand,
+		]);
+		$db->transComplete();
+		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 2000');
+		return redirect()->to('/user');
+	}
+	public function resedemail()
+	{
+		$akun = $this->AuthLibaries->authCek();
+		// $email =  $this->request->getVar('email');
+		$body = $this->request->getBody();
+		$body = json_decode($body, true);
+		$email = strval($body['email']);
+		$verif = $this->VerifiedModel->cekid($akun['id_user']);
+		$otp = $this->OtpModel->cekid($akun['id_user']);
+		// dd($email);
+		// echo $body;
+		$token = random_string('numeric', 5);
+		$this->OtpModel->save([
+			'id' => $otp['id'],
+			'email' => $email,
+		]);
+		$this->VerifiedModel->save([
+			'id' => $verif['id'],
+			'token_email' => $token,
+		]);
+		$pesanEmail = ([
+			'email' => $email,
+			'fullname' => $akun['nama_depan'],
+			'token' => $otp['link'],
+			'kode' => $token,
+			'subject' => 'Konfirmasi Email akun Spairum Anda',
+			'status' => 'otp',
+			'id_user' => $akun['id_user']
+		]);
+		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $akun['id_user']);
+		return true;
+	}
+	// validation whatsapp
+	public function verificationWa()
+	{
+		$akun = $this->AuthLibaries->authCek();
+		$cek_token = $this->VerifiedModel->cekid($akun['id_user']);
+		if ($cek_token['whatsapp_status'] == 'verified') {
+			return redirect()->to('/');
+		}
+		$data = [
+			'title' => 'Whatsapp Validation | Spairum.com',
+			'akun' => $akun,
+			'validation' => \Config\Services::validation()
+		];
+		return view('auth/waverification', $data);
+	}
+	public function watoken()
+	{
+		$akun = $this->AuthLibaries->authCek();
+
+		$db      = \Config\Database::connect();
+		$token = $this->request->getVar('token');
+		$cek_token = $this->VerifiedModel->watoken($token, $akun['id_user']);
+		if (empty($cek_token)) {
+			session()->setFlashdata('gagal', 'Token Salah');
+			return redirect()->to('/Auth/verificationEmail');
+		}
+		$cekotp = $this->OtpModel->cekid($akun['id_user']);
+		$time = $this->Time::now('Asia/Jakarta');
+		$user = $this->UserModel->cek_id($akun['id_user']);
+
+		$db->transStart();
+		$debit = $user['debit'] + 1000;
+
+		$rand = substr(sha1($token), 0, 10);
+
+		$data = [
+			'debit' => $debit,
+			'email' => $cekotp['email'],
+		];
+		$this->UserModel->updateprofile($data, $user['id']);
+		$datavocer = [
+			'id_master' => $akun['id_user'],
+			'Id_slave' => 'Admin',
+			'Lokasi' => 'Bonus',
+			'status' => 'Verifikasi whatsapp',
+			'isi' => 1000,
+			'created_at' => $this->Time::now('Asia/Jakarta')
+		];
+		$this->HistoryModel->save($datavocer);
+
+		$this->VerifiedModel->save([
+			'id' => $cek_token['id'],
+			'whatsapp_status' => "verified",
+			'verified_wa_date' => $time,
+			'token_wa' => $rand,
+		]);
+		$db->transComplete();
+		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 1000');
+		return redirect()->to('/user');
+	}
+	public function resewa()
+	{
+		$akun = $this->AuthLibaries->authCek();
+		$fullname = $akun['nama_depan'] . ' ' . $akun['nama_belakang'];
+		$verif = $this->VerifiedModel->cekid($akun['id_user']);
+		$otp = $this->OtpModel->cekid($akun['id_user']);
+		$body = $this->request->getBody();
+		$body = json_decode($body, true);
+		$nowa = strval($body['whatsapp']);
+		$token = random_string('numeric', 5);
+		$this->OtpModel->save([
+			'id' => $otp['id'],
+			'no_wa' => $nowa,
+		]);
+		$this->VerifiedModel->save([
+			'id' => $verif['id'],
+			'token_wa' => $token,
+		]);
+		$PesanWA = array(
+			[
+				"message" => "Hallo kak $fullname, salam kenal aku admin spairum",
+				"number" => $akun['telp']
+			],
+			[
+				"message" => "Sebelumnya terimakasih ya telah membuat akun spairum, khusus untuk kak $fullname ada *Saldo air Gratis 1000* yang bisa digunakan untuk isi ulang air minum di stasiun spairum.",
+				"number" => $akun['telp']
+			],
+			[
+				"message" => "Untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token",
+				"number" => $akun['telp']
+			],
+			[
+				"message" => "Atau masukan Token *$token* .",
+				"number" => $akun['telp']
+			],
+			[
+				"message" => "Terimakasih telah menggunakan layanan spairum, jika ada kendala atau pertanyaan silahkan balas pesan ini",
+				"number" => $akun['telp']
+			]
+
+		);
+		foreach ($PesanWA as $value) {
+			$this->AuthLibaries->sendWa($value);
+		}
+	}
+	public function waSkip()
+	{
+		// $this->VerifikasiLibraries->skipWA();
+		$akun = $this->AuthLibaries->authCek();
+		setCookie("verification-token", "Whatsapp-Skip-verification", array(
+			'expires' => time() + 60 * 3,
+			'path' => '/',
+			'domain' => "", // leading dot for compatibility or use subdomain
+			'secure' => true,     // or false
+		));
+		return redirect()->to('/user');
 	}
 }
