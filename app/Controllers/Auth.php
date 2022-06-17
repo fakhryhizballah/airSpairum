@@ -635,8 +635,12 @@ class Auth extends BaseController
 	public function verificationEmail()
 	{
 		$akun = $this->AuthLibaries->authCek();
+		$cek_token = $this->VerifiedModel->cekid($akun['id_user']);
+		if ($cek_token['email_status'] == 'verified') {
+			return redirect()->to('/');
+		}
 		$data = [
-			'title' => 'Change Password | Spairum.com',
+			'title' => 'Email Validation | Spairum.com',
 			'akun' => $akun,
 			'validation' => \Config\Services::validation()
 		];
@@ -645,6 +649,7 @@ class Auth extends BaseController
 	public function emailtoken()
 	{
 		$akun = $this->AuthLibaries->authCek();
+
 		$db      = \Config\Database::connect();
 		$token = $this->request->getVar('token');
 		$cek_token = $this->VerifiedModel->emailtoken($token, $akun['id_user']);
@@ -663,7 +668,7 @@ class Auth extends BaseController
 
 		$data = [
 			'debit' => $debit,
-			'email' => $user['email'],
+			'email' => $cekotp['email'],
 		];
 		$this->UserModel->updateprofile($data, $user['id']);
 		$datavocer = [
@@ -722,5 +727,110 @@ class Auth extends BaseController
 		]);
 		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $akun['id_user']);
 		return true;
+	}
+	// validation whatsapp
+	public function verificationWa()
+	{
+		$akun = $this->AuthLibaries->authCek();
+		$cek_token = $this->VerifiedModel->cekid($akun['id_user']);
+		if ($cek_token['whatsapp_status'] == 'verified') {
+			return redirect()->to('/');
+		}
+		$data = [
+			'title' => 'Whatsapp Validation | Spairum.com',
+			'akun' => $akun,
+			'validation' => \Config\Services::validation()
+		];
+		return view('auth/waverification', $data);
+	}
+	public function watoken()
+	{
+		$akun = $this->AuthLibaries->authCek();
+
+		$db      = \Config\Database::connect();
+		$token = $this->request->getVar('token');
+		$cek_token = $this->VerifiedModel->watoken($token, $akun['id_user']);
+		if (empty($cek_token)) {
+			session()->setFlashdata('gagal', 'Token Salah');
+			return redirect()->to('/Auth/verificationEmail');
+		}
+		$cekotp = $this->OtpModel->cekid($akun['id_user']);
+		$time = $this->Time::now('Asia/Jakarta');
+		$user = $this->UserModel->cek_id($akun['id_user']);
+
+		$db->transStart();
+		$debit = $user['debit'] + 1000;
+
+		$rand = substr(sha1($token), 0, 10);
+
+		$data = [
+			'debit' => $debit,
+			'email' => $cekotp['email'],
+		];
+		$this->UserModel->updateprofile($data, $user['id']);
+		$datavocer = [
+			'id_master' => $akun['id_user'],
+			'Id_slave' => 'Admin',
+			'Lokasi' => 'Bonus',
+			'status' => 'Verifikasi whatsapp',
+			'isi' => 1000,
+			'created_at' => $this->Time::now('Asia/Jakarta')
+		];
+		$this->HistoryModel->save($datavocer);
+
+		$this->VerifiedModel->save([
+			'id' => $cek_token['id'],
+			'whatsapp_status' => "verified",
+			'verified_wa_date' => $time,
+			'token_wa' => $rand,
+		]);
+		$db->transComplete();
+		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 1000');
+		return redirect()->to('/user');
+	}
+	public function resewa()
+	{
+		$akun = $this->AuthLibaries->authCek();
+		$fullname = $akun['nama_depan'] . ' ' . $akun['nama_belakang'];
+		$verif = $this->VerifiedModel->cekid($akun['id_user']);
+		$otp = $this->OtpModel->cekid($akun['id_user']);
+		$body = $this->request->getBody();
+		$body = json_decode($body, true);
+		$nowa = strval($body['whatsapp']);
+		$token = random_string('numeric', 5);
+		$this->OtpModel->save([
+			'id' => $otp['id'],
+			'no_wa' => $nowa,
+		]);
+		$this->VerifiedModel->save([
+			'id' => $verif['id'],
+			'token_wa' => $token,
+		]);
+		$PesanWA = array(
+			[
+				"message" => "Hallo kak $fullname, salam kenal aku admin spairum",
+				"number" => $akun['telp']
+			],
+			[
+				"message" => "Sebelumnya terimakasih ya telah membuat akun spairum, khusus untuk kak $fullname ada *Saldo air Gratis 1000* yang bisa digunakan untuk isi ulang air minum di stasiun spairum.",
+				"number" => $akun['telp']
+			],
+			[
+				"message" => "Untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token",
+				"number" => $akun['telp']
+			],
+			[
+				"message" => "Atau masukan Token *$token* .",
+				"number" => $akun['telp']
+			],
+			[
+				"message" => "Terimakasih telah menggunakan layanan spairum, jika ada kendala atau pertanyaan silahkan balas pesan ini",
+				"number" => $akun['telp']
+			]
+
+		);
+		foreach ($PesanWA as $value) {
+			$this->AuthLibaries->sendWa($value);
+		}
 	}
 }
