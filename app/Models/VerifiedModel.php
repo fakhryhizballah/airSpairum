@@ -40,4 +40,10 @@ class VerifiedModel extends Model
         ->where(array('token_email' => $token, 'id_user' => $id_user))
             ->get()->getRowArray();
     }
+    public function watoken($token, $id_user)
+    {
+        return $this->db->table('verified_user')
+        ->where(array('token_wa' => $token, 'id_user' => $id_user))
+            ->get()->getRowArray();
+    }
 }

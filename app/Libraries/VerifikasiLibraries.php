@@ -27,6 +27,11 @@ class VerifikasiLibraries
                 // $this->SetStatic->set_flashdata('error', 'Email belum diverifikasi');
                 return "verificationEmail";
             }
+            if ($cek['whatsapp_status'] == 'unverified') {
+                echo "verificationEmail";
+                // $this->SetStatic->set_flashdata('error', 'Email belum diverifikasi');
+                return "verificationWa";
+            }
         } else {
             if (isset($_COOKIE['verification-invalid'])) {
                 return true;
