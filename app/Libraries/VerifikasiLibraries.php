@@ -32,11 +32,11 @@ class VerifikasiLibraries
                 // $this->SetStatic->set_flashdata('error', 'Email belum diverifikasi');
                 return "verificationWa";
             }
+            setCookie("verification-token", "Done", time() + (60 * 3));
+            return;
         } else {
-            if (isset($_COOKIE['verification-invalid'])) {
-                return true;
-            }
-            return false;
+            setCookie("verification-token", "OKE", time() + (60 * 3));
+            return;
         }
     }
 }
