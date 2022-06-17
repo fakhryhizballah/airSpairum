@@ -35,8 +35,11 @@ class VerifikasiLibraries
             setCookie("verification-token", "Done", time() + (60 * 3));
             return;
         } else {
-            setCookie("verification-token", "OKE", time() + (60 * 3));
             return;
         }
     }
+    // public function skipWA()
+    // {
+    //     setCookie("verification-token", "Whatsapp Skip verification", time() + (60 * 3));
+    // }
 }

@@ -14,6 +14,9 @@ use App\Libraries\AuthLibaries;
 use App\Libraries\SetStatic;
 use App\Controllers\Oauth;
 
+use CodeIgniter\Cookie\Cookie;
+use DateTime;
+
 
 class Auth extends BaseController
 {
@@ -832,5 +835,17 @@ class Auth extends BaseController
 		foreach ($PesanWA as $value) {
 			$this->AuthLibaries->sendWa($value);
 		}
+	}
+	public function waSkip()
+	{
+		// $this->VerifikasiLibraries->skipWA();
+		$akun = $this->AuthLibaries->authCek();
+		setCookie("verification-token", "Whatsapp-Skip-verification", array(
+			'expires' => time() + 60 * 3,
+			'path' => '/',
+			'domain' => "", // leading dot for compatibility or use subdomain
+			'secure' => true,     // or false
+		));
+		return redirect()->to('/user');
 	}
 }

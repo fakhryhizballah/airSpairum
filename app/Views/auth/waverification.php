@@ -16,7 +16,7 @@
                 <form class="form-signin mt-3" action="../auth/watoken" method="post">
                     <?= csrf_field(); ?>
                     <div class="form-group">
-                        <input type="whatsapp" class="form-control form-control-lg text-center <?= ($validation->hasError('whatsapp')) ? 'is-invalid' : ''; ?>" value="<?= $akun['telp']; ?>" id="whatsapp" name="whatsapp" placeholder="Masukan whatsapp anda">
+                        <input type="number" class="form-control form-control-lg text-center <?= ($validation->hasError('whatsapp')) ? 'is-invalid' : ''; ?>" value="<?= $akun['telp']; ?>" id="whatsapp" name="whatsapp" placeholder="Masukan nomor whatsapp anda">
                         <div class="invalid-feedback"><?= $validation->getError('whatsapp'); ?></div>
                     </div>
 
@@ -41,7 +41,7 @@
                 </form>
             </div>
         </div>
-        <a href="#" class="mt-4 d-block text-right">skip</a>
+        <a href="../auth/waSkip" class="mt-4 d-block text-right">skip</a>
     </div>
 </div>
 
