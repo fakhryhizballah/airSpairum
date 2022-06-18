@@ -36,7 +36,13 @@ var ikon = L.divIcon({
     iconSize: [35, 35],
     watch: true,
     setView: true,
-
+});
+var Stasiun = L.icon({
+    iconUrl: 'https://cdn.spairum.my.id/image/1655544826421-Stasiunspairum.png',
+    iconSize: [35, 35],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 
 
@@ -71,7 +77,7 @@ map.on('locationfound', onLocationFound);
 map.on('locationerror', onLocationError);
 
 async function lokasiSpairum() {
-    const response = await fetch('/maps/stasiunair', {
+    const response = await fetch('/maps/Maps', {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -80,10 +86,22 @@ async function lokasiSpairum() {
     });
     console.log(response);
     const json = await response.json();
+    console.log(json);
     for (let i = 0; i < json.length; i++) {
-        // console.log(json[i].lat);
-        L.marker([json[i].lat, json[i].lng]).addTo(map).bindPopup("<b>" + json[i].lokasi + "</b> <br/> Keterangan : " + json[i].ket + "</br> Sataus Stasiun = " + json[i].status + "<br>" + '<a href=' + json[i].link + '>Buka Maps</a>');
+        var lat = json[i].geo.split(",")[0];
+        var lng = json[i].geo.split(",")[1];
+        var nama = json[i].nama;
+        var alamat = json[i].alamat;
+        var akurat = json[i].akurat;
+        L.marker([lat, lng], {
+            icon: Stasiun
+        }).addTo(map).bindPopup("<b>" + json[i].nama + "</b>" + "<br />" + json[i].alamat);
     }
+    // for (let i = 0; i < json.length; i++) {
+    //     // console.log(json[i].lat);
+    //     L.marker([json[i].lat, json[i].lng]).addTo(map).bindPopup("<b>" + json[i].lokasi + "</b> <br/> Keterangan : " + json[i].ket + "</br> Sataus Stasiun = " + json[i].status + "<br>" + '<a href=' + json[i].link + '>Buka Maps</a>');
+    // }
+
     const response2 = await fetch('https://api.mapbox.com/directions/v5/mapbox/driving/-0.02487977307839744,109.32841641147918;-0.029548147949472487,109.32880010069258?access_token=pk.eyJ1IjoiZmFraHJ5MSIsImEiOiJja3dlZmFvYzYwNDljMnBub3MwcjBxM2pnIn0.1Vtxn4u-dlSL7nHoFpb3Cw', {
         method: "GET",
         headers: {
