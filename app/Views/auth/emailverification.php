@@ -6,7 +6,7 @@
         <div class="flash-Error" data-flashdata="<?= session()->getFlashdata('salah'); ?>"></div>
         <div class="row">
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 mx-auto text-center">
-                <h4 class="mt-5"><span class="font-weight-light">Verifikasi </span>Whatsapp</h4>
+                <h4 class="mt-5"><span class="font-weight-light">Verifikasi </span>Email</h4>
                 <br>
                 <img src="https://cdn.spairum.my.id/img/Sent-Message.svg" alt="Email valid" class="logo-small">
                 <br>

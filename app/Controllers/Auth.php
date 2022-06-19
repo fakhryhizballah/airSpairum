@@ -803,7 +803,7 @@ class Auth extends BaseController
 		$token = random_string('numeric', 5);
 		$this->OtpModel->save([
 			'id' => $otp['id'],
-			'no_wa' => $nowa,
+			'telp' => $nowa,
 		]);
 		$this->VerifiedModel->save([
 			'id' => $verif['id'],
@@ -812,29 +812,30 @@ class Auth extends BaseController
 		$PesanWA = array(
 			[
 				"message" => "Hallo kak $fullname, salam kenal aku admin spairum",
-				"number" => $akun['telp']
+				"number" => $nowa
 			],
 			[
 				"message" => "Sebelumnya terimakasih ya telah membuat akun spairum, khusus untuk kak $fullname ada *Saldo air Gratis 1000* yang bisa digunakan untuk isi ulang air minum di stasiun spairum.",
-				"number" => $akun['telp']
+				"number" => $nowa
 			],
 			[
 				"message" => "Untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token",
-				"number" => $akun['telp']
+				"number" => $nowa
 			],
 			[
 				"message" => "Atau masukan Token *$token* .",
-				"number" => $akun['telp']
+				"number" => $nowa
 			],
 			[
 				"message" => "Terimakasih telah menggunakan layanan spairum, jika ada kendala atau pertanyaan silahkan balas pesan ini",
-				"number" => $akun['telp']
+				"number" => $nowa
 			]
 
 		);
 		foreach ($PesanWA as $value) {
 			$this->AuthLibaries->sendWa($value);
 		}
+		return true;
 	}
 	public function waSkip()
 	{
