@@ -36,7 +36,27 @@ var ikon = L.divIcon({
     iconSize: [35, 35],
     watch: true,
     setView: true,
-
+});
+var Stasiun = L.icon({
+    iconUrl: 'https://cdn.spairum.my.id/image/1655544826421-Stasiunspairum.png',
+    iconSize: [35, 35],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+var bank = L.icon({
+    iconUrl: 'https://cdn.spairum.my.id/image/1655550652034-bank.png',
+    iconSize: [35, 35],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+var tong = L.icon({
+    iconUrl: 'https://cdn.spairum.my.id/image/1655551575233-trash.png',
+    iconSize: [35, 35],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 
 
@@ -71,7 +91,7 @@ map.on('locationfound', onLocationFound);
 map.on('locationerror', onLocationError);
 
 async function lokasiSpairum() {
-    const response = await fetch('/maps/stasiunair', {
+    const response = await fetch('/maps/Stasiun', {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -81,27 +101,109 @@ async function lokasiSpairum() {
     console.log(response);
     const json = await response.json();
     for (let i = 0; i < json.length; i++) {
-        // console.log(json[i].lat);
-        L.marker([json[i].lat, json[i].lng]).addTo(map).bindPopup("<b>" + json[i].lokasi + "</b> <br/> Keterangan : " + json[i].ket + "</br> Sataus Stasiun = " + json[i].status + "<br>" + '<a href=' + json[i].link + '>Buka Maps</a>');
+        var lat = json[i].geo.split(",")[0];
+        var lng = json[i].geo.split(",")[1];
+        var nama = json[i].nama;
+        var alamat;
+        if (json[i].gmaps != null) {
+            var url = json[i].gmaps;
+            alamat = "<a href='" + url + "'>Buka Maps</a>"
+            // your code here
+            L.marker([lat, lng], {
+                icon: Stasiun
+           }).addTo(map).bindPopup("<b>" + nama + "</b>" + "<br />" + json[i].keterangan + "<br />" + alamat + "<br />");
+            // return;
+        } else {
+            L.marker([lat, lng], {
+                icon: Stasiun
+            }).addTo(map).bindPopup("<b>" + nama + "</b>" + "<br />" + json[i].keterangan + "<br />");
+            // return;
+            // your code here     
+        }
     }
-    const response2 = await fetch('https://api.mapbox.com/directions/v5/mapbox/driving/-0.02487977307839744,109.32841641147918;-0.029548147949472487,109.32880010069258?access_token=pk.eyJ1IjoiZmFraHJ5MSIsImEiOiJja3dlZmFvYzYwNDljMnBub3MwcjBxM2pnIn0.1Vtxn4u-dlSL7nHoFpb3Cw', {
+    var parks = L.layerGroup([crownHill]);
+    layerControl.addOverlay(parks, "Parks");
+
+};
+
+async function banksampah() {
+    const response = await fetch('/maps/banksampah', {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
         },
-        z: {},
     });
-    console.log(response2);
-    const json2 = await response2.json();
-    console.log(json2);
-};
-lokasiSpairum();
+    console.log(response);
+    const json = await response.json();
+    console.log(json);
+    for (let i = 0; i < json.length; i++) {
+        var lat = json[i].geo.split(",")[0];
+        var lng = json[i].geo.split(",")[1];
+        var nama = json[i].nama;
+        let alamat
+        if (json[i].gmaps != null) {
+            var url = json[i].gmaps;
+            alamat = "<a href='" + url + "'>Buka Maps</a>"
+            console.log(url);
+            console.log(alamat);
+            // your code here
+            L.marker([lat, lng], {
+                icon: bank
+            }).addTo(map).bindPopup("<b>" + nama + "</b>" + "<br />" + json[i].keterangan + "<br />" + alamat + "<br />");
+            // return;
+        } else {
+            L.marker([lat, lng], {
+                icon: bank
+            }).addTo(map).bindPopup("<b>" + nama + "</b>" + "<br />" + json[i].keterangan + "<br />");
+            // your code here     
+        }
+    }
+}
+async function sampah() {
+    const response = await fetch('/maps/sampah', {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+    });
+    console.log(response);
+    const json = await response.json();
+    console.log(json);
+    for (let i = 0; i < json.length; i++) {
+        var lat = json[i].geo.split(",")[0];
+        var lng = json[i].geo.split(",")[1];
+        var nama = json[i].nama;
+        let alamat
+        if (json[i].gmaps != null) {
+            var url = json[i].gmaps;
+            alamat = "<a href='" + url + "'>Buka Maps</a>"
+            console.log(url);
+            console.log(alamat);
+            // your code here
+            L.marker([lat, lng], {
+                icon: tong
+            }).addTo(map).bindPopup("<b>" + nama + "</b>" + "<br />" + json[i].keterangan + "<br />" + alamat + "<br />");
+            // return;
+        } else {
+            L.marker([lat, lng], {
+                icon: tong
+            }).addTo(map).bindPopup("<b>" + nama + "</b>" + "<br />" + json[i].keterangan + "<br />");
+            // your code here     
+        }
+    }
+}
 
-// L.geoJSON(data, {
-//     style: function (feature) {
-//         return { color: feature.properties.color };
-//     }
-// }).bindPopup(function (layer) {
-//     return layer.feature.properties.description;
-// }).addTo(map);
+function sss() {
+    console.log("panggil");
+}
+
+document.addEventListener("DOMContentLoaded", function (event) {
+    //do work
+    lokasiSpairum();
+    banksampah();
+    sampah();
+
+});
+

@@ -116,11 +116,11 @@ class User extends BaseController
     {
         $akun = $this->AuthLibaries->authCek();
 
-        $stasiun = $this->StasiunModel->getStasiun();
+        // $stasiun = $this->StasiunModel->getStasiun();
         // dd($stasiun);
         $data = [
             'title' => 'Home | Spairum.com',
-            'stasiun' => $stasiun,
+            // 'stasiun' => $stasiun,
             'akun' => $akun
         ];
         // $this->AuthLibaries->notif($akun, "Membuka halaman Maps");
