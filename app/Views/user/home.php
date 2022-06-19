@@ -129,7 +129,8 @@
                     <div class="form-group mt-4">
                         <input required type="text" class="form-control form-control-lg text-center" id="kvoucher" name="kvoucher" placeholder="Masukan kode Voucher" aria-label="Masukan kode Voucher">
                     </div>
-                    <p class="text-mute">Masukan Kode Voucher untuk menambah saldo.</p>
+                    <p class="text-mute">Masukan Kode Voucher untuk menambah saldo. <br>atau hubungi:</p>
+                    <a href="https://api.whatsapp.com/send?phone=6289601207398&text=Hallo%20spairum.%20Saya%20<?= $akun['nama']; ?>%2C%20mau%20top%20up%20vocher%20spairum">0896-0120-7398</a>
                     <div class="modal-footer border-0">
                         <button type="submit" class="btn btn-default btn-lg btn-rounded shadow btn-block" type="button">proses</button>
                     </div>
