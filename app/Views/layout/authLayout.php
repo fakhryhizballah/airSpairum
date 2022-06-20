@@ -145,6 +145,7 @@
         </div>
     </div>
     <!-- color chooser menu ends -->
+    <?= $this->renderSection('modal'); ?>
 
 
     <!-- jquery, popper and bootstrap js -->

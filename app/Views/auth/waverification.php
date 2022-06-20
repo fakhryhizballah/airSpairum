@@ -46,6 +46,11 @@
 </div>
 
 <script>
+    function show_modal() {
+        $('#addmoney').modal('show');
+        document.getElementById("addmoney").classList.add("show")
+    }
+    show_modal();
     async function kirimOTP() {
         const whatsapp = document.getElementById("whatsapp").value
         let FormData = {
@@ -59,29 +64,57 @@
                 "X-Requested-With": "XMLHttpRequest"
             },
             body: JSON.stringify(FormData),
-            // body: email,
             dataType: "json",
         });
+        let data = await response.json();
+        console.log(data);
+        if (data.status == 200) {
+            // Update the count down every 1 second
+            var seconds = 180;
+            var x = setInterval(function() {
+                // Get today's date and time
+                // console.log(seconds);
+                // Display the result in the element with id="resend"
+                document.getElementById("resend").innerHTML = "silahkan cek whatsapp otp. anda baru bisa mengirim otp lagi setelah " + seconds + " s ";
+                seconds -= 1;
+                // If the count down is finished, write some text
+                if (seconds < 0) {
+                    clearInterval(x);
+                    document.getElementById("resend").innerHTML = "Jika tidak menerima whatsapps,<br>klik <a onclick=kirimOTP() >" + "kirim ulang</a>";
+                    // btn.disabled = false;
+                }
+            }, 1000);
+            console.log('Button Activated')
+            clearInterval();
+        } else {
+            console.log(data.msg)
+            document.getElementById("pesan").innerHTML = data.msg;
+            $('#warning').modal('show');
+            // alert(data.message);
+        }
 
-        console.log(response);
-        // Update the count down every 1 second
-        var seconds = 180;
-        var x = setInterval(function() {
-            // Get today's date and time
-            console.log(seconds);
-            // Display the result in the element with id="demo"
-            document.getElementById("resend").innerHTML = "silahkan cek whatsapp otp. anda baru bisa mengirim otp lagi setelah " + seconds + " s ";
-            seconds -= 1;
-            // If the count down is finished, write some text
-            if (seconds < 0) {
-                clearInterval(x);
-                document.getElementById("resend").innerHTML = "Jika tidak menerima whatsapps,<br>klik <a onclick=kirimOTP() >" + "kirim ulang</a>";
-                // btn.disabled = false;
-            }
-        }, 1000);
-        console.log('Button Activated')
-        clearInterval();
+        // console.log(response);
+
     }
 </script>
 
 <?= $this->endSection('auth'); ?>
+
+<?= $this->section('modal'); ?>
+<!-- Modal -->
+<div class="modal fade" id="warning" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <img id="img" src="https://cdn.spairum.my.id/image/1655733077378-Businessinequality-pana.svg" alt="waring" class="logo-small">
+                <p class="text-mute" id="pesan"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<?= $this->endSection('modal'); ?>
