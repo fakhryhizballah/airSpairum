@@ -713,7 +713,7 @@ class Auth extends BaseController
 			if (!isset($cek_email)) {
 				$data = [
 					'status' => 409,
-					'msg' => 'No Email sudah terdaftar gunakan no lain',
+					'msg' => 'Email sudah terdaftar gunakan Email lain',
 				];
 				return json_encode($data);
 			}
