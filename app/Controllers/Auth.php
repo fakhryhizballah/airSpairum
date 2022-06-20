@@ -708,8 +708,16 @@ class Auth extends BaseController
 		$email = strval($body['email']);
 		$verif = $this->VerifiedModel->cekid($akun['id_user']);
 		$otp = $this->OtpModel->cekid($akun['id_user']);
-		// dd($email);
-		// echo $body;
+		if ($akun['email'] != $email) {
+			$cek_email = $this->UserModel->cek_login($email);
+			if (!isset($cek_email)) {
+				$data = [
+					'status' => 409,
+					'msg' => 'Email sudah terdaftar gunakan Email lain',
+				];
+				return json_encode($data);
+			}
+		}
 		$token = random_string('numeric', 5);
 		$this->OtpModel->save([
 			'id' => $otp['id'],
@@ -729,7 +737,12 @@ class Auth extends BaseController
 			'id_user' => $akun['id_user']
 		]);
 		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $akun['id_user']);
-		return true;
+
+		$data = [
+			'status' => 200,
+			'msg' => 'akun dan input sama',
+		];
+		return json_encode($data);
 	}
 	// validation whatsapp
 	public function verificationWa()
@@ -801,6 +814,22 @@ class Auth extends BaseController
 		$body = json_decode($body, true);
 		$nowa = strval($body['whatsapp']);
 		$token = random_string('numeric', 5);
+		if ($akun['telp'] != $nowa) {
+			$cek_wa = $this->UserModel->cektelp($nowa);
+			if (!isset($cek_wa)) {
+				$data = [
+					'status' => 409,
+					'msg' => 'No Whatsapp sudah terdaftar gunakan no lain',
+				];
+				return json_encode($data);
+			}
+			// $data = [
+			// 	'status' => 200,
+			// 	'msg' => 'akun dan input beda',
+			// ];
+			// return json_encode($data);
+		}
+
 		$this->OtpModel->save([
 			'id' => $otp['id'],
 			'telp' => $nowa,
@@ -835,7 +864,11 @@ class Auth extends BaseController
 		foreach ($PesanWA as $value) {
 			$this->AuthLibaries->sendWa($value);
 		}
-		return true;
+		$data = [
+			'status' => 200,
+			'msg' => 'akun dan input sama',
+		];
+		return json_encode($data);
 	}
 	public function waSkip()
 	{
