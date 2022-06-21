@@ -374,9 +374,11 @@ class Auth extends BaseController
 		$time = $this->Time::now('Asia/Jakarta');
 		$token = substr(sha1($cek['token_wa']), 0, 12);
 		$user = $this->UserModel->cek_id($cek['id_user']);
+		$cekotp = $this->OtpModel->cekid($user['id_user']);
 		$debit = $user['debit'] + 1000;
 		$data = [
 			'debit' => $debit,
+			'telp' => $cekotp['telp'],
 		];
 		$this->UserModel->updateprofile($data, $user['id']);
 
@@ -395,6 +397,13 @@ class Auth extends BaseController
 			'created_at' => $this->Time::now('Asia/Jakarta')
 		];
 		$this->HistoryModel->save($datavocer);
+		$kontak = [
+			"givenName" => $user['nama_depan'],
+			"familyName" => $user['nama_belakang'],
+			"emailAddresses" => $user['email'],
+			"phoneNumbers" => $cekotp['telp'],
+		];
+		$this->AuthLibaries->sendMqtt('contact/createContact', json_encode($kontak), $user['nama_depan']);
 		session()->setFlashdata('flash', 'Terima kasih nomor telpon anda telah diverifikasi');
 		return redirect()->to('/user');
 	}
@@ -772,18 +781,17 @@ class Auth extends BaseController
 		}
 		$cekotp = $this->OtpModel->cekid($akun['id_user']);
 		$time = $this->Time::now('Asia/Jakarta');
-		$user = $this->UserModel->cek_id($akun['id_user']);
 
 		$db->transStart();
-		$debit = $user['debit'] + 1000;
+		$debit = $akun['debit'] + 1000;
 
 		$rand = substr(sha1($token), 0, 10);
 
 		$data = [
 			'debit' => $debit,
-			'email' => $cekotp['email'],
+			'telp' => $cekotp['telp'],
 		];
-		$this->UserModel->updateprofile($data, $user['id']);
+		$this->UserModel->updateprofile($data, $akun['id']);
 		$datavocer = [
 			'id_master' => $akun['id_user'],
 			'Id_slave' => 'Admin',
@@ -801,6 +809,13 @@ class Auth extends BaseController
 			'token_wa' => $rand,
 		]);
 		$db->transComplete();
+		$kontak = [
+			"givenName" => $akun['nama_depan'],
+			"familyName" => $akun['nama_belakang'],
+			"emailAddresses" => $akun['email'],
+			"phoneNumbers" => $cekotp['telp'],
+		];
+		$this->AuthLibaries->sendMqtt('contact/createContact', json_encode($kontak), $akun['nama_depan']);
 		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 1000');
 		return redirect()->to('/user');
 	}
