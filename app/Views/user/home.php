@@ -43,7 +43,8 @@
                             <span class="material-icons">
                                 account_balance_wallet
                             </span>
-                            <?= $akun['debit']; ?>
+                            <span id="debit"><?= $akun['debit']; ?></span>
+                            <!-- <?= $akun['debit']; ?> -->
                         </h3>
                         <p class="text-mute">Saldo Air</p>
                     </div>
@@ -181,6 +182,57 @@
 
     slider.oninput = function() {
         output.innerHTML = this.value;
+    }
+    // getSaldo();
+
+    async function getSaldo() {
+        let response = await fetch('/Saldo/saldoUser', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            // body: JSON.stringify(FormData),
+            // dataType: "json",
+        });
+        let data = await response.json();
+        // console.log(response);
+        var newDebit = parseInt(data.saldo);
+        var debit = parseInt(document.getElementById('debit'));
+        if (debit > newDebit) {
+            saldomin(newDebit);
+        } else {
+            saldokplus(newDebit);
+        }
+
+    }
+    // console(obj);
+    // saldokplus(22400);
+    // saldomin(22000);
+
+    function saldomin(id) {
+        var obj = document.getElementById('debit');
+        var current = parseInt(obj.innerHTML);
+        var x = setInterval(function() {
+            if (current <= id) {
+                clearInterval(x);
+            }
+            obj.innerHTML = current--;
+        }, 15);
+        clearInterval();
+    }
+
+
+    function saldokplus(id) {
+        var obj = document.getElementById('debit');
+        var current = parseInt(obj.innerHTML);
+        var x = setInterval(function() {
+            if (current >= id) {
+                clearInterval(x);
+            }
+            obj.innerHTML = current++;
+        }, 15);
+        clearInterval();
     }
 </script>
 
