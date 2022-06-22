@@ -831,7 +831,7 @@ class Auth extends BaseController
 		$token = random_string('numeric', 5);
 		if ($akun['telp'] != $nowa) {
 			$cek_wa = $this->UserModel->cektelp($nowa);
-			if (!isset($cek_wa)) {
+			if (!empty($cek_wa)) {
 				$data = [
 					'status' => 409,
 					'msg' => 'No Whatsapp sudah terdaftar gunakan no lain',
