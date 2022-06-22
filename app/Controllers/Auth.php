@@ -719,7 +719,7 @@ class Auth extends BaseController
 		$otp = $this->OtpModel->cekid($akun['id_user']);
 		if ($akun['email'] != $email) {
 			$cek_email = $this->UserModel->cek_login($email);
-			if (!isset($cek_email)) {
+			if (!empty($cek_email)) {
 				$data = [
 					'status' => 409,
 					'msg' => 'Email sudah terdaftar gunakan Email lain',
