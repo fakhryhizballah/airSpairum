@@ -26,7 +26,7 @@
                     </div>
                     <div class="row mt-2 mb-2">
                         <div class="col">
-                            <p id="resend" class="text-secondary mt-4 d-block">Jika tidak menerima whatsapp,<br>klik <a onclick="kirimOTP()" class=""> kirim ulang</a></p>
+                            <p id="resend" class="text-secondary mt-4 d-block"><br>klik <a onclick="kirimOTP()" class=""> kirim OTP</a></p>
                             <!-- <button id="myBtn" onclick="kirimOTP()" class="btn btn-default btn-lg btn-rounded shadow btn-block"><span>Kirim kode OTP</span></button> -->
                         </div>
                     </div>

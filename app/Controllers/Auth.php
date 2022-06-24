@@ -777,7 +777,7 @@ class Auth extends BaseController
 		$cek_token = $this->VerifiedModel->watoken($token, $akun['id_user']);
 		if (empty($cek_token)) {
 			session()->setFlashdata('gagal', 'Token Salah');
-			return redirect()->to('/Auth/verificationEmail');
+			return redirect()->to('/Auth/verificationWa');
 		}
 		$cekotp = $this->OtpModel->cekid($akun['id_user']);
 		$time = $this->Time::now('Asia/Jakarta');
