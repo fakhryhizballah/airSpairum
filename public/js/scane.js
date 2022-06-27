@@ -101,10 +101,10 @@ function scane() {
 // const socket = io("https://socket.spairum.my.id:3000", {
 const url = document.getElementById("socket");
 const socket = io(url.value, {
-    withCredentials: true,
-    extraHeaders: {
-        "my-custom-header": "abcd"
-    }
+    // withCredentials: true,
+    // extraHeaders: {
+        // "my-custom-header": "abcd"
+    // }
 });
 socket.on("connect", () => {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
