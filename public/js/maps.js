@@ -47,7 +47,7 @@ map.addControl(geolocate);
 // Set an event listener that fires
 // when a geolocate event occurs.
 geolocate.on('geolocate', () => {
-    console.log('A geolocate event has occurred.');
+    // console.log('A geolocate event has occurred.');
 });
 
 
@@ -91,9 +91,9 @@ async function lokasiSpairum() {
             "X-Requested-With": "XMLHttpRequest"
         },
     });
-    console.log(response);
+    // console.log(response);
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
     for (let i = 0; i < json.length; i++) {
         var lat = json[i].geo.split(",")[0];
         var lng = json[i].geo.split(",")[1];
@@ -134,9 +134,9 @@ async function banksampah() {
             "X-Requested-With": "XMLHttpRequest"
         },
     });
-    console.log(response);
+    // console.log(response);
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
     for (let i = 0; i < json.length; i++) {
         var lat = json[i].geo.split(",")[0];
         var lng = json[i].geo.split(",")[1];
