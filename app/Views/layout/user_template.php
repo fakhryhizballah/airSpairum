@@ -192,10 +192,10 @@
 
         <?= $this->renderSection('content'); ?>
         <!-- footer-->
-        <div class="footer">
+        <div class="card fixed-bottom  shadow bg-white">
             <div class="no-gutters">
                 <div class="col-auto mx-auto">
-                    <div class="row no-gutters justify-content-center">
+                    <div class="row mt-2 mb-3 no-gutters justify-content-center">
                         <div class=" col-3-auto mx-auto">
                             <a href="/user" class="btn btn-link-default item">
                                 <i class="material-icons">home</i>
