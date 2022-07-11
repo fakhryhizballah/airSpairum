@@ -9,11 +9,18 @@ function scane() {
 
     scanner.addListener('scan', function (content, image) {
         $("#code").val(content);
-        // console.log(content);
+        var name = content.split('/')[5]
+        // console.log(name);
+        if (name == undefined) {
+            mesin_id = content;
+        } else {
+            mesin_id = name;
+        }
         // document.getElementById("take").submit();
         var formData = {
             myRange: $("#myRange").val(),
-            code: $("#code").val(),
+            // code: $("#code").val(),
+            code: mesin_id,
         };
         console.log(formData);
         $('#modal-pindai').modal('hide');
@@ -25,6 +32,7 @@ function scane() {
             dataType: "json",
             encode: true,
             error: function (data) {
+                // console.log(data);
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -33,9 +41,7 @@ function scane() {
             },
         }).done(function (data) {
             console.log(data);
-
             take(data);
-
             $('#modal-pindai').modal('hide');
         })
     });
@@ -95,10 +101,10 @@ function scane() {
 // const socket = io("https://socket.spairum.my.id:3000", {
 const url = document.getElementById("socket");
 const socket = io(url.value, {
-    withCredentials: true,
-    extraHeaders: {
-        "my-custom-header": "abcd"
-    }
+    // withCredentials: true,
+    // extraHeaders: {
+        // "my-custom-header": "abcd"
+    // }
 });
 socket.on("connect", () => {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
@@ -191,7 +197,9 @@ function take(data) {
                                         console.log(response);
                                     }
 
+
                                 })
+                                getSaldo();
                             }
 
                         }).then((result) => {

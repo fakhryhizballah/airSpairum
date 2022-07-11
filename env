@@ -75,6 +75,16 @@ mqtt.port = 1883
 mqtt.username = 'username'
 mqtt.password = 'password'
 
+soket.url = "https://app.spairum.my.id:3000"
+
+#--------------------------------------------------------------------
+# Google Oauth2
+#--------------------------------------------------------------------
+
+# google.clientID = ''
+# google.clientSecret = ''
+# google.redirectUri = ''
+
 #--------------------------------------------------------------------
 # CONTENT SECURITY POLICY
 #--------------------------------------------------------------------

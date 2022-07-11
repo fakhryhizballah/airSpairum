@@ -22,18 +22,23 @@ class AuthLibaries
     {
         $jwt = $_COOKIE['X-Sparum-Token'];
         if (empty($jwt)) {
-            session()->setFlashdata('gagal', 'Anda belum Login');
-            return redirect()->to('/');
+            // session()->setFlashdata('gagal', 'Anda belum Login');
+            return;
         }
         $key = getenv('tokenkey');
-        // $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+        try {
+            $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+        } catch (Exception $exception) {
+            // setCookie("X-Sparum-Token", "Logout-Token-Invalid", SetStatic::cookie_options());
+            // session()->setFlashdata('gagal', 'Login Dulu');
+            return;
+        }
         $nama = $decoded->nama;
         $akun = $this->UserModel->cek_login($nama);
         if (empty($akun)) {
             session()->setFlashdata('gagal', 'sesi login anda telah habis');
             setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
-            return redirect()->to('/');
+            return;
         }
         return $akun;
     }

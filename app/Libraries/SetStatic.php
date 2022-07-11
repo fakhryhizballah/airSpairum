@@ -11,7 +11,7 @@ class SetStatic
     {
         if (self::$arr_cookie_options == null) {
             self::$arr_cookie_options = array(
-                'expires' => time() + 60 * 60 * 24 * 30,
+                'expires' => time() + 60 * 60 * 24 * 360,
                 'path' => '/',
                 'domain' => "", // leading dot for compatibility or use subdomain
                 'secure' => true,     // or false

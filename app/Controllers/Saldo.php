@@ -48,6 +48,7 @@ class Saldo extends BaseController
                 ];
 
                 $this->HistoryModel->save($datavocer);
+                // return; // no diarek
                 session()->setFlashdata('Berhasil', 'Voucher berhasil digunakan');
                 return redirect()->to('/user');
             }
@@ -85,6 +86,7 @@ class Saldo extends BaseController
                         'created_at' => Time::now('Asia/Jakarta')
                     ];
                     $this->HistoryModel->save($datavocer);
+                    // return; 
                     session()->setFlashdata('Berhasil', 'Voucher berhasil digunakan');
                     return redirect()->to('/user');
                 } else {
@@ -237,5 +239,15 @@ class Saldo extends BaseController
             return json_encode($data);
         }
         return redirect()->to('/');
+    }
+    public function saldoUser()
+    {
+        $akun = $this->AuthLibaries->authCek();
+        // dd($akun);
+        $data = [
+            'saldo' => $akun['debit']
+        ];
+        return json_encode($data);
+
     }
 }

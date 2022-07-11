@@ -60,5 +60,11 @@ class UserModel extends Model
             ->where('id', $id)
             ->update($data);
     }
+    public function cektelp($num)
+    {
+        return $this->db->table('otp')
+            ->where(array('telp' => $num))
+            ->get()->getRowArray();
+    }
 }
 // tes
