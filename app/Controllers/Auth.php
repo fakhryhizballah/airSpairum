@@ -810,7 +810,14 @@ class Auth extends BaseController
 			'id_user' => $akun['id_user']
 		]);
 		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $akun['id_user']);
-
+		$nama_depan = $akun['nama_depan'];
+		$message = [
+			"level" => 3,
+			"topic" => "Reseend OTP Email",
+			"title" => $nama_depan,
+			"value" => "-",
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 		$data = [
 			'status' => 200,
 			'msg' => 'akun dan input sama',
@@ -912,19 +919,25 @@ class Auth extends BaseController
 		$token = random_string('numeric', 5);
 		if ($akun['telp'] != $nowa) {
 			$cek_wa = $this->UserModel->cektelp($nowa);
-			if (!empty($cek_wa)) {
+			if (isset($cek_wa)) {
 				$data = [
 					'status' => 409,
-					'msg' => 'No Whatsapp sudah terdaftar gunakan no lain',
+					'data' => $cek_wa,
+					'msg' => 'No Whatsapp sudah terdaftar gunakan no lain :)',
 				];
 				return json_encode($data);
 			}
 			// $data = [
-			// 	'status' => 200,
+			// 	'status' => 409,
+			// 	'data' => $cek_wa,
 			// 	'msg' => 'akun dan input beda',
 			// ];
 			// return json_encode($data);
 		}
+		$data = [
+			'status' => 200,
+			'msg' => 'akun dan input sama',
+		];
 
 		$this->OtpModel->save([
 			'id' => $otp['id'],
@@ -960,16 +973,27 @@ class Auth extends BaseController
 		foreach ($PesanWA as $value) {
 			$this->AuthLibaries->sendWa($value);
 		}
-		$data = [
-			'status' => 200,
-			'msg' => 'akun dan input sama',
+		$message = [
+			"level" => 1,
+			"topic" => "Send OTP",
+			"title" => "$fullname : $nowa",
+			"value" => "$token",
 		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nowa);
 		return json_encode($data);
 	}
 	public function waSkip()
 	{
 		// $this->VerifikasiLibraries->skipWA();
 		$akun = $this->AuthLibaries->authCek();
+		$nama_depan = $akun['nama_depan'];
+		$message = [
+			"level" => 3,
+			"topic" => "SKIP OTP WA",
+			"title" => $nama_depan,
+			"value" => "-",
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 		setCookie("verification-token", "Whatsapp-Skip-verification", array(
 			'expires' => time() + 60 * 3,
 			'path' => '/',
