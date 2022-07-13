@@ -77,7 +77,7 @@ class Oauth extends BaseController
                     'telp' => "null",
                     'password' => password_hash("$data->id + $data->name", PASSWORD_BCRYPT),
                     'link' => $gen,
-                    'status' => 'terverifikasi'
+                    'status' => 'verified'
                 ]);
                 $this->UserModel->save([
                     'id_user' => "$data->id",
@@ -93,7 +93,7 @@ class Oauth extends BaseController
                 ]);
                 $this->VerifiedModel->save([
                     'id_user' => "$data->id",
-                    'email_status' => "terverifikasi",
+                    'email_status' => "verified",
                     'verified_email_date' => $time,
                     'token_email' => $gen,
                     'whatsapp_status' => "unverified",

@@ -152,9 +152,9 @@ class Auth extends BaseController
 				"level" => 2,
 				"topic" => "User Login",
 				"title" => "$nama_depan $nama_belakang",
-				"value" => "Berhasil",
+				"value" => "Berhasil"
 			];
-			$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
+			$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nama_depan);
 
 			return redirect()->to('/user');
 		} else {
@@ -165,7 +165,7 @@ class Auth extends BaseController
 				"title" => $nama,
 				"value" => "Username atau Password salah",
 			];
-			$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama);
+			$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nama);
 			return redirect()->to('/');
 		}
 	}
@@ -467,7 +467,7 @@ class Auth extends BaseController
 		$this->OtpModel->save([
 			'id' => $cek['id'],
 			'link' => $token,
-			'status' => 'terverifikasi',
+			'status' => 'verified',
 		]);
 		$this->VerifiedModel->save([
 			'id' => $cek_Verified['id'],
@@ -743,7 +743,7 @@ class Auth extends BaseController
 		$this->OtpModel->save([
 			'id' => $cekotp['id'],
 			'link' => $rand,
-			'status' => 'terverifikasi',
+			'status' => 'verified',
 		]);
 		$this->VerifiedModel->save([
 			'id' => $cek_token['id'],
@@ -815,9 +815,9 @@ class Auth extends BaseController
 			"level" => 3,
 			"topic" => "Reseend OTP Email",
 			"title" => $nama_depan,
-			"value" => "-",
+			"value" => "-"
 		];
-		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
+		$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nama_depan);
 		$data = [
 			'status' => 200,
 			'msg' => 'akun dan input sama',
@@ -934,11 +934,7 @@ class Auth extends BaseController
 			// ];
 			// return json_encode($data);
 		}
-		$data = [
-			'status' => 200,
-			'msg' => 'akun dan input sama',
-		];
-
+		
 		$this->OtpModel->save([
 			'id' => $otp['id'],
 			'telp' => $nowa,
@@ -977,9 +973,14 @@ class Auth extends BaseController
 			"level" => 1,
 			"topic" => "Send OTP",
 			"title" => "$fullname : $nowa",
-			"value" => "$token",
+			"value" => strval($token)
 		];
-		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nowa);
+		$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nowa);
+		$data = [
+			'status' => 200,
+			'msg' => 'akun dan input sama',
+		];
+
 		return json_encode($data);
 	}
 	public function waSkip()
@@ -993,7 +994,7 @@ class Auth extends BaseController
 			"title" => $nama_depan,
 			"value" => "-",
 		];
-		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
+		$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nama_depan);
 		setCookie("verification-token", "Whatsapp-Skip-verification", array(
 			'expires' => time() + 60 * 3,
 			'path' => '/',
