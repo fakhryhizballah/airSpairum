@@ -754,7 +754,7 @@ class Auth extends BaseController
 		$db->transComplete();
 		$nama_depan = $user['nama_depan'];
 		$nama_belakang = $user['nama_belakang'];
-		$cekotp = $this->OtpModel->cekid($user['id_user']);
+		$otp = $this->VerifiedModel->cekid($akun['id_user']);
 		if ($user['profil'] == "user.png") {
 			$url = "https://air.spairum.my.id/img/user/user.png";
 		} else {
@@ -764,8 +764,8 @@ class Auth extends BaseController
 			"setTitle" => "User Verifikasi Email Token",
 			"nama" => $nama_depan,
 			"fullname" => "$nama_depan $nama_belakang",
-			"email" => $cekotp['email_status'],
-			"wa" => $cekotp['whatsapp_status'],
+			"email" => $otp['email_status'],
+			"wa" => $otp['whatsapp_status'],
 			"url" => $url
 		];
 		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
