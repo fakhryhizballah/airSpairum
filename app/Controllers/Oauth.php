@@ -140,8 +140,16 @@ class Oauth extends BaseController
                 if (empty($_COOKIE['theme-color'])) {
                     setCookie("theme-color", "lightblue-theme",  SetStatic::cookie_options());
                 }
-
                 $db->transComplete();
+                $message = [
+                    "setTitle" => "New User",
+                    "nama" => $data->givenName,
+                    "fullname" => "$data->givenName $data->familyName",
+                    "email" => "verified",
+                    "wa" => "unverified",
+                    "url" =>  $data->picture
+                ];
+                $this->AuthLibaries->sendMqtt("log/user", json_encode($message), $data->id);
                 return redirect()->to('/user');
             }
             // User sudah terdaftar Email

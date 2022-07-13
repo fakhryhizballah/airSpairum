@@ -146,10 +146,26 @@ class Auth extends BaseController
 			if (empty($_COOKIE['theme-color'])) {
 				setCookie("theme-color", "teal-theme", SetStatic::cookie_options());
 			}
+			$nama_depan = $cek['nama_depan'];
+			$nama_belakang = $cek['nama_belakang'];
+			$message = [
+				"level" => 2,
+				"topic" => "User Login",
+				"title" => "$nama_depan $nama_belakang",
+				"value" => "Berhasil",
+			];
+			$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 
 			return redirect()->to('/user');
 		} else {
 			session()->setFlashdata('gagal', 'Username atau Password salah');
+			$message = [
+				"level" => 3,
+				"topic" => "User Login",
+				"title" => $nama,
+				"value" => "Username atau Password salah",
+			];
+			$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama);
 			return redirect()->to('/');
 		}
 	}
@@ -187,22 +203,6 @@ class Auth extends BaseController
 				return view('auth/daftar', $data);
 			}
 		return redirect()->to('/user');
-		// if (empty($_COOKIE['X-Sparum-Token'])) {
-		// 	$data = [
-		// 		'title' => 'Air Spairum',
-		// 		'validation' => \Config\Services::validation()
-		// 	];
-		// 	return view('auth/daftar', $data);
-		// } else {
-		// 	if ($_COOKIE['X-Sparum-Token'] == 'Logout') {
-		// 		$data = [
-		// 			'title' => 'Air Spairum',
-		// 			'validation' => \Config\Services::validation()
-		// 		];
-		// 		return view('auth/daftar', $data);
-		// 	}
-		// 	return redirect()->to('/user');
-		// }
 	}
 
 	public function userSave()
@@ -277,6 +277,8 @@ class Auth extends BaseController
 		for ($i = 1; $i < count($pars_nama); $i++) {
 			$nama_belakang .= $pars_nama[$i] . " ";
 		}
+		$db      = \Config\Database::connect();
+		$db->transStart();
 		$this->OtpModel->save([
 			'id_user' => "$id_usr$gen",
 			'nama' => $user,
@@ -309,6 +311,7 @@ class Auth extends BaseController
 			'verified_wa_date' => $time,
 			'token_wa' => "$token$gen",
 		]);
+		$db->transComplete();
 		$message =
 			[
 				'message' => "$fullname mendaftar air.spairum.my.id",
@@ -341,7 +344,17 @@ class Auth extends BaseController
 			'status' => 'otp',
 			'id_user' => "$id_usr$gen"
 		]);
+		
 		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $user);
+		$message = [
+			"setTitle" => "New User",
+			"nama" => $pars_nama[0],
+			"fullname" => "$fullname",
+			"email" => "unverified",
+			"wa" => "unverified",
+			"url" => "https://air.spairum.my.id/img/user/user.png"
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $user);
 		$token = random_string('alnum', 28);
 		// $key = $this->TokenModel->Key()['token'];
 		$key = getenv('tokenkey');
@@ -404,6 +417,23 @@ class Auth extends BaseController
 			"phoneNumbers" => $cekotp['telp'],
 		];
 		$this->AuthLibaries->sendMqtt('contact/createContact', json_encode($kontak), $user['nama_depan']);
+		$nama_depan = $user['nama_depan'];
+		$nama_belakang = $user['nama_belakang'];
+		$cekotp = $this->OtpModel->cekid($user['id_user']);
+		if ($user['profil'] == "user.png") {
+			$url = "https://air.spairum.my.id/img/user/user.png";
+		} else {
+			$url = $user['profil'];
+		}
+		$message = [
+			"setTitle" => "User Verifikasi WA link",
+			"nama" => $nama_depan,
+			"fullname" => "$nama_depan $nama_belakang",
+			"email" => $cekotp['email_status'],
+			"wa" => $cekotp['whatsapp_status'],
+			"url" => $url
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 		session()->setFlashdata('flash', 'Terima kasih nomor telpon anda telah diverifikasi');
 		return redirect()->to('/user');
 	}
@@ -445,6 +475,23 @@ class Auth extends BaseController
 			'verified_email_date' => $time,
 			'token_email' => $token,
 		]);
+		$nama_depan = $user['nama_depan'];
+		$nama_belakang = $user['nama_belakang'];
+		$cekotp = $this->OtpModel->cekid($user['id_user']);
+		if ($user['profil'] == "user.png") {
+			$url = "https://air.spairum.my.id/img/user/user.png";
+		} else {
+			$url = $user['profil'];
+		}
+		$message = [
+			"setTitle" => "User Verifikasi Email link",
+			"nama" => $nama_depan,
+			"fullname" => "$nama_depan $nama_belakang",
+			"email" => $cekotp['email_status'],
+			"wa" => $cekotp['whatsapp_status'],
+			"url" => $url
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 2000');
 		return redirect()->to('/user');
 	}
@@ -705,6 +752,23 @@ class Auth extends BaseController
 			'token_email' => $rand,
 		]);
 		$db->transComplete();
+		$nama_depan = $user['nama_depan'];
+		$nama_belakang = $user['nama_belakang'];
+		$cekotp = $this->OtpModel->cekid($user['id_user']);
+		if ($user['profil'] == "user.png") {
+			$url = "https://air.spairum.my.id/img/user/user.png";
+		} else {
+			$url = $user['profil'];
+		}
+		$message = [
+			"setTitle" => "User Verifikasi Email Token",
+			"nama" => $nama_depan,
+			"fullname" => "$nama_depan $nama_belakang",
+			"email" => $cekotp['email_status'],
+			"wa" => $cekotp['whatsapp_status'],
+			"url" => $url
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 2000');
 		return redirect()->to('/user');
 	}
@@ -816,6 +880,23 @@ class Auth extends BaseController
 			"phoneNumbers" => $cekotp['telp'],
 		];
 		$this->AuthLibaries->sendMqtt('contact/createContact', json_encode($kontak), $akun['nama_depan']);
+		$nama_depan = $akun['nama_depan'];
+		$nama_belakang = $akun['nama_belakang'];
+		$cekotp = $this->OtpModel->cekid($akun['id_user']);
+		if ($akun['profil'] == "user.png") {
+			$url = "https://air.spairum.my.id/img/user/user.png";
+		} else {
+			$url = $akun['profil'];
+		}
+		$message = [
+			"setTitle" => "User Verifikasi Email Token",
+			"nama" => $nama_depan,
+			"fullname" => "$nama_depan $nama_belakang",
+			"email" => $cekotp['email_status'],
+			"wa" => $cekotp['whatsapp_status'],
+			"url" => $url
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 1000');
 		return redirect()->to('/user');
 	}
