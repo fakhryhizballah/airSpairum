@@ -268,6 +268,8 @@ class Auth extends BaseController
 		$gen = random_string('alnum', 5);
 		$id_usr = substr(sha1($id), 0, 10);
 		$token = random_string('alnum', 28);
+		$otpwa = random_string('numeric', 5);
+		$otpemail = random_string('numeric', 5);
 		$email = $this->request->getVar('email');
 		$user = $this->request->getVar('nama');
 		$fullname = ucwords($this->request->getVar('fullname'));
@@ -306,10 +308,10 @@ class Auth extends BaseController
 			'id_user' => "$id_usr$gen",
 			'email_status' => "unverified",
 			'verified_email_date' => $time,
-			'token_email' => $token,
+			'token_email' => $otpemail,
 			'whatsapp_status' => "unverified",
 			'verified_wa_date' => $time,
-			'token_wa' => "$token$gen",
+			'token_wa' => "$otpwa",
 		]);
 		$db->transComplete();
 		$message =
@@ -340,6 +342,7 @@ class Auth extends BaseController
 			'email' => $email,
 			'fullname' => $fullname,
 			'token' => $token,
+			'kode' => $otpemail,
 			'subject' => 'Konfirmasi Email akun Spairum Anda',
 			'status' => 'otp',
 			'id_user' => "$id_usr$gen"
