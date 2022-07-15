@@ -330,7 +330,7 @@ class Auth extends BaseController
 				"number" => "$telp"
 			],
 			[
-				"message" => " untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
+				"message" => " untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengaktifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
 				"number" => "$telp"
 			],
 			[
@@ -960,7 +960,7 @@ class Auth extends BaseController
 				"number" => $nowa
 			],
 			[
-				"message" => "Untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token",
+				"message" => "Untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengaktifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token",
 				"number" => $nowa
 			],
 			[
