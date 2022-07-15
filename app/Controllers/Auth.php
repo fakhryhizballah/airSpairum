@@ -332,6 +332,10 @@ class Auth extends BaseController
 			[
 				"message" => " untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
 				"number" => "$telp"
+			],
+			[
+				"message" => "kak $fullname juga bisa menggunakan kode otp *$otpwa* 🥰",
+				"number" => "$telp"
 			]
 
 		);
