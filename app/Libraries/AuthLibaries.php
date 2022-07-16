@@ -60,7 +60,7 @@ class AuthLibaries
         $mqtt->connect($connectionSettings, true);
         $mqtt->publish($topic, $message);
         $mqtt->disconnect();
-        echo json_encode($message);
+        // echo json_encode($message);
         return;
     }
 

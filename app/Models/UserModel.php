@@ -62,7 +62,7 @@ class UserModel extends Model
     }
     public function cektelp($num)
     {
-        return $this->db->table('otp')
+        return $this->db->table('user')
             ->where(array('telp' => $num))
             ->get()->getRowArray();
     }

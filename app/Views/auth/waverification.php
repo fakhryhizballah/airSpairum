@@ -46,13 +46,12 @@
 </div>
 
 <script>
-    function show_modal() {
-        $('#addmoney').modal('show');
-        document.getElementById("addmoney").classList.add("show")
-    }
-    show_modal();
     async function kirimOTP() {
         const whatsapp = document.getElementById("whatsapp").value
+        if (whatsapp == "") {
+            document.getElementById("pesan").innerHTML = "isi dulu nomor whatsapp";
+            $('#warning').modal('show');
+        }
         let FormData = {
             whatsapp
         };
@@ -67,6 +66,7 @@
             dataType: "json",
         });
         let data = await response.json();
+        console.log(response);
         console.log(data);
         if (data.status == 200) {
             // Update the count down every 1 second
@@ -92,7 +92,6 @@
             $('#warning').modal('show');
             // alert(data.message);
         }
-
         // console.log(response);
 
     }

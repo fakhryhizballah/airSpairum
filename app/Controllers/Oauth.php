@@ -77,7 +77,7 @@ class Oauth extends BaseController
                     'telp' => "null",
                     'password' => password_hash("$data->id + $data->name", PASSWORD_BCRYPT),
                     'link' => $gen,
-                    'status' => 'terverifikasi'
+                    'status' => 'verified'
                 ]);
                 $this->UserModel->save([
                     'id_user' => "$data->id",
@@ -93,7 +93,7 @@ class Oauth extends BaseController
                 ]);
                 $this->VerifiedModel->save([
                     'id_user' => "$data->id",
-                    'email_status' => "terverifikasi",
+                    'email_status' => "verified",
                     'verified_email_date' => $time,
                     'token_email' => $gen,
                     'whatsapp_status' => "unverified",
@@ -140,8 +140,16 @@ class Oauth extends BaseController
                 if (empty($_COOKIE['theme-color'])) {
                     setCookie("theme-color", "lightblue-theme",  SetStatic::cookie_options());
                 }
-
                 $db->transComplete();
+                $message = [
+                    "setTitle" => "New User",
+                    "nama" => $data->givenName,
+                    "fullname" => "$data->givenName $data->familyName",
+                    "email" => "verified",
+                    "wa" => "unverified",
+                    "url" =>  $data->picture
+                ];
+                $this->AuthLibaries->sendMqtt("log/user", json_encode($message), $data->id);
                 return redirect()->to('/user');
             }
             // User sudah terdaftar Email

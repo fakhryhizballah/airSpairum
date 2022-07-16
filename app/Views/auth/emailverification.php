@@ -26,7 +26,7 @@
                     </div>
                     <div class="row mt-2 mb-2">
                         <div class="col">
-                            <p id="resend" class="text-secondary mt-4 d-block"><br>klik <a onclick="kirimOTP()" class=""> kirim OTP Email</a></p>
+                            <p id="resend" class="text-secondary mt-4 d-block">jika belum menerima email silahkan <br>klik <a onclick="kirimOTP()" class=""> kirim OTP Email</a></p>
                             <!-- <button id="myBtn" onclick="kirimOTP()" class="btn btn-default btn-lg btn-rounded shadow btn-block"><span>Kirim kode OTP</span></button> -->
                         </div>
                     </div>
@@ -69,12 +69,12 @@
                 // Get today's date and time
                 // console.log(seconds);
                 // Display the result in the element with id="resend"
-                document.getElementById("resend").innerHTML = "silahkan cek whatsapp otp. anda baru bisa mengirim otp lagi setelah " + seconds + " s ";
+                document.getElementById("resend").innerHTML = "silahkan cek kontak email anda. anda baru bisa mengirim otp lagi setelah " + seconds + " s ";
                 seconds -= 1;
                 // If the count down is finished, write some text
                 if (seconds < 0) {
                     clearInterval(x);
-                    document.getElementById("resend").innerHTML = "Jika tidak menerima whatsapps,<br>klik <a onclick=kirimOTP() >" + "kirim ulang</a>";
+                    document.getElementById("resend").innerHTML = "Jika tidak menerima emali,<br>klik <a onclick=kirimOTP() >" + "kirim ulang</a> atau hubungi <br> <a href='https://wa.me/+6289601207398'>Admin spairum</a></a>";
                     // btn.disabled = false;
                 }
             }, 1000);

@@ -146,10 +146,26 @@ class Auth extends BaseController
 			if (empty($_COOKIE['theme-color'])) {
 				setCookie("theme-color", "teal-theme", SetStatic::cookie_options());
 			}
+			$nama_depan = $cek['nama_depan'];
+			$nama_belakang = $cek['nama_belakang'];
+			$message = [
+				"level" => 2,
+				"topic" => "User Login",
+				"title" => "$nama_depan $nama_belakang",
+				"value" => "Berhasil"
+			];
+			$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nama_depan);
 
 			return redirect()->to('/user');
 		} else {
 			session()->setFlashdata('gagal', 'Username atau Password salah');
+			$message = [
+				"level" => 3,
+				"topic" => "User Login",
+				"title" => $nama,
+				"value" => "Username atau Password salah",
+			];
+			$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nama);
 			return redirect()->to('/');
 		}
 	}
@@ -187,22 +203,6 @@ class Auth extends BaseController
 				return view('auth/daftar', $data);
 			}
 		return redirect()->to('/user');
-		// if (empty($_COOKIE['X-Sparum-Token'])) {
-		// 	$data = [
-		// 		'title' => 'Air Spairum',
-		// 		'validation' => \Config\Services::validation()
-		// 	];
-		// 	return view('auth/daftar', $data);
-		// } else {
-		// 	if ($_COOKIE['X-Sparum-Token'] == 'Logout') {
-		// 		$data = [
-		// 			'title' => 'Air Spairum',
-		// 			'validation' => \Config\Services::validation()
-		// 		];
-		// 		return view('auth/daftar', $data);
-		// 	}
-		// 	return redirect()->to('/user');
-		// }
 	}
 
 	public function userSave()
@@ -268,6 +268,8 @@ class Auth extends BaseController
 		$gen = random_string('alnum', 5);
 		$id_usr = substr(sha1($id), 0, 10);
 		$token = random_string('alnum', 28);
+		$otpwa = random_string('numeric', 5);
+		$otpemail = random_string('numeric', 5);
 		$email = $this->request->getVar('email');
 		$user = $this->request->getVar('nama');
 		$fullname = ucwords($this->request->getVar('fullname'));
@@ -277,6 +279,8 @@ class Auth extends BaseController
 		for ($i = 1; $i < count($pars_nama); $i++) {
 			$nama_belakang .= $pars_nama[$i] . " ";
 		}
+		$db      = \Config\Database::connect();
+		$db->transStart();
 		$this->OtpModel->save([
 			'id_user' => "$id_usr$gen",
 			'nama' => $user,
@@ -304,11 +308,12 @@ class Auth extends BaseController
 			'id_user' => "$id_usr$gen",
 			'email_status' => "unverified",
 			'verified_email_date' => $time,
-			'token_email' => $token,
+			'token_email' => $otpemail,
 			'whatsapp_status' => "unverified",
 			'verified_wa_date' => $time,
-			'token_wa' => "$token$gen",
+			'token_wa' => "$otpwa",
 		]);
+		$db->transComplete();
 		$message =
 			[
 				'message' => "$fullname mendaftar air.spairum.my.id",
@@ -325,7 +330,11 @@ class Auth extends BaseController
 				"number" => "$telp"
 			],
 			[
-				"message" => " untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
+				"message" => " untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengaktifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token$gen",
+				"number" => "$telp"
+			],
+			[
+				"message" => "kak $fullname juga bisa menggunakan kode otp *$otpwa* 🥰",
 				"number" => "$telp"
 			]
 
@@ -337,11 +346,22 @@ class Auth extends BaseController
 			'email' => $email,
 			'fullname' => $fullname,
 			'token' => $token,
+			'kode' => $otpemail,
 			'subject' => 'Konfirmasi Email akun Spairum Anda',
 			'status' => 'otp',
 			'id_user' => "$id_usr$gen"
 		]);
+		
 		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $user);
+		$message = [
+			"setTitle" => "New User",
+			"nama" => $pars_nama[0],
+			"fullname" => "$fullname",
+			"email" => "unverified",
+			"wa" => "unverified",
+			"url" => "https://air.spairum.my.id/img/user/user.png"
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $user);
 		$token = random_string('alnum', 28);
 		// $key = $this->TokenModel->Key()['token'];
 		$key = getenv('tokenkey');
@@ -404,6 +424,23 @@ class Auth extends BaseController
 			"phoneNumbers" => $cekotp['telp'],
 		];
 		$this->AuthLibaries->sendMqtt('contact/createContact', json_encode($kontak), $user['nama_depan']);
+		$nama_depan = $user['nama_depan'];
+		$nama_belakang = $user['nama_belakang'];
+		$otp = $this->VerifiedModel->cekid($user['id_user']);
+		if ($user['profil'] == "user.png") {
+			$url = "https://air.spairum.my.id/img/user/user.png";
+		} else {
+			$url = $user['profil'];
+		}
+		$message = [
+			"setTitle" => "User Verifikasi WA link",
+			"nama" => $nama_depan,
+			"fullname" => "$nama_depan $nama_belakang",
+			"email" => $otp['email_status'],
+			"wa" => $otp['whatsapp_status'],
+			"url" => $url
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 		session()->setFlashdata('flash', 'Terima kasih nomor telpon anda telah diverifikasi');
 		return redirect()->to('/user');
 	}
@@ -437,7 +474,7 @@ class Auth extends BaseController
 		$this->OtpModel->save([
 			'id' => $cek['id'],
 			'link' => $token,
-			'status' => 'terverifikasi',
+			'status' => 'verified',
 		]);
 		$this->VerifiedModel->save([
 			'id' => $cek_Verified['id'],
@@ -445,6 +482,23 @@ class Auth extends BaseController
 			'verified_email_date' => $time,
 			'token_email' => $token,
 		]);
+		$nama_depan = $user['nama_depan'];
+		$nama_belakang = $user['nama_belakang'];
+		$cekotp = $this->OtpModel->cekid($user['id_user']);
+		if ($user['profil'] == "user.png") {
+			$url = "https://air.spairum.my.id/img/user/user.png";
+		} else {
+			$url = $user['profil'];
+		}
+		$message = [
+			"setTitle" => "User Verifikasi Email link",
+			"nama" => $nama_depan,
+			"fullname" => "$nama_depan $nama_belakang",
+			"email" => $cekotp['email_status'],
+			"wa" => $cekotp['whatsapp_status'],
+			"url" => $url
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 2000');
 		return redirect()->to('/user');
 	}
@@ -696,7 +750,7 @@ class Auth extends BaseController
 		$this->OtpModel->save([
 			'id' => $cekotp['id'],
 			'link' => $rand,
-			'status' => 'terverifikasi',
+			'status' => 'verified',
 		]);
 		$this->VerifiedModel->save([
 			'id' => $cek_token['id'],
@@ -705,6 +759,23 @@ class Auth extends BaseController
 			'token_email' => $rand,
 		]);
 		$db->transComplete();
+		$nama_depan = $user['nama_depan'];
+		$nama_belakang = $user['nama_belakang'];
+		$otp = $this->VerifiedModel->cekid($akun['id_user']);
+		if ($user['profil'] == "user.png") {
+			$url = "https://air.spairum.my.id/img/user/user.png";
+		} else {
+			$url = $user['profil'];
+		}
+		$message = [
+			"setTitle" => "User Verifikasi Email Token",
+			"nama" => $nama_depan,
+			"fullname" => "$nama_depan $nama_belakang",
+			"email" => $otp['email_status'],
+			"wa" => $otp['whatsapp_status'],
+			"url" => $url
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 2000');
 		return redirect()->to('/user');
 	}
@@ -746,7 +817,14 @@ class Auth extends BaseController
 			'id_user' => $akun['id_user']
 		]);
 		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $akun['id_user']);
-
+		$nama_depan = $akun['nama_depan'];
+		$message = [
+			"level" => 3,
+			"topic" => "Reseend OTP Email",
+			"title" => $nama_depan,
+			"value" => "-"
+		];
+		$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nama_depan);
 		$data = [
 			'status' => 200,
 			'msg' => 'akun dan input sama',
@@ -816,6 +894,23 @@ class Auth extends BaseController
 			"phoneNumbers" => $cekotp['telp'],
 		];
 		$this->AuthLibaries->sendMqtt('contact/createContact', json_encode($kontak), $akun['nama_depan']);
+		$nama_depan = $akun['nama_depan'];
+		$nama_belakang = $akun['nama_belakang'];
+		$otp = $this->VerifiedModel->cekid($akun['id_user']);
+		if ($akun['profil'] == "user.png") {
+			$url = "https://air.spairum.my.id/img/user/user.png";
+		} else {
+			$url = $akun['profil'];
+		}
+		$message = [
+			"setTitle" => "User Verifikasi Email Token",
+			"nama" => $nama_depan,
+			"fullname" => "$nama_depan $nama_belakang",
+			"email" => $otp['email_status'],
+			"wa" => $otp['whatsapp_status'],
+			"url" => $url
+		];
+		$this->AuthLibaries->sendMqtt("log/user", json_encode($message), $nama_depan);
 		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 1000');
 		return redirect()->to('/user');
 	}
@@ -831,20 +926,22 @@ class Auth extends BaseController
 		$token = random_string('numeric', 5);
 		if ($akun['telp'] != $nowa) {
 			$cek_wa = $this->UserModel->cektelp($nowa);
-			if (!empty($cek_wa)) {
+			if (isset($cek_wa)) {
 				$data = [
 					'status' => 409,
-					'msg' => 'No Whatsapp sudah terdaftar gunakan no lain',
+					'data' => $cek_wa,
+					'msg' => 'No Whatsapp sudah terdaftar gunakan no lain :)',
 				];
 				return json_encode($data);
 			}
 			// $data = [
-			// 	'status' => 200,
+			// 	'status' => 409,
+			// 	'data' => $cek_wa,
 			// 	'msg' => 'akun dan input beda',
 			// ];
 			// return json_encode($data);
 		}
-
+		
 		$this->OtpModel->save([
 			'id' => $otp['id'],
 			'telp' => $nowa,
@@ -863,7 +960,7 @@ class Auth extends BaseController
 				"number" => $nowa
 			],
 			[
-				"message" => "Untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengkatifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token",
+				"message" => "Untuk mendapatkan saldo isi ulang air 1000 secara gratis silahkan balas *Mau* untuk mengaktifkan link dan klik link berikut --> https://air.spairum.my.id/token_wa/$token",
 				"number" => $nowa
 			],
 			[
@@ -879,16 +976,32 @@ class Auth extends BaseController
 		foreach ($PesanWA as $value) {
 			$this->AuthLibaries->sendWa($value);
 		}
+		$message = [
+			"level" => 1,
+			"topic" => "Send OTP",
+			"title" => "$fullname : $nowa",
+			"value" => strval($token)
+		];
+		$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nowa);
 		$data = [
 			'status' => 200,
 			'msg' => 'akun dan input sama',
 		];
+
 		return json_encode($data);
 	}
 	public function waSkip()
 	{
 		// $this->VerifikasiLibraries->skipWA();
 		$akun = $this->AuthLibaries->authCek();
+		$nama_depan = $akun['nama_depan'];
+		$message = [
+			"level" => 3,
+			"topic" => "SKIP OTP WA",
+			"title" => $nama_depan,
+			"value" => "-",
+		];
+		$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nama_depan);
 		setCookie("verification-token", "Whatsapp-Skip-verification", array(
 			'expires' => time() + 60 * 3,
 			'path' => '/',
