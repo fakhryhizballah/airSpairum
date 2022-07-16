@@ -173,7 +173,13 @@ class Oauth extends BaseController
             ]);
             
             setCookie("X-Sparum-Token", $jwt, SetStatic::cookie_options());
-            
+            $message = [
+                "level" => 2,
+                "topic" => "User Login",
+                "title" => "$data->givenName $data->familyName",
+                "value" => "Oauth Google"
+            ];
+            $this->AuthLibaries->sendMqtt("log/dump", json_encode($message),  $data->familyName);
             if (empty($_COOKIE['theme-color'])) {
                 setCookie("theme-color", "teal-theme", SetStatic::cookie_options());
             }

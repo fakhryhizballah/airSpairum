@@ -152,7 +152,7 @@ class Auth extends BaseController
 				"level" => 2,
 				"topic" => "User Login",
 				"title" => "$nama_depan $nama_belakang",
-				"value" => "Berhasil"
+				"value" => "Login Maunal"
 			];
 			$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $nama_depan);
 
@@ -174,21 +174,36 @@ class Auth extends BaseController
 
 	public function logout()
 	{
-		$jwt = $_COOKIE['X-Sparum-Token'];
+		try {
+			$jwt = $_COOKIE['X-Sparum-Token'];
 		// $key = $this->TokenModel->Key()['token'];
 		$key = getenv('tokenkey');
 		// $decoded = JWT::decode($jwt, $key, array('HS256'));
 		$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
 		$token = $decoded->Key;
 		$id = $this->TokenModel->cek($token)['id'];
+			// dd($decoded);
 		$this->TokenModel->update($id, [
 			'token'    => "Keluar",
 			'status' => 'logout'
 		]);
+			$message = [
+				"level" => 2,
+				"topic" => "Keluar ",
+				"title" => "logout",
+				"value" => $decoded->id_user
+			];
+			$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $decoded->id_user);
 
 		session()->setFlashdata('flash', 'Berhasil Logout');
+		
 		// setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
 		setCookie("X-Sparum-Token", "Logout", SetStatic::cookie_options());
+		} catch (\Exception $e) {
+			session()->setFlashdata('flash', 'Logout');
+			return redirect()->to('/');
+		}
+		
 		return redirect()->to('/');
 	}
 
