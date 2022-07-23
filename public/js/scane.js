@@ -149,7 +149,8 @@ function take(data) {
                     },
                     success: function (response) {
                         console.log(response);
-                        const obj = JSON.parse(response);
+                        // const obj = JSON.parse(response);
+                        const obj = (response);
                         console.log(obj);
                         console.log(obj.akun);
                         let timerInterval
