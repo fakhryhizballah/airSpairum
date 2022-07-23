@@ -108,7 +108,8 @@ class Ajax extends BaseController
         $this->AuthLibaries->sendMqtt("log/dump", json_encode($log), $akun['id_user']);
 
         // $this->AuthLibaries->notif($akun, "Mengambil Air $minum di $lokasi sebanayk $vaule mL");
-        return $message;
+        echo json_encode($respoun);
+        return;
     }
     public function log()
     {
