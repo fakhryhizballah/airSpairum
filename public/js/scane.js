@@ -151,8 +151,8 @@ function take(data) {
                         console.log(response);
                         // const obj = JSON.parse(response);
                         const obj = (response);
-                        console.log(obj);
-                        console.log(obj.akun);
+                        // console.log(obj);
+                        // console.log(obj.akun);
                         let timerInterval
                         Swal.fire({
                             title: 'Sedang Megisi',
@@ -183,6 +183,7 @@ function take(data) {
                             willClose: () => {
                                 console.log('Stop Air')
                                 console.log(data)
+                                setTimeout(getSaldo, 3000);
                                 Swal.fire('stop', '', 'success')
                                 $.ajax({
                                     type: "post",
@@ -198,9 +199,8 @@ function take(data) {
                                         console.log(response);
                                     }
 
+                                }); 
 
-                                })
-                                getSaldo();
                             }
 
                         }).then((result) => {

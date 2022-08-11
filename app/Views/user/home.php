@@ -196,15 +196,9 @@
             // dataType: "json",
         });
         let data = await response.json();
-        // console.log(response);
         var newDebit = parseInt(data.saldo);
-        var debit = parseInt(document.getElementById('debit'));
-        if (debit > newDebit) {
-            saldomin(newDebit);
-        } else {
-            saldokplus(newDebit);
-        }
-
+        console.log(newDebit);
+        saldomin(newDebit);
     }
     // console(obj);
     // saldokplus(22400);
@@ -221,24 +215,8 @@
         }, 15);
         clearInterval();
     }
-
-
-    function saldokplus(id) {
-        var obj = document.getElementById('debit');
-        var current = parseInt(obj.innerHTML);
-        var x = setInterval(function() {
-            if (current >= id) {
-                clearInterval(x);
-            }
-            obj.innerHTML = current++;
-        }, 15);
-        clearInterval();
-    }
 </script>
 
-<!-- <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js" async></script> -->
-<!-- <script type="text/javascript" src="scanner/vendor/webrtc-adapter/adapter.min.js" async></script> -->
-<!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
 <script src="/js/scane.js" async></script>
 <script>
     var swiper = new Swiper('.swiper-container', {
