@@ -5,12 +5,12 @@ const map = new mapboxgl.Map({
     // style: 'mapbox://styles/mapbox/light-v10',
     style: 'mapbox://styles/mapbox/streets-v11', // style URL
     // style: 'mapbox://styles/mapbox/satellite-v9', // style URL
-    // minZoom: 9,
-    // maxZoom: 18,
+    minZoom: 9,
+    maxZoom: 18,
     center: [109.331814, -0.026106],
     scrollZoom: true,
-    zoom: 1, // starting zoom
-    projection: 'globe' // display map as a 3D globe
+    // zoom: 1, // starting zoom
+    // projection: 'globe' // display map as a 3D globe
 
 });
 // Add geolocate control to the map.
