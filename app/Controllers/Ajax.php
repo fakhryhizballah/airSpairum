@@ -27,9 +27,9 @@ class Ajax extends BaseController
         $akun = $this->AuthLibaries->authCek();
         $take = $this->request->getVar('myRange');
         // $take = ('22');
-        // $id = $this->request->getVar('code');
+        $id = $this->request->getVar('code');
         // $id = ('eyJpZCI6IjAwMSIsInN0YXNpdW4iOiJLZXJkaWwiLCJpZF9tZXNpbiI6IlByb0JhbGkiLCJuZXdfaWQiOiJQcm9CYWxpLzMifQ==');
-        $id = ('eyJpZCI6IjAwMSIsInN0YXNpdW4iOiJLZXJkaWwiLCJpZF9tZXNpbiI6IlByb0JhbGkiLCJuZXdfaWQiOiJQcm9CYWxpMSJ9');
+        // $id = ('eyJpZCI6IjAwMSIsInN0YXNpdW4iOiJLZXJkaWwiLCJpZF9tZXNpbiI6IlByb0JhbGkiLCJuZXdfaWQiOiJQcm9CYWxpMSJ9');
         $id_encode = base64_decode($id);
         $id_mesin = (json_decode($id_encode, true));
         if (empty($id_mesin['new_id'])) {
