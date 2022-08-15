@@ -27,15 +27,18 @@ class Ajax extends BaseController
         $akun = $this->AuthLibaries->authCek();
         $take = $this->request->getVar('myRange');
         // $take = ('22');
-        $id = $this->request->getVar('code');
-        // $id = ('eyJpZCI6IjAwMDIiLCJzdGFzaXVuIjoiUktBTC1QT05USU5BS0EiLCJpZF9tZXNpbiI6IlByb3RvdGlwZTIifQ==');
-        // $id = ('eyJpZCI6IjAwMSIsInN0YXNpdW4iOiJSRUJBTC1ERU5QQVNBUiIsImlkX21lc2luIjoiUHJvQmFsaSIsIm5ld19pZCI6IlByb0JhbGkzIn0=');
+        // $id = $this->request->getVar('code');
+        // $id = ('eyJpZCI6IjAwMSIsInN0YXNpdW4iOiJLZXJkaWwiLCJpZF9tZXNpbiI6IlByb0JhbGkiLCJuZXdfaWQiOiJQcm9CYWxpLzMifQ==');
+        $id = ('eyJpZCI6IjAwMSIsInN0YXNpdW4iOiJLZXJkaWwiLCJpZF9tZXNpbiI6IlByb0JhbGkiLCJuZXdfaWQiOiJQcm9CYWxpMSJ9');
         $id_encode = base64_decode($id);
         $id_mesin = (json_decode($id_encode, true));
         if (empty($id_mesin['new_id'])) {
             $mesin = $this->StasiunModel->cek_ID($id_mesin['id_mesin']);
         } else {
             $mesin = $this->StasiunModel->cek_newID($id_mesin['new_id']);
+            if ($mesin == null) {
+                $mesin = $this->StasiunModel->cek_ID($id_mesin['id_mesin']);
+            }
         }
         $status = $this->StasiunModel->cek_mesin($id_mesin['id_mesin']);
         $sisaSaldo = $akun['debit'] - ($take / 10 * $mesin['harga']);
