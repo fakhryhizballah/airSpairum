@@ -6,6 +6,7 @@ use App\Libraries\AuthLibaries;
 use App\Models\VoucherModel;
 use App\Models\UserModel;
 use App\Models\HistoryModel;
+use App\Models\ReferralModel;
 use CodeIgniter\I18n\Time;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -18,6 +19,8 @@ class Saldo extends BaseController
         $this->VoucherModel = new VoucherModel();
         $this->UserModel = new UserModel();
         $this->HistoryModel = new HistoryModel();
+        $this->ReferralModel = new ReferralModel();
+        helper('text');
     }
     public function voucher()
     {
@@ -248,6 +251,36 @@ class Saldo extends BaseController
             'saldo' => $akun['debit']
         ];
         return json_encode($data);
-
+    }
+    public function id_referral()
+    {
+        $akun = $this->AuthLibaries->authCek();
+        $id_referral = $this->ReferralModel->getMyReferral($akun['id_user']);
+        if ($id_referral == null) {
+            $referral = $this->newID();
+            $data = [
+                'id_user' => $akun['id_user'],
+                'id_referral' => $referral,
+                'created_at' => Time::now('Asia/Jakarta')
+            ];
+            $this->ReferralModel->save($data);
+            return json_encode($data);
+        } else {
+            $data = [
+                'id_referral' => $id_referral['id_referral']
+            ];
+            return json_encode($data);
+        }
+    }
+    public function newID()
+    {
+        $id_A = random_string('numeric', 5);
+        $id_B = strtoupper(random_string('alpha', 3));
+        $id_referral = $this->ReferralModel->getReferral("$id_A $id_B");
+        if ($id_referral == null) {
+            return "$id_A $id_B";
+        } else {
+            $this->newID();
+        }
     }
 }
