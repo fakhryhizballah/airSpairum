@@ -92,24 +92,23 @@
             <button type="submit" class="btn btn-lg btn-default btn-block btn-rounded shadow"><span>Update Email</span></button>
         </form>
     </div>
+    <div class="container mt-5 ">
+        <h6 class=" text-center">ID Referral saya</h6>
+        <p class="text-center" id="id_referral"><span>#</span></p>
+    </div>
 </div>
 
-<!-- <script>
-    function previewImg() {
-        const profil = document.querySelector('#profil');
-        const imgprofil = document.querySelector('.img-preview');
-        const profilLabel = document.querySelector('.float-file');
-
-        profilLabel.textContent = profil.files[0].name;
-        const fileProfil = new FileReader();
-
-        fileProfil.readAsDataURL(profil.files[0]);
-
-        fileProfil.onload = function(e) {
-            imgPreview.src = e.target.result;
-        }
-    }
-</script> -->
-
-
 <?= $this->endSection('content'); ?>
+
+<?= $this->section('script'); ?>
+<script>
+    $.ajax({
+        url: "/saldo/id_referral",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            $('#id_referral').html(data.id_referral);
+        }
+    });
+</script>
+<?= $this->endSection('script'); ?>
