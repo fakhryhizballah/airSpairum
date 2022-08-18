@@ -16,7 +16,13 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-auto">
-                        <figure class="avatar avatar-60"><img src="/img/user/<?= $akun['profil']; ?>" alt=""></figure>
+                        <figure class="avatar avatar-60">
+                            <?php
+                            if ($akun['profil'] == "user.png") : ?>
+                                <img src="/img/user/<?= $akun['profil']; ?>" alt="">
+                            <?php endif; ?>
+                            <img src="<?= $akun['profil']; ?>" alt="">
+                        </figure>
                     </div>
                     <div class="col pl-0 align-self-center">
                         <h5 class="mb-1"><?= $akun['nama_depan']; ?>&nbsp;<?= $akun['nama_belakang']; ?></h5>
@@ -37,7 +43,8 @@
                             <span class="material-icons">
                                 account_balance_wallet
                             </span>
-                            <?= $akun['debit']; ?>
+                            <span id="debit"><?= $akun['debit']; ?></span>
+                            <!-- <?= $akun['debit']; ?> -->
                         </h3>
                         <p class="text-mute">Saldo Air</p>
                     </div>
@@ -100,6 +107,8 @@
             </div>
         </div>
     </div>
+
+
 </section>
 <input type="hidden" id="socket" value="<?= $socket; ?>">
 
@@ -121,7 +130,8 @@
                     <div class="form-group mt-4">
                         <input required type="text" class="form-control form-control-lg text-center" id="kvoucher" name="kvoucher" placeholder="Masukan kode Voucher" aria-label="Masukan kode Voucher">
                     </div>
-                    <p class="text-mute">Masukan Kode Voucher untuk menambah saldo.</p>
+                    <p class="text-mute">Masukan Kode Voucher untuk menambah saldo. <br>atau hubungi:</p>
+                    <a href="https://api.whatsapp.com/send?phone=6289601207398&text=Hallo%20spairum.%20Saya%20<?= $akun['nama']; ?>%2C%20mau%20top%20up%20vocher%20spairum">0896-0120-7398</a>
                     <div class="modal-footer border-0">
                         <button type="submit" class="btn btn-default btn-lg btn-rounded shadow btn-block" type="button">proses</button>
                     </div>
@@ -157,35 +167,6 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal-addBotol" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center pt-0">
-                <div class="camera">
-                    <div class="camera">
-                        <video id="preview2" class="kamera" playsinline></video>
-                    </div>
-                    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
-                        <label class="btn btn-primary active">
-                            <input type="radio" name="options" value="1" autocomplete="off" checked> Camera 1
-                        </label>
-                        <label class="btn btn-secondary">
-                            <input type="radio" name="options" value="2" autocomplete="off">Camera 2
-                        </label>
-                    </div>
-                </div>
-                <p class="text-mute">Arahkan kamera anda ke QR Botol</p>
-            </div>
-            <div class="modal-body text-center pt-0">
-            </div>
-        </div>
-    </div>
-</div>
 
 <?= $this->endSection('modal'); ?>
 
@@ -202,14 +183,41 @@
     slider.oninput = function() {
         output.innerHTML = this.value;
     }
+    // getSaldo();
+
+    async function getSaldo() {
+        let response = await fetch('/Saldo/saldoUser', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            // body: JSON.stringify(FormData),
+            // dataType: "json",
+        });
+        let data = await response.json();
+        var newDebit = parseInt(data.saldo);
+        console.log(newDebit);
+        saldomin(newDebit);
+    }
+    // console(obj);
+    // saldokplus(22400);
+    // saldomin(22000);
+
+    function saldomin(id) {
+        var obj = document.getElementById('debit');
+        var current = parseInt(obj.innerHTML);
+        var x = setInterval(function() {
+            if (current <= id) {
+                clearInterval(x);
+            }
+            obj.innerHTML = current--;
+        }, 15);
+        clearInterval();
+    }
 </script>
 
-<!-- <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js" async></script> -->
-<!-- <script type="text/javascript" src="scanner/vendor/webrtc-adapter/adapter.min.js" async></script> -->
-<!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
 <script src="/js/scane.js" async></script>
-<!-- <script src="/js/botol.js" async></script> -->
-<!-- <script src="/js/botol.min.js" defer></script> -->
 <script>
     var swiper = new Swiper('.swiper-container', {
         slidesPerView: 1,
@@ -231,84 +239,3 @@
 
 
 <?= $this->endSection('script'); ?>
-
-<div class="container botol">
-    <!-- page content here -->
-    <div data-pagination='{"el": ".swiper-pagination"}' " class=" swiper-container ">
-    <div class=" swiper-wrapper">
-        <?php foreach ($botol as $r) : ?>
-            <div class="swiper-slide swiper-slide card shadow  text-white" id="mybotol">
-                <div class="card-header bg-template">
-                    <div class="row">
-                        <div class="col-10">
-                            <h5 class="card-title text-center text-white">Botol Saya</h5>
-                        </div>
-                        <div class="col-2">
-                            <div onclick="hapusbtol('<?= $r['id_botol']; ?>')">
-                                <span class="material-icons">
-                                    delete
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="card shadow border-0 mb-2"> -->
-                <div class="card shadow">
-                    <div class="card-body border-bottom mb-2 text-secondary">
-                        <div class="row">
-                            <div class="col-4">
-                                <img src="/img/botol/botol.jpg" alt="">
-                            </div>
-                            <div class="col-8">
-                                <div class="row">
-                                    <h5 class="f-light text-left text-template"><?= $r['nama_botol']; ?></h5>
-                                </div>
-                                <div class="row">
-                                    <p class="mb-0 text-secondary f-sm text-black">
-                                        jenis Botol : <?= $r['jenis_botol']; ?>
-                                        <br>Ukuran Botol : <?= $r['ukuran_botol']; ?> mL
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-none">
-                        <!-- <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template"></button> -->
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-        <div class="swiper-slide swiper-slide card shadow text-white">
-            <!-- <div class="card shadow-sm border-0 mb-3 bg-warning text-white"> -->
-            <div class="card-header bg-template">
-                <div class="row">
-                    <div class="col">
-                        <h5 class="card-title text-white text-center">Tambahkan Botol</h5>
-                        <div id="qr-reader-results"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card shadow border-0 mb-2">
-                <div class="card-body mb-2 text-secondary">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <img class="text-center" src="/img/botol/botol.jpg" alt="Botol Spairum">
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-none">
-                    <button class="btn btn-info btn-block btn-outline-template btn-rounded bg-template" onclick="addBotol()">Tambah Botol</button>
-                </div>
-            </div>
-            <!-- </div> -->
-        </div>
-        <!-- <div class="swiper-slide">Slide 3</div>
-        <div class="swiper-slide">Slide 4</div>
-        <div class="swiper-slide">Slide 5</div>
-        <div class="swiper-slide">Slide 6</div>
-        <div class="swiper-slide">Slide 7</div>
-        <div class="swiper-slide">Slide 8</div>
-        <div class="swiper-slide">Slide 9</div>
-        <div class="swiper-slide">Slide 10</div> -->
-    </div>
-</div>
