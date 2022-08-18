@@ -158,7 +158,7 @@ function take(data) {
                             title: 'Sedang Megisi',
                             // html: 'I will close in <b></b> milliseconds.',
                             // timer: 20000,
-                            text: "jika ingin meghntikan klik stop",
+                            text: "jika ingin menghentikan klik stop",
                             // timerProgressBar: true,
                             showCancelButton: true,
                             cancelButtonText: 'STOP',
