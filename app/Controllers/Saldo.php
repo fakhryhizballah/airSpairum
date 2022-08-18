@@ -24,6 +24,7 @@ class Saldo extends BaseController
     }
     public function voucher()
     {
+        $db      = \Config\Database::connect();
         $akun = $this->AuthLibaries->authCek();
         $kvoucher = $this->request->getVar('kvoucher');
         $getV = $this->VoucherModel->cari($kvoucher);
@@ -100,6 +101,96 @@ class Saldo extends BaseController
             }
             session()->setFlashdata('Pesan', 'Kode voucher tidak dapat digunakan');
             return redirect()->to('/topup');
+        }
+
+
+        $ref = $this->ReferralModel->getReferral($kvoucher);
+        // dd($ref);
+        if ($ref != null) {
+            if ($ref['id_user'] == $akun['id_user']) {
+                session()->setFlashdata('Pesan', 'Tidak dapat mengunakan kode referral anda sendiri');
+                return redirect()->to('/user');
+            }
+            $refral_user = $this->ReferralModel->getMyReferral($akun['id_user']);
+            try {
+                if ($ref['referral'] == $refral_user['id_referral']) {
+                    session()->setFlashdata('Pesan', 'Tidak dapat mengunakan kode referral mantan');
+                    return redirect()->to('/user');
+                }
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+            if ($refral_user == null || $refral_user['referral'] == null) {
+                $db->transStart();
+                $newRefralID = $this->id_referral();
+                $id_donor = $this->UserModel->cek_id($ref['id_user']);
+                $data = [
+                    'id' => json_decode($newRefralID, true)['id'],
+                    'referral' => $kvoucher,
+
+                ];
+                $this->ReferralModel->save($data);
+                $saldo =  $akun['debit'] + '1000';
+                $saldo_donor =  $id_donor['debit'] + '1000';
+                $this->UserModel->updateprofile([
+                    'debit' => $saldo,
+                ], $akun['id']);
+                $this->UserModel->updateprofile([
+                    'debit' => $saldo_donor,
+                ], $id_donor['id']);
+                $dataVocher = [
+                    'id_akun' => $ref['id_user'],
+                    'id_user'  => $refral_user['id_user'],
+                    'kvoucher'  => $kvoucher,
+                    'nominal'  => '1000',
+                    'ket'  => 'kode referral',
+                ];
+                $this->VoucherModel->insert($dataVocher);
+                $dataHistory = [
+                    'id_master' => $akun['id_user'],
+                    'Id_slave' => $getV['kvoucher'],
+                    'Lokasi' => 'Voucher Harian',
+                    'status' => 'Top Up',
+                    'isi' => $getV['nominal']
+                ];
+                $this->HistoryModel->save($dataHistory);
+                $db->transComplete();
+                if ($db->transStatus() === FALSE) {
+                    // generate an error... or use the log_message() function to log your error
+                    $message = [
+                        "level" => 4,
+                        "topic" => "Error Referal",
+                        "title" => "Databse error",
+                        "value" => "Database error",
+                    ];
+                    $this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $data->id);
+                }
+                $message = [
+                    "level" => 2,
+                    "topic" => "Referal Success",
+                    "title" => $akun['nama_depan'],
+                    "value" => "mengunakan refral " . $id_donor['nama_depan'],
+                ];
+                $this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $akun['id_user']);
+                $PesanWA = array(
+                    [
+                        "message" => "Hallo kak " . $akun['nama_depan'] . ", kakak telah berhasil mengunakan kode referral " . $id_donor['nama_depan'] . "kakak mendapatkan saldo air sebesar Rp. 1000",
+                        "number" => $akun['telp']
+                    ],
+                    [
+                        "message" => "Hallo kak " . $id_donor['nama_depan'] . ", kode referral telah digunakan oleh kakak " . $akun['nama_depan'] . "kakak mendapatkan saldo air sebesar Rp. 1000",
+                        "number" => $id_donor['telp']
+                    ]
+                );
+                foreach ($PesanWA as $value) {
+                    $this->AuthLibaries->sendWa($value);
+                }
+                session()->setFlashdata('Berhasil', 'kode referral berhasil digunakan');
+                return redirect()->to('/user');
+            }
+            session()->setFlashdata('Pesan', 'anda telah menggunakan kode referral');
+
+            return redirect()->to('/user');
         } else {
             session()->setFlashdata('Pesan', 'Kode Voucher Salah');
             return redirect()->to('/topup');
@@ -258,19 +349,23 @@ class Saldo extends BaseController
         $id_referral = $this->ReferralModel->getMyReferral($akun['id_user']);
         if ($id_referral == null) {
             $referral = $this->newID();
-            $data = [
+            $data = [        
                 'id_user' => $akun['id_user'],
                 'id_referral' => $referral,
                 'created_at' => Time::now('Asia/Jakarta')
             ];
             $this->ReferralModel->save($data);
-            return json_encode($data);
-        } else {
-            $data = [
-                'id_referral' => $id_referral['id_referral']
-            ];
-            return json_encode($data);
         }
+        // else {
+        //     $data = [
+        //         'id' => $id_referral['id'],
+        //         'id_referral' => $id_referral['id_referral']
+        //     ];
+        //     return json_encode($data);
+        // }
+        $id_referral = $this->ReferralModel->getMyReferral($akun['id_user']);
+        return json_encode($id_referral);
+        
     }
     public function newID()
     {
@@ -283,4 +378,5 @@ class Saldo extends BaseController
             $this->newID();
         }
     }
+
 }
