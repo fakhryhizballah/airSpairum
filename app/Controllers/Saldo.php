@@ -114,7 +114,7 @@ class Saldo extends BaseController
             $refral_user = $this->ReferralModel->getMyReferral($akun['id_user']);
             try {
                 if ($ref['referral'] == $refral_user['id_referral']) {
-                    session()->setFlashdata('Pesan', 'Tidak dapat mengunakan kode referral mantan');
+                    session()->setFlashdata('Pesan', 'Maaf kode referral tidak dapat digunakan dua arah');
                     return redirect()->to('/user');
                 }
             } catch (\Throwable $th) {
