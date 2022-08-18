@@ -140,18 +140,27 @@ class Saldo extends BaseController
                 ], $id_donor['id']);
                 $dataVocher = [
                     'id_akun' => $ref['id_user'],
-                    'id_user'  => $refral_user['id_user'],
+                    'id_user'  =>  $akun['id_user'],
                     'kvoucher'  => $kvoucher,
                     'nominal'  => '1000',
                     'ket'  => 'kode referral',
                 ];
                 $this->VoucherModel->insert($dataVocher);
+    
                 $dataHistory = [
                     'id_master' => $akun['id_user'],
-                    'Id_slave' => $getV['kvoucher'],
-                    'Lokasi' => 'Voucher Harian',
-                    'status' => 'Top Up',
-                    'isi' => $getV['nominal']
+                    'Id_slave' => $ref['id_user'],
+                    'Lokasi' => 'Voucher Referral ' . $ref['id_user'],
+                    'status' => 'Redeem Referral',
+                    'isi' => '1000'
+                ];
+                $this->HistoryModel->save($dataHistory);
+                $dataHistory = [
+                    'id_master' => $ref['id_user'],
+                    'Id_slave' => $akun['id_user'],
+                    'Lokasi' => 'Kode Referral anda telah digunakan oleh ' . $akun['nama_depan'],
+                    'status' => 'Bonus Referral',
+                    'isi' => '1000'
                 ];
                 $this->HistoryModel->save($dataHistory);
                 $db->transComplete();
@@ -163,7 +172,7 @@ class Saldo extends BaseController
                         "title" => "Databse error",
                         "value" => "Database error",
                     ];
-                    $this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $data->id);
+                    $this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $akun['id_user']);
                 }
                 $message = [
                     "level" => 2,
