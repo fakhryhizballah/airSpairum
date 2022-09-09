@@ -94,7 +94,17 @@
     </div>
     <div class="container mt-5 ">
         <h6 class=" text-center">ID Referral saya</h6>
-        <p class="text-center" id="id_referral"><span>#</span></p>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <p contenteditable="flase" class="text-center" id="id_referral">REFRAL ID</p>
+            </div>
+            <div class="col-4">
+                <span onclick="copyToClipboard()" class=" material-symbols-outlined">
+                    file_copy
+                </span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -108,7 +118,32 @@
         dataType: "JSON",
         success: function(data) {
             $('#id_referral').html(data.id_referral);
+            // $('#id_referral').val(data.id_referral);
         }
+    });
+
+    function copyToClipboard() {
+        var Text = $("#id_referral").select()
+        console.log(Text.html());
+        navigator.clipboard.writeText(Text.html());
+
+        // Alert the copied text
+        Swal.fire({
+            position: 'top-end',
+            toast: true,
+            icon: 'success',
+            text: `Copy to clipboard id referral : ${Text.html()}`,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 1500
+        })
+    }
+    const source = document.querySelector('div.source');
+
+    source.addEventListener('copy', (event) => {
+        const selection = document.getSelection();
+        event.clipboardData.setData('text/plain', selection.toString().toUpperCase());
+        event.preventDefault();
     });
 </script>
 <?= $this->endSection('script'); ?>
