@@ -39,6 +39,7 @@
                         </div>
                 </form>
             </div>
+            <a href="/auth/logout" class="mt-4 d-block text-right">Keluar</a>
         </div>
     </div>
 </div>
