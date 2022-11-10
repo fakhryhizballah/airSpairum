@@ -40,14 +40,14 @@
         </a>
         <hr>
     </div>
-    <div class="row mx-0 bottom-button-container">
+    <!-- <div class="row mx-0 bottom-button-container">
         <div class="col">
             <a href="/lupa" class="btn btn-default btn-lg btn-rounded shadow btn-block">Lupa Password</a>
         </div>
         <div class="col">
             <a href="/daftar" class="btn btn-white bg-white btn-lg btn-rounded shadow btn-block">Create an Account!</a>
         </div>
-    </div>
+    </div> -->
 </div>
 
 
