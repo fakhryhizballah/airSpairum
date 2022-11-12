@@ -23,13 +23,13 @@ class Maps extends BaseController
     }
     public function Stasiun()
     {
-        $maps = $this->MapsModel->where('jenis', 'stasiun')->findAll();
+        $maps = $this->MapsModel->where('jenis', 'stasiun')->where('status', 'true')->findAll();
         return json_encode($maps);
      
     }
     public function banksampah()
     {
-        $maps = $this->MapsModel->where('jenis', 'bank sampah')->findAll();
+        $maps = $this->MapsModel->where('jenis', 'bank sampah')->where('status', 'true')->findAll();
         return json_encode($maps);
      
     }
