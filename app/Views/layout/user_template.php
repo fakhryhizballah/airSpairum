@@ -95,14 +95,14 @@
         <div class="row">
             <div class="col">
                 <div class="list-group main-menu">
-                    <a href="/user" class="list-group-item list-group-item-action active"><i class="material-icons icons-raised">home</i>Home</a>
+                    <a href="/user" class="list-group-item list-group-item-action active"><i class="material-icons icons-raised">home</i>Beranda</a>
 
                     <!-- <a href="notification.html" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">notifications</i>Notification <span class="badge badge-dark text-white">2</span></a> -->
 
-                    <a href="/riwayat" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">find_in_page</i>History</a>
+                    <a href="/riwayat" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">find_in_page</i>Riwayat</a>
                     <!-- <a href="controls.html" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">view_quilt<span class="new-notification"></span></i>Pages Controls</a> -->
-                    <a href="/editprofile" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">account_circle</i>Edit Profile</a>
-                    <a href="/changepassword" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">vpn_key</i>Change Password</a>
+                    <a href="/editprofile" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">account_circle</i>Edit Profil</a>
+                    <a href="/changepassword" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">vpn_key</i>Ubah Password</a>
                     <!-- <a href="#" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">important_devices</i>Settings</a> -->
                     <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#colorscheme"><i class="material-icons icons-raised">color_lens</i>Color scheme</a> -->
                     <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#colorscheme"><i class="material-icons icons-raised">color_lens</i>Color scheme</a> -->
@@ -113,7 +113,7 @@
         </div>
     </div>
     <!-- color chooser menu start -->
-    <div class="modal fade " id="colorscheme" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal fade " id="colorscheme" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content ">
                 <div class="modal-header theme-header border-0">
@@ -168,7 +168,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- color chooser menu ends -->
 
     <a href="javascript:void(0)" class="closesidemenu"><i class="material-icons icons-raised bg-dark ">close</i></a>
@@ -199,12 +199,14 @@
                         <div class=" col-3-auto mx-auto">
                             <a href="/user" class="btn btn-link-default item">
                                 <i class="material-icons">home</i>
+                                <p><b>Beranda</b></p>
                             </a>
                         </div>
                         <div class="col-3-auto mx-auto">
                             <a href="/stasiun" class="btn btn-link-default item">
                                 <!-- <img src="/img/explore.svg" alt="" class=""> -->
                                 <i class="material-icons">near_me</i>
+                                <p><b>Lokasi</b></p>
                                 <!-- <i class="fontNav">Explore</i> -->
                             </a>
                         </div>
@@ -212,6 +214,7 @@
                             <a href="/topup" class="btn btn-link-default item">
                                 <!-- <img src="/img/wallet.svg" alt="" class=""> -->
                                 <i class="material-icons">account_balance_wallet</i>
+                                <p><b>Top Up</b></p>
                                 <!-- <i class="fontNav">Top Up</i> -->
                             </a>
                         </div>
@@ -219,6 +222,7 @@
                             <a href="/riwayat" class="btn btn-link-default item">
                                 <!-- <img src="/img/history.svg" alt="" class=""> -->
                                 <i class="material-icons">history</i>
+                                <p><b>Riwayat</b></p>
                                 <!-- <i class="material-icons fontNav">History</i> -->
                             </a>
                         </div>

@@ -146,7 +146,7 @@ class Saldo extends BaseController
                     'ket'  => 'kode referral',
                 ];
                 $this->VoucherModel->insert($dataVocher);
-    
+
                 $dataHistory = [
                     'id_master' => $akun['id_user'],
                     'Id_slave' => $ref['id_user'],
@@ -303,7 +303,7 @@ class Saldo extends BaseController
                     $History = [
                         'id_master' => $akun['id_user'],
                         'Id_slave' => $penerima['id_user'],
-                        'Lokasi' => 'berbagi Saldo ke ' .  $decoded->nama_pengirim,
+                        'Lokasi' => 'berbagi Saldo ke ' .  $decoded->nama_tujuan,
                         'status' => 'Kirim Saldo',
                         'isi' => $decoded->nominal,
                         'created_at' => Time::now('Asia/Jakarta')
@@ -313,7 +313,7 @@ class Saldo extends BaseController
                     $History = [
                         'id_master' => $penerima['id_user'],
                         'Id_slave' => $akun['id_user'],
-                        'Lokasi' => 'Menerima Saldo dari ' .  $decoded->nama_tujuan,
+                        'Lokasi' => 'Menerima Saldo dari ' .  $decoded->nama_pengirim,
                         'status' => 'Menerima Saldo',
                         'isi' => $decoded->nominal,
                         'created_at' => Time::now('Asia/Jakarta')
@@ -324,7 +324,8 @@ class Saldo extends BaseController
                         'kredit' => $akun['kredit'] + $decoded->nominal,
                         'debit' =>  $akun['debit'] - $decoded->nominal,
                     ], $akun['id']);
-                    $this->UserModel->updateprofile(['debit' =>  $penerima['debit'] + $decoded->nominal,
+                    $this->UserModel->updateprofile([
+                        'debit' =>  $penerima['debit'] + $decoded->nominal,
                     ], $penerima['id']);
                 } catch (\Exception $e) {
                     $data = [
@@ -358,7 +359,7 @@ class Saldo extends BaseController
         $id_referral = $this->ReferralModel->getMyReferral($akun['id_user']);
         if ($id_referral == null) {
             $referral = $this->newID();
-            $data = [        
+            $data = [
                 'id_user' => $akun['id_user'],
                 'id_referral' => $referral,
                 'created_at' => Time::now('Asia/Jakarta')
@@ -374,7 +375,6 @@ class Saldo extends BaseController
         // }
         $id_referral = $this->ReferralModel->getMyReferral($akun['id_user']);
         return json_encode($id_referral);
-        
     }
     public function newID()
     {
@@ -387,5 +387,4 @@ class Saldo extends BaseController
             $this->newID();
         }
     }
-
 }

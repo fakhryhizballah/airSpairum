@@ -48,9 +48,6 @@
                         </h3>
                         <p class="text-mute">Saldo Air</p>
                     </div>
-                    <div class="col-auto">
-                        <button class="btn btn-default btn-rounded-54 shadow" data-toggle="modal" data-target="#addmoney"><i class="material-icons">add</i></button>
-                    </div>
                 </div>
             </div>
             <div class="card-footer bg-none">
@@ -115,32 +112,6 @@
 <?= $this->endSection('content'); ?>
 
 <?= $this->section('modal'); ?>
-<!-- Modal -->
-<div class="modal fade" id="addmoney" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center pt-0">
-                <img src="https://cdn.spairum.my.id/img/icon/information-graphics3.png" alt="voucher redeem" class="logo-small">
-                <form class="vocer" method="POST" action="saldo/voucher">
-                    <div class="form-group mt-4">
-                        <input required type="text" class="form-control form-control-lg text-center" id="kvoucher" name="kvoucher" placeholder="Masukan kode Voucher" aria-label="Masukan kode Voucher">
-                    </div>
-                    <p class="text-mute">Masukan Kode Voucher untuk menambah saldo. <br>atau hubungi:</p>
-                    <a href="https://api.whatsapp.com/send?phone=6289601207398&text=Hallo%20spairum.%20Saya%20<?= $akun['nama']; ?>%2C%20mau%20top%20up%20vocher%20spairum">0896-0120-7398</a>
-                    <div class="modal-footer border-0">
-                        <button type="submit" class="btn btn-default btn-lg btn-rounded shadow btn-block" type="button">proses</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Modal -->
 <div class="modal fade" id="modal-pindai" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">

@@ -7,7 +7,7 @@
     <h3 class="font-weight-light text-center mt-4">Isi Ulang Saldo Air<br><span class="text-template">Voucher</span> atau
         <span class="text-template">TopUp</span>
     </h3>
-    <p class="text-secondary text-mute text-center mb-4">Isi ulang saldo air bisa dengan vocer isi ulang atau menggunakan Qris/Gopay</p>
+    <p class="text-secondary text-mute text-center mb-4">Isi ulang saldo air bisa dengan voucher isi ulang atau menggunakan Qris/Gopay</p>
 
 
     <div class="card shadow border-0 mb-3">
@@ -21,6 +21,11 @@
                 </div>
                 <div class="col">
                     <h3><span class="text-mute text-secondary">Isi ulang saldo air </span><small class=" text-template ">Kode Voucher</small></h3>
+                </div>
+            </div>
+            <div class="row-auto">
+                <div class="ml-4 mt-3">
+                    <a class="btn bg-template" href="https://api.whatsapp.com/send?phone=6289678396131&text=Hallo%20Admin.%20Saya%20<?= $akun['nama']; ?>%2C%20mau%20top%20up%20voucher%20spairum"><b>Beli kode voucher</b></a>
                 </div>
             </div>
             <div class="row">
@@ -96,6 +101,33 @@
 
 <script src="/js/transfer.js" defer></script>
 <?= $this->endSection('content'); ?>
+
+<!-- <?= $this->section('modal'); ?>
+<div class="modal fade" id="addmoney" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <img src="https://cdn.spairum.my.id/img/icon/information-graphics3.png" alt="voucher redeem" class="logo-small">
+                <form class="vocer" method="POST" action="saldo/voucher">
+                    <div class="form-group mt-4">
+                        <input required type="text" class="form-control form-control-lg text-center" id="kvoucher" name="kvoucher" placeholder="Masukan kode Voucher" aria-label="Masukan kode Voucher">
+                    </div>
+                    <p class="text-mute">Masukan Kode Voucher untuk menambah saldo. <br>atau hubungi nomor dibawah ini untuk membeli voucher:</p>
+                    <a href="https://api.whatsapp.com/send?phone=6289678396131&text=Hallo%20Admin.%20Saya%20<?= $akun['nama']; ?>%2C%20mau%20top%20up%20voucher%20spairum">0896-7839-6131</a>
+                    <div class="modal-footer border-0">
+                        <button type="submit" class="btn btn-default btn-lg btn-rounded shadow btn-block" type="button">proses</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<?= $this->endSection('modal'); ?> -->
 
 <div class="card shadow border-0 mb-3">
     <div class="card-body">
