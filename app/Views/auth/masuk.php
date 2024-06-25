@@ -26,7 +26,7 @@
             </div>
 
             <!-- <span toggle="#password" class="mt-4 text-primary fa fa-fw fa-eye field-icon password "></span> -->
-            <div class="text-right">
+            <div class="text-right" hidden>
                 <a class="small" href="/lupa">lupa<strong class=" text-primary"> Password<strong></a>
             </div>
         </form>

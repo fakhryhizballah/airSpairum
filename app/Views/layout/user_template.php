@@ -102,7 +102,7 @@
                     <a href="/riwayat" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">find_in_page</i>Riwayat</a>
                     <!-- <a href="controls.html" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">view_quilt<span class="new-notification"></span></i>Pages Controls</a> -->
                     <a href="/editprofile" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">account_circle</i>Edit Profil</a>
-                    <a href="/changepassword" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">vpn_key</i>Ubah Password</a>
+                    <a hidden href="/changepassword" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">vpn_key</i>Ubah Password</a>
                     <!-- <a href="#" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">important_devices</i>Settings</a> -->
                     <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#colorscheme"><i class="material-icons icons-raised">color_lens</i>Color scheme</a> -->
                     <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#colorscheme"><i class="material-icons icons-raised">color_lens</i>Color scheme</a> -->

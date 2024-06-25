@@ -60,9 +60,9 @@ class Auth extends BaseController
 				'title' => 'Air Spairum',
 				'validation' => \Config\Services::validation(),
 				'urlOauth' => $urlOauth
-				];
-				return view('auth/masuk', $data);
-			}
+			];
+			return view('auth/masuk', $data);
+		}
 		return redirect()->to('/user');
 	}
 	public function welcome()
@@ -176,17 +176,17 @@ class Auth extends BaseController
 	{
 		try {
 			$jwt = $_COOKIE['X-Sparum-Token'];
-		// $key = $this->TokenModel->Key()['token'];
-		$key = getenv('tokenkey');
-		// $decoded = JWT::decode($jwt, $key, array('HS256'));
-		$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
-		$token = $decoded->Key;
-		$id = $this->TokenModel->cek($token)['id'];
+			// $key = $this->TokenModel->Key()['token'];
+			$key = getenv('tokenkey');
+			// $decoded = JWT::decode($jwt, $key, array('HS256'));
+			$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+			$token = $decoded->Key;
+			$id = $this->TokenModel->cek($token)['id'];
 			// dd($decoded);
-		$this->TokenModel->update($id, [
-			'token'    => "Keluar",
-			'status' => 'logout'
-		]);
+			$this->TokenModel->update($id, [
+				'token'    => "Keluar",
+				'status' => 'logout'
+			]);
 			$message = [
 				"level" => 2,
 				"topic" => "Keluar ",
@@ -195,15 +195,15 @@ class Auth extends BaseController
 			];
 			$this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $decoded->id_user);
 
-		session()->setFlashdata('flash', 'Berhasil Logout');
-		
-		// setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
-		setCookie("X-Sparum-Token", "Logout", SetStatic::cookie_options());
+			session()->setFlashdata('flash', 'Berhasil Logout');
+
+			// setCookie("X-Sparum-Token", "Logout", time() + (86400 * 30), "/");
+			setCookie("X-Sparum-Token", "Logout", SetStatic::cookie_options());
 		} catch (\Exception $e) {
 			session()->setFlashdata('flash', 'Logout');
 			return redirect()->to('/');
 		}
-		
+
 		return redirect()->to('/');
 	}
 
@@ -211,12 +211,12 @@ class Auth extends BaseController
 	{
 		$akun = $this->AuthLibaries->authCek();
 		if ($akun == null) {
-				$data = [
-					'title' => 'Air Spairum',
-					'validation' => \Config\Services::validation()
-				];
-				return view('auth/daftar', $data);
-			}
+			$data = [
+				'title' => 'Air Spairum',
+				'validation' => \Config\Services::validation()
+			];
+			return view('auth/daftar', $data);
+		}
 		return redirect()->to('/user');
 	}
 
@@ -276,7 +276,7 @@ class Auth extends BaseController
 
 			return redirect()->to('/daftar')->withInput()->with('validation', $validation);
 		}
-	
+
 		helper('text');
 		$time = $this->Time::now('Asia/Jakarta');
 		$id = $this->request->getVar('nama');
@@ -366,7 +366,7 @@ class Auth extends BaseController
 			'status' => 'otp',
 			'id_user' => "$id_usr$gen"
 		]);
-		
+
 		$this->AuthLibaries->sendMqtt('Email/sendEmailOtp', json_encode($pesanEmail), $user);
 		$message = [
 			"setTitle" => "New User",
@@ -517,19 +517,19 @@ class Auth extends BaseController
 		session()->setFlashdata('flash', 'Selamat anda mendapatkan saldo air 2000');
 		return redirect()->to('/user');
 	}
-	public function lupa()
-	{
-		// if (!$this->AuthLibaries->authCek()) {
+	// public function lupa()
+	// {
+	// if (!$this->AuthLibaries->authCek()) {
 
-		// 	return redirect()->to('/user');
-		// }
-		$data = [
-			'title' => 'Lupa Password | Air Spairum',
-			'validation' => \Config\Services::validation()
-		];
-		// return view('auth/lupa', $data);
-		return view('auth/lupa_pas', $data);
-	}
+	// 	return redirect()->to('/user');
+	// }
+	// 	$data = [
+	// 		'title' => 'Lupa Password | Air Spairum',
+	// 		'validation' => \Config\Services::validation()
+	// 	];
+	// 	// return view('auth/lupa', $data);
+	// 	return view('auth/lupa_pas', $data);
+	// }
 	public function sendemail()
 	{
 		if (!$this->validate([
@@ -712,7 +712,7 @@ class Auth extends BaseController
 		session()->setFlashdata('Berhasil', 'Password anda telah diperbaharui.');
 		return redirect()->to('/');
 	}
-// validation Email
+	// validation Email
 	public function verificationEmail()
 	{
 		$akun = $this->AuthLibaries->authCek();
@@ -956,7 +956,7 @@ class Auth extends BaseController
 			// ];
 			// return json_encode($data);
 		}
-		
+
 		$this->OtpModel->save([
 			'id' => $otp['id'],
 			'telp' => $nowa,
