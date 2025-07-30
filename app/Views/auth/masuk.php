@@ -8,7 +8,7 @@
     <div class="col align-self-center px-3 text-center">
         <br>
         <!-- <img src="/img/spairum logo.png" alt="logo" class="logo-small"> -->
-        <img src="/img/spairum logo.png" alt="Logo Spairum" class="logo-small">
+        <img src="https://cdn.spairum.my.id/img/spairum.png" alt="Logo Spairum" class="logo-small">
         <br>
         <p class="text-mute text-uppercase ">Login Spairum</p>
         <form class="form-signin mt-3" method="POST" action="Auth/login">
@@ -26,7 +26,7 @@
             </div>
 
             <!-- <span toggle="#password" class="mt-4 text-primary fa fa-fw fa-eye field-icon password "></span> -->
-            <div class="text-right">
+            <div class="text-right" hidden>
                 <a class="small" href="/lupa">lupa<strong class=" text-primary"> Password<strong></a>
             </div>
         </form>
@@ -35,15 +35,19 @@
             Masuk
         </button>
         <hr>
+        <a href="<?= $urlOauth; ?>" class="btn btn-default btn-lg btn-rounded shadow btn-block">
+            <i class="fab fa-google-plus-g"></i> Masuk dengan Google
+        </a>
+        <hr>
     </div>
-    <div class="row mx-0 bottom-button-container">
+    <!-- <div class="row mx-0 bottom-button-container">
         <div class="col">
             <a href="/lupa" class="btn btn-default btn-lg btn-rounded shadow btn-block">Lupa Password</a>
         </div>
         <div class="col">
             <a href="/daftar" class="btn btn-white bg-white btn-lg btn-rounded shadow btn-block">Create an Account!</a>
         </div>
-    </div>
+    </div> -->
 </div>
 
 

@@ -28,14 +28,17 @@ class Ajax extends BaseController
         $take = $this->request->getVar('myRange');
         // $take = ('22');
         $id = $this->request->getVar('code');
-        // $id = ('eyJpZCI6IjAwMDIiLCJzdGFzaXVuIjoiUktBTC1QT05USU5BS0EiLCJpZF9tZXNpbiI6IlByb3RvdGlwZTIifQ==');
-        // $id = ('eyJpZCI6IjAwMSIsInN0YXNpdW4iOiJSRUJBTC1ERU5QQVNBUiIsImlkX21lc2luIjoiUHJvQmFsaSIsIm5ld19pZCI6IlByb0JhbGkzIn0=');
+        // $id = ('eyJpZCI6IjAwMSIsInN0YXNpdW4iOiJLZXJkaWwiLCJpZF9tZXNpbiI6IlByb0JhbGkiLCJuZXdfaWQiOiJQcm9CYWxpLzMifQ==');
+        // $id = ('eyJpZCI6IjAwMSIsInN0YXNpdW4iOiJLZXJkaWwiLCJpZF9tZXNpbiI6IlByb0JhbGkiLCJuZXdfaWQiOiJQcm9CYWxpMSJ9');
         $id_encode = base64_decode($id);
         $id_mesin = (json_decode($id_encode, true));
         if (empty($id_mesin['new_id'])) {
             $mesin = $this->StasiunModel->cek_ID($id_mesin['id_mesin']);
         } else {
             $mesin = $this->StasiunModel->cek_newID($id_mesin['new_id']);
+            if ($mesin == null) {
+                $mesin = $this->StasiunModel->cek_ID($id_mesin['id_mesin']);
+            }
         }
         $status = $this->StasiunModel->cek_mesin($id_mesin['id_mesin']);
         $sisaSaldo = $akun['debit'] - ($take / 10 * $mesin['harga']);
@@ -97,10 +100,19 @@ class Ajax extends BaseController
             $message,
             $clientId
         );
-        return;
-        echo json_encode($data);
+
+        // echo json_encode($data);
+        $log = [
+            "level" => 2,
+            "topic" => "Mengambil Air",
+            "title" => $akun['id_user'],
+            "value" => "$idMesin  | $vaule mL"
+        ];
+        $this->AuthLibaries->sendMqtt("log/dump", json_encode($log), $akun['id_user']);
 
         // $this->AuthLibaries->notif($akun, "Mengambil Air $minum di $lokasi sebanayk $vaule mL");
+        echo json_encode(array('akun' => $akun['id_user']));
+        return;
     }
     public function log()
     {
@@ -264,5 +276,9 @@ class Ajax extends BaseController
         );
         echo ("terkirim : ");
         return;
+    }
+    public function qrs()
+    {
+        return redirect()->to('/');
     }
 }

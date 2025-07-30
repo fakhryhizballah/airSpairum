@@ -34,8 +34,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.0.6/swiper-bundle.css" />
 
     <!-- Custom styles for this template -->
-    <!-- <link href="/css/style1.css" rel="stylesheet"> -->
-    <link href="/css/style1.min.css" rel="stylesheet">
+    <!-- <link href="/css/style.css" rel="stylesheet"> -->
+    <!-- <link href="/css/style1.min.css" rel="stylesheet"> -->
+    <link href="/css/home_style.css" rel="stylesheet">
 
     <!-- Material design icons CSS -->
     <!-- <link rel="stylesheet" href="vendor/materializeicon/material-icons.css"> -->
@@ -52,8 +53,9 @@
     <!-- Loader -->
     <div class="row no-gutters vh-100 loader-screen">
         <div class="col align-self-center text-white text-center">
-            <!-- <img src="img/logo.png" alt="logo"> -->
-            <h1 class="mt-3"><span class="font-weight-light ">Air </span>Spairum</h1>
+            <img src="https://cdn.spairum.my.id/img/spairum.png" width="50%" alt=" logo">
+
+            <!-- <h1 class="mt-3"><span class="font-weight-lightblue  ">Air </span>Spairum</h1> -->
             <p class="text-mute text-uppercase small">Loading</p>
             <div class="laoderhorizontal">
                 <div></div>
@@ -143,6 +145,7 @@
         </div>
     </div>
     <!-- color chooser menu ends -->
+    <?= $this->renderSection('modal'); ?>
 
 
     <!-- jquery, popper and bootstrap js -->

@@ -6,6 +6,7 @@ use App\Libraries\AuthLibaries;
 use App\Models\VoucherModel;
 use App\Models\UserModel;
 use App\Models\HistoryModel;
+use App\Models\ReferralModel;
 use CodeIgniter\I18n\Time;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -18,9 +19,12 @@ class Saldo extends BaseController
         $this->VoucherModel = new VoucherModel();
         $this->UserModel = new UserModel();
         $this->HistoryModel = new HistoryModel();
+        $this->ReferralModel = new ReferralModel();
+        helper('text');
     }
     public function voucher()
     {
+        $db      = \Config\Database::connect();
         $akun = $this->AuthLibaries->authCek();
         $kvoucher = $this->request->getVar('kvoucher');
         $getV = $this->VoucherModel->cari($kvoucher);
@@ -48,6 +52,7 @@ class Saldo extends BaseController
                 ];
 
                 $this->HistoryModel->save($datavocer);
+                // return; // no diarek
                 session()->setFlashdata('Berhasil', 'Voucher berhasil digunakan');
                 return redirect()->to('/user');
             }
@@ -85,6 +90,7 @@ class Saldo extends BaseController
                         'created_at' => Time::now('Asia/Jakarta')
                     ];
                     $this->HistoryModel->save($datavocer);
+                    // return; 
                     session()->setFlashdata('Berhasil', 'Voucher berhasil digunakan');
                     return redirect()->to('/user');
                 } else {
@@ -95,6 +101,105 @@ class Saldo extends BaseController
             }
             session()->setFlashdata('Pesan', 'Kode voucher tidak dapat digunakan');
             return redirect()->to('/topup');
+        }
+
+
+        $ref = $this->ReferralModel->getReferral($kvoucher);
+        // dd($ref);
+        if ($ref != null) {
+            if ($ref['id_user'] == $akun['id_user']) {
+                session()->setFlashdata('Pesan', 'Tidak dapat mengunakan kode referral anda sendiri');
+                return redirect()->to('/user');
+            }
+            $refral_user = $this->ReferralModel->getMyReferral($akun['id_user']);
+            try {
+                if ($ref['referral'] == $refral_user['id_referral']) {
+                    session()->setFlashdata('Pesan', 'Maaf kode referral tidak dapat digunakan dua arah');
+                    return redirect()->to('/user');
+                }
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+            if ($refral_user == null || $refral_user['referral'] == null) {
+                $db->transStart();
+                $newRefralID = $this->id_referral();
+                $id_donor = $this->UserModel->cek_id($ref['id_user']);
+                $data = [
+                    'id' => json_decode($newRefralID, true)['id'],
+                    'referral' => $kvoucher,
+
+                ];
+                $this->ReferralModel->save($data);
+                $saldo =  $akun['debit'] + '1000';
+                $saldo_donor =  $id_donor['debit'] + '1000';
+                $this->UserModel->updateprofile([
+                    'debit' => $saldo,
+                ], $akun['id']);
+                $this->UserModel->updateprofile([
+                    'debit' => $saldo_donor,
+                ], $id_donor['id']);
+                $dataVocher = [
+                    'id_akun' => $ref['id_user'],
+                    'id_user'  =>  $akun['id_user'],
+                    'kvoucher'  => $kvoucher,
+                    'nominal'  => '1000',
+                    'ket'  => 'kode referral',
+                ];
+                $this->VoucherModel->insert($dataVocher);
+
+                $dataHistory = [
+                    'id_master' => $akun['id_user'],
+                    'Id_slave' => $ref['id_user'],
+                    'Lokasi' => 'Voucher Referral ' . $ref['id_user'],
+                    'status' => 'Redeem Referral',
+                    'isi' => '1000'
+                ];
+                $this->HistoryModel->save($dataHistory);
+                $dataHistory = [
+                    'id_master' => $ref['id_user'],
+                    'Id_slave' => $akun['id_user'],
+                    'Lokasi' => 'Kode Referral anda telah digunakan oleh ' . $akun['nama_depan'],
+                    'status' => 'Bonus Referral',
+                    'isi' => '1000'
+                ];
+                $this->HistoryModel->save($dataHistory);
+                $db->transComplete();
+                if ($db->transStatus() === FALSE) {
+                    // generate an error... or use the log_message() function to log your error
+                    $message = [
+                        "level" => 4,
+                        "topic" => "Error Referal",
+                        "title" => "Databse error",
+                        "value" => "Database error",
+                    ];
+                    $this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $akun['id_user']);
+                }
+                $message = [
+                    "level" => 2,
+                    "topic" => "Referal Success",
+                    "title" => $akun['nama_depan'],
+                    "value" => "mengunakan refral " . $id_donor['nama_depan'],
+                ];
+                $this->AuthLibaries->sendMqtt("log/dump", json_encode($message), $akun['id_user']);
+                $PesanWA = array(
+                    [
+                        "message" => "Hallo kak " . $akun['nama_depan'] . ", kakak telah berhasil menggunakan kode referral " . $id_donor['nama_depan'] . ". kakak mendapatkan saldo air sebesar Rp. 1000",
+                        "number" => $akun['telp']
+                    ],
+                    [
+                        "message" => "Hallo kak " . $id_donor['nama_depan'] . ", kode referral telah digunakan oleh kakak " . $akun['nama_depan'] . ". kakak mendapatkan saldo air sebesar Rp. 1000",
+                        "number" => $id_donor['telp']
+                    ]
+                );
+                foreach ($PesanWA as $value) {
+                    $this->AuthLibaries->sendWa($value);
+                }
+                session()->setFlashdata('Berhasil', 'kode referral berhasil digunakan');
+                return redirect()->to('/user');
+            }
+            session()->setFlashdata('Pesan', 'anda telah menggunakan kode referral');
+
+            return redirect()->to('/user');
         } else {
             session()->setFlashdata('Pesan', 'Kode Voucher Salah');
             return redirect()->to('/topup');
@@ -198,7 +303,7 @@ class Saldo extends BaseController
                     $History = [
                         'id_master' => $akun['id_user'],
                         'Id_slave' => $penerima['id_user'],
-                        'Lokasi' => 'berbagi Saldo ke ' .  $decoded->nama_pengirim,
+                        'Lokasi' => 'berbagi Saldo ke ' .  $decoded->nama_tujuan,
                         'status' => 'Kirim Saldo',
                         'isi' => $decoded->nominal,
                         'created_at' => Time::now('Asia/Jakarta')
@@ -208,7 +313,7 @@ class Saldo extends BaseController
                     $History = [
                         'id_master' => $penerima['id_user'],
                         'Id_slave' => $akun['id_user'],
-                        'Lokasi' => 'Menerima Saldo dari ' .  $decoded->nama_tujuan,
+                        'Lokasi' => 'Menerima Saldo dari ' .  $decoded->nama_pengirim,
                         'status' => 'Menerima Saldo',
                         'isi' => $decoded->nominal,
                         'created_at' => Time::now('Asia/Jakarta')
@@ -219,7 +324,8 @@ class Saldo extends BaseController
                         'kredit' => $akun['kredit'] + $decoded->nominal,
                         'debit' =>  $akun['debit'] - $decoded->nominal,
                     ], $akun['id']);
-                    $this->UserModel->updateprofile(['debit' =>  $penerima['debit'] + $decoded->nominal,
+                    $this->UserModel->updateprofile([
+                        'debit' =>  $penerima['debit'] + $decoded->nominal,
                     ], $penerima['id']);
                 } catch (\Exception $e) {
                     $data = [
@@ -237,5 +343,48 @@ class Saldo extends BaseController
             return json_encode($data);
         }
         return redirect()->to('/');
+    }
+    public function saldoUser()
+    {
+        $akun = $this->AuthLibaries->authCek();
+        // dd($akun);
+        $data = [
+            'saldo' => $akun['debit']
+        ];
+        return json_encode($data);
+    }
+    public function id_referral()
+    {
+        $akun = $this->AuthLibaries->authCek();
+        $id_referral = $this->ReferralModel->getMyReferral($akun['id_user']);
+        if ($id_referral == null) {
+            $referral = $this->newID();
+            $data = [
+                'id_user' => $akun['id_user'],
+                'id_referral' => $referral,
+                'created_at' => Time::now('Asia/Jakarta')
+            ];
+            $this->ReferralModel->save($data);
+        }
+        // else {
+        //     $data = [
+        //         'id' => $id_referral['id'],
+        //         'id_referral' => $id_referral['id_referral']
+        //     ];
+        //     return json_encode($data);
+        // }
+        $id_referral = $this->ReferralModel->getMyReferral($akun['id_user']);
+        return json_encode($id_referral);
+    }
+    public function newID()
+    {
+        $id_A = random_string('numeric', 5);
+        $id_B = strtoupper(random_string('alpha', 3));
+        $id_referral = $this->ReferralModel->getReferral("$id_A $id_B");
+        if ($id_referral == null) {
+            return "$id_A $id_B";
+        } else {
+            $this->newID();
+        }
     }
 }

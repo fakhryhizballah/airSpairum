@@ -4,12 +4,18 @@
 <div class="wrapper">
     <div class="container">
         <div class="flash-Error" data-flashdata="<?= session()->getFlashdata('salah'); ?>"></div>
-        <form method="post" action="user/profileupdate" enctype="multipart/form-data">
+        <form method="post" action="/user/profileupdate" enctype="multipart/form-data">
 
             <div class="text-center">
                 <div class="form-group">
                     <div class="figure-profile shadow my-4">
-                        <figure><img class="img-thumbnail img-preview" src="/img/user/<?= $akun['profil']; ?>" alt=""></figure>
+                        <figure class="avatar avatar-60 border-0">
+                            <?php
+                            if ($akun['profil'] == "user.png") : ?>
+                                <img src="/img/user/<?= $akun['profil']; ?>" alt="<?= $akun['nama_depan']; ?>">
+                            <?php endif; ?>
+                            <img src="<?= $akun['profil']; ?>" alt="<?= $akun['nama_depan']; ?>">
+                        </figure>
 
                         <div class="btn btn-dark text-white floating-btn custom-file">
                             <i class="material-icons">camera_alt</i>
@@ -17,17 +23,12 @@
                             <input type="hidden" name="profilLama" id="profilLama" value="<?= $akun['profil']; ?>">
                             <div class="invalid-feedback"><?= $validation->getError('profil'); ?></div>
                         </div>
-
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <!-- <div class="col-md-2">
-                            <img src="/img/driver/<?= $akun['profil']; ?>" class="img-thumbnail img-preview mx-auto d-block">
-                        </div> -->
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="custom-file">
-                                <!-- <input type="file" class="custom-file-input <?= ($validation->hasError('profil')) ? 'is-invalid' : ''; ?>" id="profil" name="profil" onchange="previewImg()"> -->
                                 <label class="custom-file-label" for="profil">Pilih Gambar</label>
                                 <div class="invalid-feedback"><?= $validation->getError('profil'); ?></div>
                             </div>
@@ -59,9 +60,6 @@
                         <label class="form-control-label">Nama Belakang</label>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-
                 <div class="col-12 col-md-6">
                     <div class="form-group float-label active mb-0">
                         <input type="text" id="telp" name="telp" class="form-control form-control-user <?= ($validation->hasError('telp')) ? 'is-invalid' : ''; ?>" id="telp" name="telp" placeholder="" value="<?= $akun['telp']; ?>">
@@ -70,7 +68,6 @@
                     </div>
                 </div>
             </div>
-
             <br>
             <button type="submit" class="btn btn-lg btn-default text-white btn-block btn-rounded shadow"><span>Submit</span></button>
             <br>
@@ -95,24 +92,58 @@
             <button type="submit" class="btn btn-lg btn-default btn-block btn-rounded shadow"><span>Update Email</span></button>
         </form>
     </div>
+    <div class="container mt-5 ">
+        <h6 class=" text-center">ID Referral saya</h6>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <p contenteditable="flase" class="text-center" id="id_referral">REFRAL ID</p>
+            </div>
+            <div class="col-4">
+                <span onclick="copyToClipboard()" class=" material-symbols-outlined">
+                    file_copy
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- <script>
-    function previewImg() {
-        const profil = document.querySelector('#profil');
-        const imgprofil = document.querySelector('.img-preview');
-        const profilLabel = document.querySelector('.float-file');
-
-        profilLabel.textContent = profil.files[0].name;
-        const fileProfil = new FileReader();
-
-        fileProfil.readAsDataURL(profil.files[0]);
-
-        fileProfil.onload = function(e) {
-            imgPreview.src = e.target.result;
-        }
-    }
-</script> -->
-
-
 <?= $this->endSection('content'); ?>
+
+<?= $this->section('script'); ?>
+<script>
+    $.ajax({
+        url: "/saldo/id_referral",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            $('#id_referral').html(data.id_referral);
+            // $('#id_referral').val(data.id_referral);
+        }
+    });
+
+    function copyToClipboard() {
+        var Text = $("#id_referral").select()
+        console.log(Text.html());
+        navigator.clipboard.writeText(Text.html());
+
+        // Alert the copied text
+        Swal.fire({
+            position: 'top-end',
+            toast: true,
+            icon: 'success',
+            text: `Copy to clipboard id referral : ${Text.html()}`,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 1500
+        })
+    }
+    const source = document.querySelector('div.source');
+
+    source.addEventListener('copy', (event) => {
+        const selection = document.getSelection();
+        event.clipboardData.setData('text/plain', selection.toString().toUpperCase());
+        event.preventDefault();
+    });
+</script>
+<?= $this->endSection('script'); ?>

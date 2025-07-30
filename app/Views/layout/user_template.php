@@ -12,7 +12,7 @@
     <!-- Material design icons CSS -->
     <!-- <link rel="stylesheet" href="vendor/materializeicon/material-icons.css"> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 
     <!-- Roboto fonts CSS -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
 
 
     <!-- my style.css -->
-    <link rel="stylesheet" href="/css/style.css">
+    <!-- <link rel="stylesheet" href="/css/style.css"> -->
     <!-- My font -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"> -->
     <!-- Manifes -->
@@ -60,7 +60,7 @@
     <!-- Loader -->
     <div class="row no-gutters vh-100 loader-screen">
         <div class="col align-self-center text-white text-center">
-            <img src="img/spairum logo.png" width="50%" alt=" logo">
+            <img src="https://cdn.spairum.my.id/img/spairum.png" width="50%" alt=" logo">
             <!-- <h1 class="mt-3"><span class="font-weight-light ">Air </span>Spairum</h1> -->
             <!-- <p class="text-mute text-uppercase small">Ayo isi ulang air minum</p> -->
             <p class="text-mute text-uppercase small"></p>
@@ -78,7 +78,13 @@
         <div class="mt-4 mb-3">
             <div class="row">
                 <div class="col-auto">
-                    <figure class="avatar avatar-60 border-0"><img src="/img/user/<?= $akun['profil']; ?>" alt=""></figure>
+                    <figure class="avatar avatar-60 border-0">
+                        <?php
+                        if ($akun['profil'] == "user.png") : ?>
+                            <img src="/img/user/<?= $akun['profil']; ?>" alt="">
+                        <?php endif; ?>
+                        <img src="<?= $akun['profil']; ?>" alt="">
+                    </figure>
                 </div>
                 <div class="col pl-0 align-self-center">
                     <h5 class="mb-1"><?= $akun['nama_depan']; ?>&nbsp;<?= $akun['nama_belakang']; ?></h5>
@@ -89,14 +95,14 @@
         <div class="row">
             <div class="col">
                 <div class="list-group main-menu">
-                    <a href="/user" class="list-group-item list-group-item-action active"><i class="material-icons icons-raised">home</i>Home</a>
+                    <a href="/user" class="list-group-item list-group-item-action active"><i class="material-icons icons-raised">home</i>Beranda</a>
 
                     <!-- <a href="notification.html" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">notifications</i>Notification <span class="badge badge-dark text-white">2</span></a> -->
 
-                    <a href="/riwayat" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">find_in_page</i>History</a>
+                    <a href="/riwayat" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">find_in_page</i>Riwayat</a>
                     <!-- <a href="controls.html" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">view_quilt<span class="new-notification"></span></i>Pages Controls</a> -->
-                    <a href="/editprofile" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">account_circle</i>Edit Profile</a>
-                    <a href="/changepassword" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">vpn_key</i>Change Password</a>
+                    <a href="/editprofile" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">account_circle</i>Edit Profil</a>
+                    <a hidden href="/changepassword" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">vpn_key</i>Ubah Password</a>
                     <!-- <a href="#" class="list-group-item list-group-item-action"><i class="material-icons icons-raised">important_devices</i>Settings</a> -->
                     <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#colorscheme"><i class="material-icons icons-raised">color_lens</i>Color scheme</a> -->
                     <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#colorscheme"><i class="material-icons icons-raised">color_lens</i>Color scheme</a> -->
@@ -107,7 +113,7 @@
         </div>
     </div>
     <!-- color chooser menu start -->
-    <div class="modal fade " id="colorscheme" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal fade " id="colorscheme" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content ">
                 <div class="modal-header theme-header border-0">
@@ -162,7 +168,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- color chooser menu ends -->
 
     <a href="javascript:void(0)" class="closesidemenu"><i class="material-icons icons-raised bg-dark ">close</i></a>
@@ -175,7 +181,7 @@
                     <div class="col-1">
                         <button class="btn  btn-link text-dark menu-btn"><i class="material-icons">more_horiz</i></button>
                     </div>
-                    <div class="col text-center"><img src="/img/spairum logo.png" alt="" class="header-logo"></div>
+                    <div class="col text-center"><img src="https://cdn.spairum.my.id/img/spairum.png" alt="" class="header-logo"></div>
                     <div class="col-11">
                         <!-- <a href="notification.html" class="btn  btn-link text-dark position-relative"><i class="material-icons">notifications_none</i><span class="counts">9+</span></a> -->
                     </div>
@@ -184,22 +190,23 @@
         </div>
         <!-- header ends -->
 
-
         <?= $this->renderSection('content'); ?>
         <!-- footer-->
-        <div class="footer">
+        <div class="card fixed-bottom  shadow bg-white">
             <div class="no-gutters">
                 <div class="col-auto mx-auto">
-                    <div class="row no-gutters justify-content-center">
+                    <div class="row mt-2 mb-3 no-gutters justify-content-center">
                         <div class=" col-3-auto mx-auto">
                             <a href="/user" class="btn btn-link-default item">
                                 <i class="material-icons">home</i>
+                                <p><b>Beranda</b></p>
                             </a>
                         </div>
                         <div class="col-3-auto mx-auto">
                             <a href="/stasiun" class="btn btn-link-default item">
                                 <!-- <img src="/img/explore.svg" alt="" class=""> -->
                                 <i class="material-icons">near_me</i>
+                                <p><b>Lokasi</b></p>
                                 <!-- <i class="fontNav">Explore</i> -->
                             </a>
                         </div>
@@ -207,6 +214,7 @@
                             <a href="/topup" class="btn btn-link-default item">
                                 <!-- <img src="/img/wallet.svg" alt="" class=""> -->
                                 <i class="material-icons">account_balance_wallet</i>
+                                <p><b>Top Up</b></p>
                                 <!-- <i class="fontNav">Top Up</i> -->
                             </a>
                         </div>
@@ -214,6 +222,7 @@
                             <a href="/riwayat" class="btn btn-link-default item">
                                 <!-- <img src="/img/history.svg" alt="" class=""> -->
                                 <i class="material-icons">history</i>
+                                <p><b>Riwayat</b></p>
                                 <!-- <i class="material-icons fontNav">History</i> -->
                             </a>
                         </div>
